@@ -1,0 +1,78 @@
+#:kivy 2.0
+
+<MenuButton@Button>
+    source:None
+    size_hint_x: None
+    width: capture_image.width
+    background_color: 0,0,0,0
+    Image:
+        id:capture_image
+        source: root.source
+        center_x: self.parent.center_x
+        center_y: self.parent.center_y
+        allow_stretch: "true"
+        width:359
+        height:70
+
+<MainMenuScreen>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "resources/background/app_bg.png"
+    GridLayout:
+        cols:1
+        padding:70,50
+        spacing:40
+        AnchorLayout:
+            anchor_x:"center"
+            MenuButton:
+                source:"resources/buttons/Light_green_normal.png"
+                on_press: self.source = "resources/buttons/Light_green.png"
+                on_release: 
+                    app.root.current = "capture_menu_screen"
+                    root.manager.transition.direction = "left"
+                    self.source = "resources/buttons/Light_green_normal.png"
+        AnchorLayout:
+            anchor_x:"center"
+            MenuButton:
+                source:"resources/buttons/Light_red_normal.png"
+                on_press: self.source = "resources/buttons/Light_red.png"
+                on_release: 
+                    app.root.current = "db_screen"
+                    root.manager.transition.direction = "left"
+                    self.source = "resources/buttons/Light_red_normal.png"
+        AnchorLayout:
+            anchor_x:"center"
+            MenuButton:
+                source:"resources/buttons/Light_blue_normal.png"
+                on_press: self.source = "resources/buttons/Light_blue.png"
+                on_release: 
+                    app.root.current = "add_pages_screen"
+                    root.manager.transition.direction = "left"
+                    self.source = "resources/buttons/Light_blue_normal.png"
+        AnchorLayout:
+            anchor_x:"center"
+            MenuButton:
+                source:"resources/buttons/Light_orange_normal.png"
+                on_press: self.source = "resources/buttons/Light_orange.png"
+                on_release: 
+                    app.root.current = "fast_flow_screen"
+                    root.manager.transition.direction = "left"
+                    self.source = "resources/buttons/Light_orange_normal.png"
+
+
+
+<ScreenManager>:
+    MainMenuScreen:
+        name:"main_menu_screen"
+    CaptureMenuScreen:
+        name:"capture_menu_screen"
+    DataBaseScreen:
+        name:"db_screen"
+    AddPagesScreen:
+        name:"add_pages_screen"
+    FastFlowScreen:
+        name:"fast_flow_screen"
+
+    
