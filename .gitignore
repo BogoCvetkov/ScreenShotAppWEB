@@ -1,3 +1,7 @@
 /ENV/
 /Project/Ad_library_screens/
 /Project/.env
+/Project/.idea/
+/Project/model/all_models.py
+/Steps.txt
+/Project/alembic.ini

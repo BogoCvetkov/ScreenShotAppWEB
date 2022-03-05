@@ -1,12 +1,11 @@
 import time,datetime
 import random,re,urllib,os
 from dotenv import load_dotenv
-from Project.utils.dir_maker import create_dir
-from Project.scraper.web_driver import BuildWebDriver
+from Project.service.utils.dir_maker import create_dir
+from Project.service.scraper.web_driver import BuildWebDriver
 from selenium.webdriver.common.keys import Keys
 
 load_dotenv()
-
 
 
 class AdCapture:
@@ -24,11 +23,12 @@ class AdCapture:
     def _prepare_window(self,scrolls,entity):
         # Clicking the privacy policy button to allow page scrolling
         try:
-            button = self._driver.find_element_by_css_selector(
-                "button[data-testid='cookie-policy-dialog-accept-button']")
+            button = self._driver.find_element_by_xpath(
+                "//button[text()[contains(.,'cookie')]]")
             button.click()
         except:
             pass
+
         # Randomizing time between actions to mimic human behaviour
         time.sleep(random.randint(4, 6))
         get_body = self._driver.find_element_by_tag_name('body')
@@ -81,8 +81,8 @@ class AdCapture:
         status = ""
 
         for page in pages_list:
-            res = self._construct_capture_flow(page_id=page[2],
-                                               page_name=page[1],
+            res = self._construct_capture_flow(page_id=page.page_id,
+                                               page_name=page.name,
                                                scrolls=scrolls,
                                                country=country)
             status += res
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     ## Capture By Keyword
     driver = BuildWebDriver(headless=False)
     ready_driver = driver.build_driver()
-    bot = AdCapture(ready_driver)
+    bot = AdCapture(ready_driver,"Bogo","Skoda")
     pages=[(0,3859501477945,"Kaufland"),(4,475170749544771,"Body_Aesthetics"),(5,513523225491395,"Viessman")]
     bot.capture_bulk_pages(pages)
     bot.capture_page(312617136169551,"SanaMedic")

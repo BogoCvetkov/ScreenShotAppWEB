@@ -1,46 +1,16 @@
-from Project.model.base_model import Model
+from sqlalchemy import Column, String, Integer, Boolean
+from Project.model.common.base_mixin import BaseMixin
+from Project.model.base_model import Base
 
 
-class user_Model(Model):
+class UserModel(Base, BaseMixin):
 
-    # Using private methods for creating the databases. They are to be used only by the class itself(not outside of it)
-    # so this encapsulates it to be used only by it's methods.#
-    @classmethod
-    def _create_table(cls):
-        with cls.connection as conn:
-            conn.cursor().execute("CREATE TABLE IF NOT EXISTS users (u_id SERIAL PRIMARY KEY,"
-                                  "email TEXT UNIQUE NOT NULL, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL, admin BOOLEAN)")
-            conn.commit()
+    __tablename__ = "users"
+
+    id = Column(Integer,primary_key=True)
+    email = Column(String,unique=True,nullable=False)
+    username = Column(String,unique=True,nullable=False)
+    password = Column(String,nullable=False)
+    admin = Column(Boolean,default=False)
 
 
-    @classmethod
-    def insert_user(cls, email, username, password):
-        with cls.connection as conn:
-            conn.cursor().execute("INSERT INTO users(email,username,password) VALUES(%s,%s,%s);",
-                                  (email, username, password,))
-            conn.commit()
-
-    @classmethod
-    def get_user(cls, user_id):
-        with cls.connection as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM users WHERE u_id = %s;", (user_id,))
-            res = cur.fetchone()
-            return res
-
-    @classmethod
-    def get_all_users(cls):
-        with cls.connection as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM users;")
-            res = cur.fetchall()
-            return res
-
-    @classmethod
-    def delete_user(cls, id):
-        try:
-            with cls.connection as conn:
-                conn.cursor().execute("DELETE FROM users WHERE u_id = %s;", (id,))
-                conn.commit()
-        except:
-            return None
