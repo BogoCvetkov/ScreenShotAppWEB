@@ -1,13 +1,13 @@
-from Project.service.scraper.web_driver import BuildWebDriver
-from Project.service.scraper.ad_capture import AdCapture
-from Project.model.pages_model import PageModel
-from Project.model.account_model import AccountModel
-from Project.model.user_model import UserModel
-from Project.service.utils.to_pdf import PdfBuilder
-from Project.model.base import Session
+from Project.app.service.scraper.web_driver import BuildWebDriver
+from Project.app.service.scraper.ad_capture import AdCapture
+from Project.app.model.pages_model import PageModel
+from Project.app.model.account_model import AccountModel
+from Project.app.model.user_model import UserModel
+from Project.app.service.utils.to_pdf import PdfBuilder
+from Project.app.model import Session
 from dotenv import load_dotenv
 
-load_dotenv("../../.env")
+load_dotenv( "../../../.env" )
 
 driver = BuildWebDriver(headless=False)
 
@@ -59,5 +59,3 @@ if __name__ == "__main__":
     bot.close_session()
 
 # ready_driver.close()
-
-

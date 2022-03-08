@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer, Boolean
-from Project.model.common.base_mixin import BaseMixin
-from Project.model.base_model import Base
+from Project.app.model.common.base_mixin import BaseMixin
+from Project.app.model import Base
 
 
 class UserModel(Base, BaseMixin):
@@ -12,5 +12,3 @@ class UserModel(Base, BaseMixin):
     username = Column(String,unique=True,nullable=False)
     password = Column(String,nullable=False)
     admin = Column(Boolean,default=False)
-
-

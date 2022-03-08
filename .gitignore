@@ -2,7 +2,7 @@
 /Project/Ad_library_screens/
 /Project/.env
 /Project/.idea/
-/Project/model/all_models.py
+/Project/app/model/all_models.py
 /Steps.txt
-/Project/alembic.ini
 /Project/.idea/
+/Project/app/model/.envTest

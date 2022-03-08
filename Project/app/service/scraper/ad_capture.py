@@ -1,8 +1,8 @@
 import time,datetime
 import random,re,urllib,os
 from dotenv import load_dotenv
-from Project.service.utils.dir_maker import create_dir
-from Project.service.scraper.web_driver import BuildWebDriver
+from Project.app.service.utils.dir_maker import create_dir
+from Project.app.service.scraper.web_driver import BuildWebDriver
 from selenium.webdriver.common.keys import Keys
 
 load_dotenv()

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer, Boolean
 from sqlalchemy.orm import relationship
-from Project.model.common.base_mixin import BaseMixin
-from Project.model.base_model import Base
+from Project.app.model.common.base_mixin import BaseMixin
+from Project.app.model import Base
 
 
 class AccountModel( Base, BaseMixin ):
