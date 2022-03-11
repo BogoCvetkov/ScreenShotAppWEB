@@ -1,61 +1,67 @@
 from Project.app.service.scraper.web_driver import BuildWebDriver
 from Project.app.service.scraper.ad_capture import AdCapture
-from Project.app.model.pages_model import PageModel
-from Project.app.model.account_model import AccountModel
-from Project.app.model.user_model import UserModel
+from Project.app.model.all_models import PageModel, ScreenShotModel
 from Project.app.service.utils.to_pdf import PdfBuilder
-from Project.app.model import Session
-from dotenv import load_dotenv
-
-load_dotenv( "../../../.env" )
-
-driver = BuildWebDriver(headless=False)
+from Project.app.service.bots.base import BaseBot
+from datetime import datetime
 
 
-class CaptureBot():
+class CaptureBot( BaseBot ):
 
-    def __init__(self, user, driver, session):
-        self.user = user
-        self.driver = driver
-        self.session = session
+	def __init__( self, user, driver, db_sess ):
+		super().__init__( db_sess )
+		self.user = user
+		self.driver = driver
 
-    def capture_and_send_all(self):
-        accounts = self._get_all_ad_accounts()
-        for account in accounts:
-            self._capture(account)
+	def capture_all( self ):
+		accounts = self._get_all_ad_accounts()
+		for account in accounts:
+			self._run_with_status( account, self._capture )
+		return self.status
 
-    def capture_and_send_one(self,acc_id):
-        account=self._get_ad_account_by_id(acc_id)
-        self._capture(account)
+	def capture_from_list( self, id_list ):
+		for id in id_list:
+			account = self._get_ad_account_by_id( id )
+			self._run_with_status( account, self._capture )
+		return self.status
 
-    def _capture(self, account):
-        bot = AdCapture(self.driver, user_folder=self.user.username, acc_folder=account.name)
-        pages = PageModel.search(self.session,account_id=account.id)
-        bot.capture_db_pages(pages_list=pages)
-        PdfBuilder.convert_to_pdf(folder=bot.file_dir, quality=80)
+	def retry_failed( self ):
+		self._retry_on_failed(self._capture)
+		return self.status
 
-    def _get_all_ad_accounts(self):
-        data = AccountModel.get_all(self.session)
-        return data
+	def _capture( self, account ):
+		bot = AdCapture( self.driver, user_folder=self.user.username, acc_folder=account.name )
+		pages = account.pages
+		info = bot.capture_many( pages_list=pages )
+		self._create_pdf( folder=bot.file_dir, account=account )
+		return info
 
-    def _get_ad_account_by_id(self,id):
-        data = AccountModel.get_by_id(self.session,id)
-        return data
+	def _create_pdf( self, folder, account ):
+		pdf_loc = PdfBuilder.convert_to_pdf( folder=folder, quality=80 )
 
-    def close_session(self):
-        self.session.close()
+		# If there is no record for the pdf file location, create one in the ScreenShot table
+		if not account.screenshot:
+			account.screenshot = ScreenShotModel( account_id=account.id )
 
+		account.screenshot.file_dir = pdf_loc
+		account.screenshot.last_captured = datetime.now()
+
+	def close_driver( self ):
+		self.driver.close()
 
 
 if __name__ == "__main__":
-    session = Session()
-    user = UserModel.get_by_id(session,8)
-
-    ready_driver = driver.build_driver()
-
-    bot = CaptureBot(user, ready_driver, session)
-    bot.capture_and_send_all()
-
-    bot.close_session()
-
-# ready_driver.close()
+	'''
+		driver = BuildWebDriver( headless=False )
+		session = Session()
+		user = UserModel.get_by_id( session, 8 )
+	
+		ready_driver = driver.build_driver()
+	
+		# bot = CaptureBot( user, ready_driver, session )
+		bot.capture_all()
+	
+		bot.close_session()
+	
+		ready_driver.close()
+	'''

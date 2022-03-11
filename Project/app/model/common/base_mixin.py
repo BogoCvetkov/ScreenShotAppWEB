@@ -12,7 +12,9 @@ class BaseMixin:
 		stmt = update( cls ).where( cls.id == id ).values(
 			**data ).execution_options( synchronize_session="fetch" )
 		result = session.execute( stmt )
-		return result.rowcount
+
+		if result.rowcount < 1:
+			raise Exception("Record not found")
 
 	@classmethod
 	def get_by_id( cls, session, id ):

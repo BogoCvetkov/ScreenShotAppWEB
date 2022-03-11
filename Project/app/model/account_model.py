@@ -8,7 +8,7 @@ class AccountModel( Base, BaseMixin ):
 	__tablename__ = "accounts"
 
 	id = Column( Integer, primary_key=True )
-	name = Column( String, nullable=False )
+	name = Column( String, unique=True, nullable=False )
 	email = Column( String, unique=True, nullable=False )
 	email_body = Column( String )
 	active = Column( Boolean, default=True )
@@ -16,3 +16,5 @@ class AccountModel( Base, BaseMixin ):
 	                      cascade="all,delete-orphan",
 	                      backref="accounts",
 	                      passive_deletes=True )
+	screenshot = relationship( "ScreenShotModel", uselist=False, backref="screenshots",
+	                           cascade="all,delete-orphan", passive_deletes=True )
