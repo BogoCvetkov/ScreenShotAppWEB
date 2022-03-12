@@ -1,6 +1,6 @@
 from PIL import Image
-import pathlib
 from datetime import datetime
+from Project.app.errors import AppServiceError
 
 today = datetime.today().strftime( "%d_%m" )
 
@@ -22,19 +22,26 @@ class PdfBuilder:
 
 	@classmethod
 	def convert_to_pdf( cls, folder, quality=90 ):
-		images = cls._get_files( folder=folder )
-		image_files = [Image.open( image ) for image in images]
-		final_images = [file.convert( 'RGB' ) for file in image_files]
-		if len( final_images ) > 1:
-			destination = f"{folder}/Ads_Preview_{today}.pdf"
-			final_images[0].save( destination,
-			                      save_all=True,
-			                      append_images=final_images[1:],
-			                      quality=quality )
-		else:
-			destination = f"{folder}/Ads_Preview_{today}.pdf"
-			final_images[0].save( destination )
-		return destination
+		try:
+			images = cls._get_files( folder=folder )
+			image_files = [Image.open( image ) for image in images]
+			final_images = [file.convert( 'RGB' ) for file in image_files]
+			if len( final_images ) > 1:
+				destination = f"{folder}/Ads_Preview_{today}.pdf"
+				final_images[0].save( destination,
+				                      save_all=True,
+				                      append_images=final_images[1:],
+				                      quality=quality )
+			else:
+				destination = f"{folder}/Ads_Preview_{today}.pdf"
+				final_images[0].save( destination )
+			return destination
+
+		except Exception as e:
+			message = f"Failed to generate PDF. No screenshots found."
+			raise AppServiceError(message=message)
+
+
 
 
 

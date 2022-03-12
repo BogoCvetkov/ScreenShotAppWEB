@@ -9,8 +9,7 @@ from datetime import datetime
 class CaptureBot( BaseBot ):
 
 	def __init__( self, user, driver, db_sess ):
-		super().__init__( db_sess )
-		self.user = user
+		super().__init__( db_sess, user )
 		self.driver = driver
 
 	def capture_all( self ):
@@ -23,10 +22,6 @@ class CaptureBot( BaseBot ):
 		for id in id_list:
 			account = self._get_ad_account_by_id( id )
 			self._run_with_status( account, self._capture )
-		return self.status
-
-	def retry_failed( self ):
-		self._retry_on_failed(self._capture)
 		return self.status
 
 	def _capture( self, account ):

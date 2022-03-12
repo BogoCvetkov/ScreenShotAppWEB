@@ -17,4 +17,5 @@ def create_dir( user, account ):
 	if os.path.exists( final_folder ):
 		shutil.rmtree( final_folder, ignore_errors=True )
 	final_folder.mkdir( parents=True, exist_ok=True )
+
 	return final_folder

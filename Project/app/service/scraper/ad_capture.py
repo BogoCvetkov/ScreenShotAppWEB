@@ -1,6 +1,7 @@
 import time, datetime
 import random, re, urllib, os
 from dotenv import load_dotenv
+from Project.app.errors import AppServiceError
 from Project.app.service.utils.dir_maker import create_dir
 from Project.app.service.scraper.web_driver import BuildWebDriver
 from selenium.webdriver.common.keys import Keys
@@ -53,23 +54,28 @@ class AdCapture:
 	# Private method used internally by the other methods in this class
 	def _construct_capture_flow( self, page_name=None, page_id=None, scrolls=3, country="ALL",
 	                             keyword="marketing" ):
+		try:
+			if page_id:
+				entity = page_name
+				final_url = self.fb_url.format( country, page_id )
+				filename = f"{self.file_dir}\{self.today}_apage_{entity}.png"
+			else:
+				entity = keyword
+				final_url = self.keyword_url.format( country, keyword )
+				entity = urllib.parse.unquote( entity )
+				filename = f"{self.file_dir}\{self.today}_key_{entity}.png"
 
-		if page_id:
-			entity = page_name
-			final_url = self.fb_url.format( country, page_id )
-			filename = f"{self.file_dir}\{self.today}_apage_{entity}.png"
-		else:
-			entity = keyword
-			final_url = self.keyword_url.format( country, keyword )
-			entity = urllib.parse.unquote( entity )
-			filename = f"{self.file_dir}\{self.today}_key_{entity}.png"
+			self._driver.get( final_url )
 
-		self._driver.get( final_url )
+			self._prepare_window( scrolls, entity )
 
-		self._prepare_window( scrolls, entity )
+			self._driver.get_screenshot_as_file( filename )
 
-		self._driver.get_screenshot_as_file( filename )
-		return f"Screenshot for/ {entity} / captured \n"
+			return f"Screenshot for/ {entity} / captured \n"
+
+		except Exception as e:
+			message = f"Failed to scrape for: {entity}."
+			raise AppServiceError( message=message )
 
 	def capture_page( self, page_id, page_name, scrolls=3, country="ALL" ):
 		self._construct_capture_flow( page_id=page_id,

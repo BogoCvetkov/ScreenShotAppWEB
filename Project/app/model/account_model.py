@@ -12,9 +12,13 @@ class AccountModel( Base, BaseMixin ):
 	email = Column( String, unique=True, nullable=False )
 	email_body = Column( String )
 	active = Column( Boolean, default=True )
+	last_scrape_fail = Column( Boolean, default=False )
+	last_email_fail = Column( Boolean, default=False )
 	pages = relationship( "PageModel",
 	                      cascade="all,delete-orphan",
-	                      backref="accounts",
+	                      backref="account",
 	                      passive_deletes=True )
-	screenshot = relationship( "ScreenShotModel", uselist=False, backref="screenshots",
+	screenshot = relationship( "ScreenShotModel", uselist=False, backref="account",
 	                           cascade="all,delete-orphan", passive_deletes=True )
+	logs = relationship( "LogModel", backref="account",
+	                     cascade="all,delete-orphan", passive_deletes=True )

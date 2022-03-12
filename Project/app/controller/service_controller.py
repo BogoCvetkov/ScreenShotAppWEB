@@ -2,10 +2,10 @@ from Project.app.service.bots import CaptureBot, EmailBot
 from Project.app.model import Session
 from flask import request, jsonify
 from Project.app.service.scraper.web_driver import BuildWebDriver
-from Project.app.schemas.account_schema import AccountSchema
+
 from Project.app.model.all_models import UserModel
 
-schema = AccountSchema( many=True )
+
 
 
 # /
@@ -29,18 +29,11 @@ def capture_accounts():
 	if request.json["id_list"] == "all":
 		status = bot.capture_all()
 
-	# Retry failed operations
-	if len( status["failed"] ) > 0:
-		status = bot.retry_failed()
-
 	# Close Browser Session
 	bot.close_driver()
 
 	# Commit DB Session
 	db_sess.commit()
-
-	# Serialize failed mapped objects
-	status["failed"] = schema.dump( status["failed"] )
 
 	# Send the status of the operation
 	return jsonify(
@@ -51,8 +44,10 @@ def send_emails():
 	# Create a DB Session
 	db_sess = Session()
 
+	test_user = UserModel.get_by_id( db_sess, 19 )
+
 	# Instantiate a email bot
-	bot = EmailBot( db_sess )
+	bot = EmailBot( db_sess, test_user )
 
 	# Check for list of account id's in the body
 	if isinstance( request.json["id_list"], list ):
@@ -62,15 +57,8 @@ def send_emails():
 	if request.json["id_list"] == "all":
 		status = bot.send_all()
 
-	# Retry failed operations
-	if len( status["failed"] ) > 0:
-		status = bot.retry_failed()
-
 	# Commit DB Session
 	db_sess.commit()
-
-	# Serialize failed mapped objects
-	status["failed"] = schema.dump( status["failed"] )
 
 	# Send the status of the operation
 	return jsonify(

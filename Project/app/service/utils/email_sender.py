@@ -1,7 +1,7 @@
 from email.message import EmailMessage
+from Project.app.errors import AppServiceError
 from smtplib import SMTP_SSL
-import ssl
-import os
+import ssl,os
 
 
 class EmailSender:
@@ -26,11 +26,16 @@ class EmailSender:
 		self._attach_file( attachment )
 
 	def send_mail( self ):
-		context = ssl.create_default_context()
-		mail_server = SMTP_SSL( 'smtp.gmail.com', 465, context=context )
-		mail_server.login( self.sender, self.password )
-		mail_server.send_message( self.message )
-		mail_server.quit()
+			context = ssl.create_default_context()
+			mail_server = SMTP_SSL( 'smtp.gmail.com', 465, context=context )
+			try:
+				mail_server.login( self.sender, self.password )
+				mail_server.send_message( self.message )
+			except Exception as e:
+				message = f"Failed to send email to: {self.message['To']}."
+				raise AppServiceError( message=message )
+			finally:
+				mail_server.quit()
 
 	# Private method used only by the build_mail method for attaching of a file
 	def _attach_file( self, attachment ):
