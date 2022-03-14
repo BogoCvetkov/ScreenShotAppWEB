@@ -2,6 +2,8 @@ from flask import Flask
 from Project.app.model import Session
 from Project.app.routes import register_routes
 
+from Project.app.errors.handler import global_err_handler
+
 
 # Returning the db connection to the pool
 def return_to_db_pool( e=None ):
@@ -16,5 +18,8 @@ def create_app( config_filename ):
 
 	# Register all routes with the application
 	register_routes( app )
+
+	# Register error handler
+	app.register_error_handler(Exception,global_err_handler)
 
 	return app
