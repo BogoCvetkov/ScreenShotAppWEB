@@ -2,6 +2,7 @@ from Project.app.routes.api.account_route import *
 from Project.app.routes.api.page_route import *
 from Project.app.routes.api.service_route import *
 from Project.app.routes.api.user_route import *
+from Project.app.routes.api.auth_route import *
 
 def register_routes( application ):
 
@@ -16,3 +17,5 @@ def register_routes( application ):
 	application.add_url_rule( "/pages/<int:id>", view_func=PageRouter.as_view( "page_resource" ) )
 
 	application.add_url_rule( "/service/", view_func=ServiceRouter.as_view( "service_resource" ) )
+
+	application.add_url_rule( "/login/", view_func=AuthRouter.as_view( "auth_resource" ) )

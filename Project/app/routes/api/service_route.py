@@ -1,9 +1,11 @@
 from flask import request, jsonify
 from flask.views import MethodView
 from Project.app.controller import service_controller
+from Project.app.auth import verify_jwt
 
 
 class ServiceRouter( MethodView ):
+	decorators = [verify_jwt]
 
 	def post( self ):
 

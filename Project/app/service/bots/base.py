@@ -6,7 +6,7 @@ import time, traceback
 
 class BaseBot():
 
-	def __init__( self, db_sess, user ):
+	def __init__( self, db_sess, user=None ):
 		self.db_sess = db_sess
 		self.user = user
 		self.status = { "fail_count": 0, "success": [], "failed": [] }
@@ -27,8 +27,6 @@ class BaseBot():
 			self._update_and_log_status( account, message, info )
 		except:
 			self.retry_list.append( account )
-		finally:
-			self._retry_on_failed( method_to_call )
 
 	# Using the already mapped objects from the DB - to save on querying again
 	def _retry_on_failed( self, method_to_call ):
@@ -52,11 +50,13 @@ class BaseBot():
 
 	# Logging the result of the operation to the Logs Table in DB
 	def _log_operation_result( self, account, message, details, failed=False ):
-		params = { "started_by": self.user.username, "account_name": account.name,
-		           "log_msg": message, "log_details": details,"date":datetime.now() }
+		params = { "account_name": account.name, "log_msg": message, "log_details": details,
+		           "date": datetime.now() }
 		# Optional
 		if failed: params["fail"] = True
-		if hasattr( self.user, "id" ): params["user_id"] = self.user.id
+		if self.user:
+			params["user_id"] = self.user.id
+			params["started_by"] = self.user.email
 
 		new_log = LogModel( **params )
 		account.logs.append( new_log )

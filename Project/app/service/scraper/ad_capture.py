@@ -13,11 +13,11 @@ class AdCapture:
 	today = datetime.datetime.today().strftime( "%d_%m" )
 	condition = os.environ.get( "SEARCH_CONDITION" )
 
-	def __init__( self, driver, user_folder, acc_folder ):
+	def __init__( self, driver, acc_folder ):
 		self._driver = driver
 		self.keyword_url = os.environ.get( "KEYWORD_URL" )
 		self.fb_url = os.environ.get( "FB_URL" )
-		self.file_dir = create_dir( user_folder, acc_folder )
+		self.file_dir = create_dir(  acc_folder )
 
 	# Private method that prepares the browser window before making the screenshot
 	def _prepare_window( self, scrolls, entity ):

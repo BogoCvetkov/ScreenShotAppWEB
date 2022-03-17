@@ -9,14 +9,12 @@ class LogModel( Base, BaseMixin ):
 	__tablename__ = "logs"
 
 	id = Column( Integer, primary_key=True )
-	started_by = Column( String, nullable=False )
+	started_by = Column( String, nullable=False, default="bot" )
 	account_name = Column( String, nullable=False )
 	log_msg = Column( String )
 	log_details = Column( String )
 	date = Column( DateTime )
 	fail = Column( Boolean, default=False )
+	user_id = Column( Integer )
 	account_id = Column( Integer, ForeignKey( "accounts.id", ondelete="CASCADE" ),
-	                 nullable=False )
-	user_id = Column( Integer, ForeignKey( "users.id" ) )
-	user = relationship( "UserModel",
-	                     backref="logs" )
+	                     nullable=False )

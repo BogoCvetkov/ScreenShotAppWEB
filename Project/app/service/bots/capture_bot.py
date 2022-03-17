@@ -8,7 +8,7 @@ from datetime import datetime
 
 class CaptureBot( BaseBot ):
 
-	def __init__( self, user, driver, db_sess ):
+	def __init__( self, driver, db_sess, user=None ):
 		super().__init__( db_sess, user )
 		self.driver = driver
 
@@ -16,16 +16,19 @@ class CaptureBot( BaseBot ):
 		accounts = self._get_all_ad_accounts()
 		for account in accounts:
 			self._run_with_status( account, self._capture )
+		self._retry_on_failed( self._capture )
 		return self.status
 
 	def capture_from_list( self, id_list ):
 		for id in id_list:
 			account = self._get_ad_account_by_id( id )
-			self._run_with_status( account, self._capture )
+			if account:
+				self._run_with_status( account, self._capture )
+		self._retry_on_failed( self._capture )
 		return self.status
 
 	def _capture( self, account ):
-		bot = AdCapture( self.driver, user_folder=self.user.username, acc_folder=account.name )
+		bot = AdCapture( self.driver, acc_folder=account.name )
 		pages = account.pages
 		info = bot.capture_many( pages_list=pages )
 		self._create_pdf( folder=bot.file_dir, account=account )

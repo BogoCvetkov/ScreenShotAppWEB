@@ -27,7 +27,7 @@ def upgrade():
 	                 sa.Column( "account_id", sa.Integer,
 	                            sa.ForeignKey( "accounts.id", ondelete="CASCADE" ),
 	                            nullable=False ),
-	                 sa.Column( "user_id",sa.Integer, sa.ForeignKey( "users.id" ) )
+	                 sa.Column( "user_id",sa.Integer )
 	                 )
 
 

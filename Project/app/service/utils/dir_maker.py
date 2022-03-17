@@ -8,11 +8,10 @@ This module contains basic functions for creating a dealing with folder creation
 
 
 # Creates a folder with the current date, to store the screenshots it takes
-def create_dir( user, account ):
+def create_dir( account ):
 	main_folder = "Ad_library_screens"
-	subfolder_1 = user
 	subfolder_2 = account
-	final_folder = pathlib.Path.cwd().parent.joinpath( main_folder, subfolder_1, subfolder_2 )
+	final_folder = pathlib.Path.cwd().parent.joinpath( main_folder, subfolder_2 )
 
 	if os.path.exists( final_folder ):
 		shutil.rmtree( final_folder, ignore_errors=True )

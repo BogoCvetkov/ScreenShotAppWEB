@@ -1,11 +1,10 @@
 from Project.app.service.bots import CaptureBot, EmailBot
 from Project.app.model import Session
 from flask import request, jsonify
+from flask_jwt_extended import current_user
 from Project.app.service.scraper.web_driver import BuildWebDriver
 
 from Project.app.model.all_models import UserModel
-
-
 
 
 # /
@@ -16,10 +15,8 @@ def capture_accounts():
 	# Create the driver
 	driver = BuildWebDriver( headless=False ).build_driver()
 
-	test_user = UserModel.get_by_id( db_sess, 19 )
-
 	# Instantiate a capture bot
-	bot = CaptureBot( test_user, driver, db_sess )
+	bot = CaptureBot( driver, db_sess, current_user )
 
 	# Check for list of account id's in the body
 	if isinstance( request.json["id_list"], list ):
@@ -44,10 +41,8 @@ def send_emails():
 	# Create a DB Session
 	db_sess = Session()
 
-	test_user = UserModel.get_by_id( db_sess, 19 )
-
 	# Instantiate a email bot
-	bot = EmailBot( db_sess, test_user )
+	bot = EmailBot( db_sess, current_user )
 
 	# Check for list of account id's in the body
 	if isinstance( request.json["id_list"], list ):

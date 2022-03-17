@@ -17,3 +17,6 @@ class AppServiceError(Exception):
 		self.message = message
 		self.details = traceback.format_exc()
 		self.status_code = status_code
+
+	def to_dict( self ):
+		return { "status": "failed", "msg": self.message }
