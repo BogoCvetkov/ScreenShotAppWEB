@@ -1,5 +1,6 @@
 from Project.app.model import Session
 from flask import request, jsonify
+from Project.app.errors import AppServiceError
 
 '''
 Creating factory functions for the common CRUD operations on resources.
@@ -70,6 +71,9 @@ def update_factory( Model, schema ):
 		# Load and validate data against the Schema
 		raw_data = request.json
 		serialized_data = schema.load( raw_data )
+
+		if not serialized_data:
+			raise AppServiceError( "No data to update", 401 )
 
 		# If valid - create a DB-Session and try to update the record
 		db_sess = Session()

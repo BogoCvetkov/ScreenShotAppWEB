@@ -7,7 +7,7 @@ from Project.app.service.scraper.web_driver import BuildWebDriver
 from Project.app.model.all_models import UserModel
 
 
-# /
+# /service/?type=scrape
 def capture_accounts():
 	# Create a Session
 	db_sess = Session()
@@ -37,6 +37,7 @@ def capture_accounts():
 		{ "status": "success", "msg": "Scraping Completed", "result": status } ), 200
 
 
+# /service/?type=email
 def send_emails():
 	# Create a DB Session
 	db_sess = Session()

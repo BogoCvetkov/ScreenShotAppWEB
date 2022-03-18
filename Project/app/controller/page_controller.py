@@ -8,5 +8,5 @@ create_page = create_factory( PageModel, PageSchema() )
 
 # /<int:id>
 get_page = get_one_factory( PageModel, PageSchema() )
-update_page = update_factory( PageModel, PageSchema() )
+update_page = update_factory( PageModel, PageSchema( partial=True ) )
 delete_page = delete_factory( PageModel )

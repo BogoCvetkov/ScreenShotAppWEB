@@ -8,5 +8,5 @@ create_account = create_factory(AccountModel,AccountSchema())
 
 # /<int:id>
 get_account = get_one_factory(AccountModel,AccountSchema())
-update_account = update_factory(AccountModel, AccountSchema())
+update_account = update_factory(AccountModel, AccountSchema(partial=True))
 delete_account = delete_factory(AccountModel)

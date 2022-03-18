@@ -3,8 +3,7 @@ from sqlalchemy.orm import validates
 from Project.app.model.common.base_mixin import BaseMixin
 from sqlalchemy import select
 from Project.app.model import Base
-import bcrypt
-
+from Project.app.auth import security
 
 class UserModel( Base, BaseMixin ):
 	__tablename__ = "users"
@@ -18,12 +17,10 @@ class UserModel( Base, BaseMixin ):
 	# Hash password upon instantiation
 	@validates( "password" )
 	def hash_password( self, key, value ):
-		value = value.encode()
-		hashed = bcrypt.hashpw( value, bcrypt.gensalt( 12 ) )
-		return hashed.decode()
+		return security.bhash_value( value )
 
 	def verify_password( self, submit_password ):
-		return bcrypt.checkpw( submit_password.encode(), self.password.encode() )
+		return security.bcheck_hash( submit_password, self.password )
 
 	@classmethod
 	def find_by_email( cls, session, email ):

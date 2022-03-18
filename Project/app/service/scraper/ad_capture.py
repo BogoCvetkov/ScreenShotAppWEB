@@ -58,7 +58,7 @@ class AdCapture:
 			if page_id:
 				entity = page_name
 				final_url = self.fb_url.format( country, page_id )
-				filename = f"{self.file_dir}\{self.today}_apage_{entity}.png"
+				filename = f"{self.file_dir}\{self.today}_apage_{page_id}.png"
 			else:
 				entity = keyword
 				final_url = self.keyword_url.format( country, keyword )

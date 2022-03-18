@@ -1,12 +1,11 @@
 from flask_jwt_extended import JWTManager
-from Project.app.model.all_models import UserModel
 from flask_jwt_extended import verify_jwt_in_request, current_user
 from Project.app.errors import AppServiceError
 from functools import wraps
 
 
 # Factory function for registering the jwt extension with Flask
-def register_jwt( app, Session ):
+def register_jwt( app, Session, Model ):
 	jwt = JWTManager()
 	db_sess = Session()
 
@@ -15,7 +14,7 @@ def register_jwt( app, Session ):
 	@jwt.user_lookup_loader
 	def user_lookup_callback( _jwt_header, jwt_data ):
 		id = jwt_data["sub"]
-		return UserModel.get_by_id( db_sess, id )
+		return Model.get_by_id( db_sess, id )
 
 	jwt.init_app( app )
 

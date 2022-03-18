@@ -8,5 +8,6 @@ create_user = create_factory( UserModel, UserSchema() )
 
 # /<int:id>
 get_user = get_one_factory( UserModel, UserSchema( exclude=["password"] ) )
-update_user = update_factory( UserModel, UserSchema( exclude=["password"] ) )
+update_user = update_factory( UserModel,
+                              UserSchema( exclude=["password", "confirm_password"], partial=True ) )
 delete_user = delete_factory( UserModel )

@@ -8,7 +8,9 @@ class AccountSchema( Schema ):
 
 	# Id field is read only
 	id = fields.Integer( dump_only=True )
-	email = fields.Email()
-	name = fields.Str( validate=validate.Length( min=1 ) )
+	email = fields.Email(required=True)
+	name = fields.Str( validate=validate.Length( min=1 ), required=True )
 	email_body = fields.Str()
 	active = fields.Boolean()
+	last_scrape_fail = fields.Boolean( dump_only=True )
+	last_email_fail = fields.Boolean( dump_only=True )
