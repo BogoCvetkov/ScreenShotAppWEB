@@ -100,14 +100,20 @@ def reset_pass( token ):
 
 	db_sess.commit()
 
-	# Send jwt token
-	return sign_send_jwt( user.id, "Password updated successfully" )
+	return jsonify( { "status": "success", "msg": "Password updated successfully! You can login. " } ), 200
 
 
 # /reset-my-pass
 def reset_logged_user_pass():
 	# Create Session
 	db_sess = Session()
+
+	# Confirm old password
+	if "currentPass" not in request.json:
+		raise AppServiceError( "/currentPass/ field missing", 400 )
+
+	if not current_user.verify_password( request.json["currentPass"] ):
+		raise AppServiceError( "Wrong password", 400 )
 
 	# Set new password
 	new_data = UserSchema( exclude=["email", "username"] ).load( request.json )
@@ -118,8 +124,7 @@ def reset_logged_user_pass():
 
 	db_sess.commit()
 
-	# Send jwt token
-	return sign_send_jwt( user.id, "Password updated successfully" )
+	return jsonify( { "status": "success", "msg": "Password updated successfully!" } ), 200
 
 
 # /logout
