@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Boolean
+from sqlalchemy import Column, String, Integer, Boolean, DateTime
 from sqlalchemy.orm import validates
 from Project.app.model.common.base_mixin import BaseMixin
 from sqlalchemy import select
@@ -13,6 +13,7 @@ class UserModel( Base, BaseMixin ):
 	username = Column( String, unique=True, nullable=False )
 	password = Column( String, nullable=False )
 	admin = Column( Boolean, default=False )
+	last_changed = Column( DateTime )
 
 	# Hash password upon instantiation
 	@validates( "password" )

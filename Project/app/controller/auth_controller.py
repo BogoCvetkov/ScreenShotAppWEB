@@ -92,6 +92,7 @@ def reset_pass( token ):
 
 	user = UserModel.find_by_email( db_sess, check_token.email )
 	user.password = new_data["password"]
+	user.last_changed = datetime.now()
 
 	# Invalidate token
 	check_token.expires_at = datetime.now()
@@ -100,3 +101,20 @@ def reset_pass( token ):
 
 	# Send jwt token
 	return sign_send_jwt( user.id, "Password updated successfully" )
+
+
+def logout():
+	resp = make_response( jsonify(
+		{ "status": "success", "msg": "Logout successful" } ), 200 )
+
+	if os.environ["ENV"] == "development":
+		is_secure = False
+	else:
+		is_secure = True
+
+	resp.set_cookie( "jwt", "logout",
+	                 max_age=timedelta( minutes=0 ),
+	                 httponly=True,
+	                 samesite="Strict",
+	                 secure=is_secure )
+	return resp
