@@ -5,7 +5,7 @@ from Project.app.errors import AppServiceError
 from Project.app.schemas.auth_schema import AuthSchema
 from Project.app.schemas.user_chema import UserSchema
 from Project.app.service.utils.email_sender import EmailSender
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, current_user
 from datetime import datetime, timedelta
 import os
 
@@ -75,6 +75,7 @@ def forget_pass():
 	                  "token": reset_token } ), 201
 
 
+# /reset-pass
 def reset_pass( token ):
 	# Create Session
 	db_sess = Session()
@@ -103,6 +104,25 @@ def reset_pass( token ):
 	return sign_send_jwt( user.id, "Password updated successfully" )
 
 
+# /reset-my-pass
+def reset_logged_user_pass():
+	# Create Session
+	db_sess = Session()
+
+	# Set new password
+	new_data = UserSchema( exclude=["email", "username"] ).load( request.json )
+
+	user = UserModel.get_by_id( db_sess, current_user.id )
+	user.password = new_data["password"]
+	user.last_changed = datetime.now()
+
+	db_sess.commit()
+
+	# Send jwt token
+	return sign_send_jwt( user.id, "Password updated successfully" )
+
+
+# /logout
 def logout():
 	resp = make_response( jsonify(
 		{ "status": "success", "msg": "Logout successful" } ), 200 )

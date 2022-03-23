@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from Project.app.controller import auth_controller
+from Project.app.auth import verify_jwt
 
 
 class LoginRouter( MethodView ):
@@ -23,3 +24,10 @@ class ResetPassRouter( MethodView ):
 class LogoutRouter( MethodView ):
 	def get( self ):
 		return auth_controller.logout()
+
+
+class ResetLoggedUserPassRouter( MethodView ):
+	decorators = [verify_jwt]
+
+	def post( self ):
+		return auth_controller.reset_logged_user_pass()
