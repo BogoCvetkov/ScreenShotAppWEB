@@ -1,10 +1,10 @@
 from flask import request, jsonify, make_response
-from Project.app.model.all_models import UserModel, ResetPassModel
-from Project.app.model import Session
-from Project.app.errors import AppServiceError
+from Project.model.all_models import UserModel, ResetPassModel
+from Project.model.DB import Session
+from Project.errors.custom_errors import AppServiceError
 from Project.app.schemas.auth_schema import AuthSchema
 from Project.app.schemas.user_chema import UserSchema
-from Project.app.service.utils.email_sender import EmailSender
+from Project.service.utils.email_sender import EmailSender
 from flask_jwt_extended import create_access_token, current_user
 from datetime import datetime, timedelta
 import os

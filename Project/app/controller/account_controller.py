@@ -1,4 +1,4 @@
-from Project.app.model.all_models import AccountModel
+from Project.model.all_models import AccountModel
 from Project.app.schemas.account_schema import AccountSchema
 from Project.app.controller.controller_factory import *
 

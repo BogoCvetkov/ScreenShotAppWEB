@@ -1,6 +1,6 @@
-from Project.app.model import Session
+from Project.model.DB import Session
 from flask import request, jsonify
-from Project.app.errors import AppServiceError
+from Project.errors.custom_errors import AppServiceError
 
 '''
 Creating factory functions for the common CRUD operations on resources.

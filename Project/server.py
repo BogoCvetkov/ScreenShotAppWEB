@@ -3,7 +3,7 @@ import os
 load_dotenv( ".env" )
 
 from Project.config import DevelopmentConfig, ProductConfig
-from Project.app import create_app, return_to_db_pool
+from Project.app.app import create_app, return_to_db_pool
 
 if os.environ["ENV"] == "development":
 	conf_file = DevelopmentConfig

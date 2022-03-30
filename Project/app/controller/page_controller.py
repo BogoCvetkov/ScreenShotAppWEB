@@ -1,4 +1,4 @@
-from Project.app.model.all_models import PageModel
+from Project.model.all_models import PageModel
 from Project.app.schemas.page_schema import PageSchema
 from Project.app.controller.controller_factory import *
 

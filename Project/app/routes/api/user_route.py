@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from Project.app.controller import user_controller
-from Project.app.auth import restrict_to_admin, verify_jwt
+from Project.app.auth.jwt import restrict_to_admin, verify_jwt
 
 
 # Using decorators to verify user, and restrict access

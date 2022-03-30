@@ -1,4 +1,4 @@
-from Project.app.model.all_models import UserModel
+from Project.model.all_models import UserModel
 from Project.app.schemas.user_chema import UserSchema
 from Project.app.controller.controller_factory import *
 

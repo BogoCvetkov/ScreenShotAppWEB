@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from Project.app.controller import me_controller
-from Project.app.auth import verify_jwt
+from Project.app.auth.jwt import verify_jwt
 
 
 class MeRouter( MethodView ):

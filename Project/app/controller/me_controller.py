@@ -1,8 +1,8 @@
-from Project.app.model.all_models import UserModel
+from Project.model.all_models import UserModel
 from Project.app.schemas.user_chema import UserSchema
 from Project.app.controller.controller_factory import update_factory, get_one_factory
-from Project.app.auth import current_user
-from Project.app.errors import AppServiceError
+from Project.app.auth.jwt import current_user
+from Project.errors.custom_errors import AppServiceError
 from flask import request
 
 

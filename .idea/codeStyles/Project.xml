@@ -3,14 +3,5 @@
     <Python>
       <option name="SPACE_WITHIN_BRACES" value="true" />
     </Python>
-    <codeStyleSettings language="Python">
-      <option name="RIGHT_MARGIN" value="100" />
-      <option name="SPACE_WITHIN_METHOD_CALL_PARENTHESES" value="true" />
-      <option name="SPACE_WITHIN_METHOD_PARENTHESES" value="true" />
-      <indentOptions>
-        <option name="USE_TAB_CHARACTER" value="true" />
-        <option name="SMART_TABS" value="true" />
-      </indentOptions>
-    </codeStyleSettings>
   </code_scheme>
 </component>
