@@ -11,7 +11,7 @@ from Project.app.Async.callbacks import on_failed_job
 from dotenv import load_dotenv
 
 
-@job("client", connection=redis_conn, timeout="10m", failure_ttl="168h")
+@job("screenshots", connection=redis_conn, timeout="10m", failure_ttl="168h")
 def capture_pages(acc_list, user=None):
     # Create a Session
     db_sess = Session()

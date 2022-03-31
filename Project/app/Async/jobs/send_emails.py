@@ -9,8 +9,8 @@ from Project.service.bots import EmailBot
 from Project.app.Async.callbacks import on_failed_job
 
 
-@job("client", connection=redis_conn, timeout="4m", failure_ttl="168h")
-def send_result(json_body, user=None):
+@job("emails", connection=redis_conn, timeout="1m", failure_ttl="168h")
+def send_email(acc_list, user=None):
     # Create a DB Session
     db_sess = Session()
 
@@ -19,7 +19,7 @@ def send_result(json_body, user=None):
         bot = EmailBot(db_sess, user)
 
         # Execute operation for the ids
-        status = bot.send_from_list(json_body)
+        status = bot.send_from_list(acc_list)
 
         # Commit DB Session
         db_sess.commit()
