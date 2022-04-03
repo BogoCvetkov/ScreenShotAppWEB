@@ -16,17 +16,24 @@ class CaptureBot(BaseBot):
         accounts = self._get_all_ad_accounts()
         for account in accounts:
             if not self._was_scraped_soon(account):
-                self._run_with_status(account, self._capture)
+                self._run_for_many(account, self._capture)
         self._retry_on_failed(self._capture)
         return self.status
 
+    # Runs for multiple accounts - exception on single account must not affect the others
     def capture_from_list(self, id_list):
         for id in id_list:
             account = self._get_ad_account_by_id(id)
             if account and not self._was_scraped_soon(account):
-                self._run_with_status(account, self._capture)
+                self._run_for_many(account, self._capture)
         self._retry_on_failed(self._capture)
         return self.status
+
+    # Runs for single account - Exceptions are not being handled
+    def capture_single(self, id):
+        account = self._get_ad_account_by_id(id)
+        if account and not self._was_scraped_soon(account):
+            self._run_for_one(account,self._capture)
 
     def _capture(self, account):
         bot = AdCapture(self.driver, acc_folder=account.name)
@@ -49,7 +56,7 @@ class CaptureBot(BaseBot):
     def _was_scraped_soon(self, account):
         if not account.last_scraped:
             return False
-        if account.last_scraped and (datetime.now() - account.last_scraped) > timedelta(minutes=15):
+        if account.last_scraped and (datetime.now() - account.last_scraped) > timedelta(minutes=1):
             return False
         time_passed = datetime.now() - account.last_scraped
         message = f"Latest screenshot for {account.name} was {int(time_passed.seconds / 60)} minutes ago. " \

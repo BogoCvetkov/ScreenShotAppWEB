@@ -5,6 +5,7 @@ import time, traceback
 
 
 class BaseBot():
+	bot_type="base"
 
 	def __init__( self, db_sess, user=None ):
 		self.db_sess = db_sess
@@ -20,7 +21,17 @@ class BaseBot():
 		data = AccountModel.get_by_id( self.db_sess, id )
 		return data
 
-	def _run_with_status( self, account, method_to_call ):
+	def _run_for_one(self,account,method_to_call):
+		try:
+			info = method_to_call(account)
+			message = f"Operation {method_to_call.__name__} for - {account.name} -  successful."
+			self._update_status_and_log(account, message, info)
+		except Exception as e:
+			raise AppServiceError(e,origin=self.bot_type)
+
+	# this private method consumes errors when processing accounts,
+	# so that one fail doesn't affect the other accounts
+	def _run_for_many(self, account, method_to_call):
 		try:
 			info = method_to_call( account )
 			message = f"Operation {method_to_call.__name__} for - {account.name} -  successful."
@@ -55,8 +66,8 @@ class BaseBot():
 		# Optional
 		if failed: params["fail"] = True
 		if self.user:
-			params["user_id"] = self.user.id
-			params["started_by"] = self.user.email
+			params["user_id"] = self.user["id"]
+			params["started_by"] = self.user["email"]
 
 		new_log = LogModel( **params )
 		account.logs.append( new_log )
@@ -88,3 +99,6 @@ class BaseBot():
 			self._update_acc_info(account)
 
 		self.status["fail_count"] = len( self.status["failed"] )
+
+	def update_and_log(self,account,message,details,failed=False):
+		self._update_status_and_log(account,message,details,failed)

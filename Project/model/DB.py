@@ -3,10 +3,6 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm import declarative_base
 import os
 
-from dotenv import load_dotenv
-
-load_dotenv( ".envTest" )
-
 user = os.environ["DB_USER"]
 password = os.environ["DB_PASS"]
 db_url = os.environ["DB_URL"].format( user, password )

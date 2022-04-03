@@ -16,10 +16,12 @@ def capture_pages(acc_list, user=None):
     # Create a Session
     db_sess = Session()
 
+    # Create the driver
+    driver = BuildWebDriver(headless=True)
+    driver.add_options("--no-sandbox")
+
     try:
-        # Create the driver
-        driver = BuildWebDriver(headless=True)
-        driver.add_options("--no-sandbox")
+        # Open browser instance
         driver = driver.build_driver()
 
         # Instantiate a capture bot
@@ -40,7 +42,7 @@ def capture_pages(acc_list, user=None):
         raise e
     finally:
         # Close Browser Session
-        bot.close_driver()
+        driver.quit()
 
         # Return session to pool
         Session.remove()

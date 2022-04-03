@@ -11,7 +11,7 @@ class EmailBot( BaseBot ):
 	def send_all( self ):
 		accounts = self._get_all_ad_accounts()
 		for account in accounts:
-			self._run_with_status( account, self._send_email )
+			self._run_for_many(account, self._send_email)
 		self._retry_on_failed( self._send_email )
 		return self.status
 
@@ -19,9 +19,15 @@ class EmailBot( BaseBot ):
 		for id in id_list:
 			account = self._get_ad_account_by_id( id )
 			if account:
-				self._run_with_status( account, self._send_email )
+				self._run_for_many(account, self._send_email)
 		self._retry_on_failed( self._send_email )
 		return self.status
+
+	def send_single(self,id):
+		account = self._get_ad_account_by_id(id)
+		if account:
+			self._run_for_one(account,self._send_email)
+
 
 	def _send_email( self, account ):
 		email = EmailSender()

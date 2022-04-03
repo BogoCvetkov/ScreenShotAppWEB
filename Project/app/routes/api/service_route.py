@@ -15,6 +15,9 @@ class ServiceRouter( MethodView ):
 		if request.args.get("type") and request.args["type"] == "email":
 			return service_controller.send_emails()
 
+		if request.args.get("type") and request.args["type"] == "test":
+			return service_controller.test_schedule()
+
 		else:
 			return jsonify( { "status": "failed",
 			                  "msg": "URL param /type/ missing or invalid. "

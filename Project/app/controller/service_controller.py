@@ -1,10 +1,15 @@
+from rq import Worker
+
 from Project.service.bots import CaptureBot, EmailBot
+from Project.service.scraper.web_driver import BuildWebDriver
 from Project.model.DB import Session
 from flask import request, jsonify
 from flask_jwt_extended import current_user
 from Project.app.Async.jobs.make_screenshot import capture_pages
 from Project.app.Async.jobs.send_emails import send_email
-from Project.app.Async.queues import screenshot_Q, email_Q
+from Project.app.Async.jobs.scheduled_emails import send_scheduled_emails
+from Project.app.Async.queues import screenshot_Q, email_Q, schedule_Q
+from Project.app.Async.redis_conn import redis_conn, redis_conn_d
 from Project.errors.custom_errors import AppServiceError
 
 ''''
@@ -94,24 +99,23 @@ def send_emails():
         { "status": "success", "msg": "Job registered. The bot will be on it soon.",
           "result": { "waiting": email_Q.job_ids, "executing": email_Q.started_job_registry.get_job_ids() } }), 200
 
-# def send_emails():
-# 	# Create a DB Session
-# 	db_sess = Session()
-#
-# 	# Instantiate a email bot
-# 	bot = EmailBot( db_sess, current_user )
-#
-# 	# Check for list of account id's in the body
-# 	if isinstance( request.json["id_list"], list ):
-# 		status = bot.send_from_list( request.json["id_list"] )
-#
-# 	# Or send to all accounts
-# 	if request.json["id_list"] == "all":
-# 		status = bot.send_all()
-#
-# 	# Commit DB Session
-# 	db_sess.commit()
-#
-# 	# Send the status of the operation
-# 	return jsonify(
-# 		{ "status": "success", "msg": "Emailing Completed", "result": status } ), 200
+
+def test_schedule():
+    driver_1 = BuildWebDriver(headless=False).build_remote_driver()
+    driver_2 = BuildWebDriver(headless=False).build_remote_driver()
+
+    redis_conn_d.hset("selenium", "session_1", driver_1.session_id)
+    redis_conn_d.hset("selenium", "session_2", driver_2.session_id)
+
+    for i in range(len(request.json["id_list"])):
+        if i % 2 != 0:
+            send_scheduled_emails.delay(request.json["id_list"][i], "session_2", job_id=str(request.json["id_list"][i]))
+        else:
+            send_scheduled_emails.delay(request.json["id_list"][i], "session_1", job_id=str(request.json["id_list"][i]))
+
+    # Send the status of the operation
+    return jsonify(
+        { "status": "success", "msg": "Job registered. The bot will be on it soon.",
+          "result": { "waiting": schedule_Q.job_ids, "executing": schedule_Q.started_job_registry.get_job_ids() },
+          "failed": schedule_Q.failed_job_registry.get_job_ids(),
+          "sheduled": schedule_Q.scheduled_job_registry.get_job_ids() }, ), 200

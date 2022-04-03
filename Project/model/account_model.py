@@ -10,7 +10,7 @@ class AccountModel( Base, BaseMixin ):
 	id = Column( Integer, primary_key=True )
 	name = Column( String, unique=True, nullable=False )
 	email = Column( String, unique=True, nullable=False )
-	email_body = Column( String )
+	email_body = Column( String , default=" ")
 	active = Column( Boolean, default=True )
 	last_scrape_fail = Column( Boolean, default=False )
 	last_email_fail = Column( Boolean, default=False )
