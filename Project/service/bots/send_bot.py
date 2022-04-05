@@ -15,6 +15,7 @@ class EmailBot( BaseBot ):
 		self._retry_on_failed( self._send_email )
 		return self.status
 
+	# Runs for multiple accounts - exception on single account must not affect the others
 	def send_from_list( self, id_list ):
 		for id in id_list:
 			account = self._get_ad_account_by_id( id )
@@ -23,6 +24,7 @@ class EmailBot( BaseBot ):
 		self._retry_on_failed( self._send_email )
 		return self.status
 
+	# Runs for single account - Exceptions are not being handled
 	def send_single(self,id):
 		account = self._get_ad_account_by_id(id)
 		if account:

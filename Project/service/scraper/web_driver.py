@@ -1,3 +1,5 @@
+import os
+
 from selenium import webdriver
 from dotenv import load_dotenv
 from webdriver_manager.chrome import ChromeDriverManager
@@ -20,7 +22,7 @@ class BuildWebDriver:
     """
 
     default_loc = ChromeDriverManager().install()
-    executor_url = "http://192.168.176.1:4444"
+    executor_url = os.environ["SELENIUM_SERVER"]
 
     def __init__(self, headless=True):
         self._options = webdriver.ChromeOptions()

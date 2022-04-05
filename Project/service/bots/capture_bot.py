@@ -17,6 +17,7 @@ class CaptureBot(BaseBot):
         for account in accounts:
             if not self._was_scraped_soon(account):
                 self._run_for_many(account, self._capture)
+            self.db_sess.commit()
         self._retry_on_failed(self._capture)
         return self.status
 
@@ -26,6 +27,7 @@ class CaptureBot(BaseBot):
             account = self._get_ad_account_by_id(id)
             if account and not self._was_scraped_soon(account):
                 self._run_for_many(account, self._capture)
+            self.db_sess.commit()
         self._retry_on_failed(self._capture)
         return self.status
 
@@ -56,7 +58,7 @@ class CaptureBot(BaseBot):
     def _was_scraped_soon(self, account):
         if not account.last_scraped:
             return False
-        if account.last_scraped and (datetime.now() - account.last_scraped) > timedelta(minutes=1):
+        if account.last_scraped and (datetime.now() - account.last_scraped) > timedelta(minutes=15):
             return False
         time_passed = datetime.now() - account.last_scraped
         message = f"Latest screenshot for {account.name} was {int(time_passed.seconds / 60)} minutes ago. " \

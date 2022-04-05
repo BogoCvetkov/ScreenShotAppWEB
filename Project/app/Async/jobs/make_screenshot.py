@@ -1,3 +1,5 @@
+import time
+
 from dotenv import load_dotenv
 
 load_dotenv("Project/.env")
@@ -7,12 +9,17 @@ from Project.service.scraper.web_driver import BuildWebDriver
 from rq.decorators import job
 from Project.model.DB import Session
 from Project.service.bots import CaptureBot
-from Project.app.Async.callbacks import on_failed_job
-from dotenv import load_dotenv
+from Project.model.logs_model import LogModel
+from Project.app.Async.queues import filter_accounts_from_schedule_queue
 
 
 @job("screenshots", connection=redis_conn, timeout="10m", failure_ttl="168h")
-def capture_pages(acc_list, user=None):
+def capture_pages(initial_list, user=None):
+    # Check again and filter accounts being handled by workers of the schedule queue
+    filtered_list = filter_accounts_from_schedule_queue(initial_list)
+
+    if len(filtered_list) < 1: return
+
     # Create a Session
     db_sess = Session()
 
@@ -28,10 +35,10 @@ def capture_pages(acc_list, user=None):
         bot = CaptureBot(driver, db_sess, user)
 
         # Check for list of account id's in the request body
-        if acc_list[0] == "all":
+        if filtered_list[0] == "all":
             status = bot.capture_all()
         else:
-            status = bot.capture_from_list(acc_list)
+            status = bot.capture_from_list(filtered_list)
 
         # Commit DB Session
         db_sess.commit()

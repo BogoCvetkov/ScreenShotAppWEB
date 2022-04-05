@@ -21,6 +21,7 @@ class BaseBot():
 		data = AccountModel.get_by_id( self.db_sess, id )
 		return data
 
+	# Errors are not being handled
 	def _run_for_one(self,account,method_to_call):
 		try:
 			info = method_to_call(account)
