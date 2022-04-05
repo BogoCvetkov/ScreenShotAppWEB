@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from dotenv import load_dotenv
 from rq import Worker
+from Project.model.all_models import LogModel, AccountModel
 
 load_dotenv("Project/.env")
 
@@ -7,8 +10,6 @@ from Project.model.DB import Session
 from Project.errors.custom_errors import AppServiceError
 from Project.model.all_models import AccountModel
 from Project.service.bots import CaptureBot, EmailBot
-from Project.app.Async.queues import schedule_Q
-from Project.service.scraper.web_driver import BuildWebDriver
 import traceback
 
 
@@ -41,3 +42,30 @@ def on_failed_job(job, connection, type, value, tracebackinfo):
 
         # Return session to DB pool
         Session.remove()
+
+
+# Callback for logging stopped jobs - NOT implemented yet
+def handle_stopped_job(job):
+    if job.get_status(refresh=True) == "stopped":
+        # Create a Session
+        db_sess = Session()
+        try:
+            # Log the stopped job for that account
+            account = AccountModel.get_by_id(db_sess, int(job.id.split(",")[0]))
+            message = f"Email job for recipient /{account.email}/ was canceled by the schedule Bot, " \
+                      f"that was sending an email to it at the same time."
+            info = { "account_name": account.name, "log_msg": message, "log_details": "",
+                     "date": datetime.now(), "fail": True }
+            new_log = LogModel(**info)
+            account.logs.append(new_log)
+
+            db_sess.commit()
+
+        except Exception as e:
+            db_sess.rollback()
+
+            raise e
+        finally:
+
+            # Return session to DB pool
+            Session.remove()
