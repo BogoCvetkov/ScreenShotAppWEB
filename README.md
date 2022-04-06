@@ -118,7 +118,7 @@ The challenge here was taking care of time-consuming operations - taking screens
 ### Phase 6 - Creating the schedule script that will run as a separate daemon process on the server
 This script runs on the background constantly monitoring the scheduled jobs and when the time comes it sends them to the respective task queue to be executed by the workers.
 
-## Phase 7 - Taking care of the Frontend - Not yet ready
+### Phase 7 - Taking care of the Frontend - Not yet ready
 
 ## Project Structure
 ```
