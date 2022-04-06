@@ -4,6 +4,7 @@ from Project.app.routes.api.service_route import *
 from Project.app.routes.api.user_route import *
 from Project.app.routes.api.auth_route import *
 from Project.app.routes.api.me_route import *
+from Project.app.routes.api.schedule_route import *
 
 
 def register_routes(application, prefix=None):
@@ -27,6 +28,10 @@ def register_routes(application, prefix=None):
     application.add_url_rule(f"{prefix}/pages/", view_func=PagesRouter.as_view("pages_route"))
     application.add_url_rule(f"{prefix}/pages/<int:id>",
                              view_func=PageRouter.as_view("page_route"))
+
+    application.add_url_rule(f"{prefix}/schedules/", view_func=SchedulesRouter.as_view("schedules_route"))
+    application.add_url_rule(f"{prefix}/schedules/<int:id>",
+                             view_func=ScheduleRouter.as_view("schedule_route"))
 
     application.add_url_rule(f"{prefix}/service/",
                              view_func=ServiceRouter.as_view("service_route"))
