@@ -15,6 +15,14 @@ from Project.errors.custom_errors import AppServiceError
 
 ''''
 Services logic:
+    - The structure of the Async operations is based on hierarchy. Currently two types of Queues exist. The first are 
+     handling client-side commands send from users - those are the /emails and screenshots/ queues. The second type is
+     the queue that executes scheduled jobs - the /schedules/ queue:
+        - Schedules queue has higher priority than the others
+        - If the same job is queued for the 2 types of queues at the same time - those in the /schedules/ queue
+        will be executed and the rest will be skipped
+        -If execution of a job has already started in a lower priority queue(the first type) - the same job in the 
+        /schedule/ queue will either wait for it/screenshots/ or cancel it/emails/.
     - screenshots - taking screenshots opens a browser, which is an expensive operation. So to optimize this, 
                     accounts are screenshootet in bulk in a single browser session - multiple id's [up to 5] 
                     are allowed per request.
