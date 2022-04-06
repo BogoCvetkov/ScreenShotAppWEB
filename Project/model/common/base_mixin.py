@@ -1,4 +1,5 @@
 from sqlalchemy import select, update, cast, String, VARCHAR
+from Project.model.features.searching import filter_sort
 
 
 class BaseMixin:
@@ -23,21 +24,15 @@ class BaseMixin:
 
 	@classmethod
 	def search( cls, session, queries ):
-		stmt = select( cls )
-		for col in queries.keys():
-			if col in cls.__table__.columns.keys():
-				if isinstance( cls.__dict__[col].type, String ):
-					stmt = stmt.where(
-						cls.__dict__[col].ilike( f"%{queries[col]}%" ) )
-
-		result = session.execute( stmt ).all()
-		result = [res[0] for res in result]
-		return result
+		# Filter and sort results
+		stmt = filter_sort(cls,queries)
+		result = session.execute( stmt )
+		return result.scalars().all()
 
 	@classmethod
 	def get_all( cls, session ):
-		result = session.execute( select( cls ) ).all()
-		result = [res[0] for res in result]
+		result = session.execute( select( cls ) )
+		result = result.scalars().all()
 		return result
 
 	def delete( self, session ):

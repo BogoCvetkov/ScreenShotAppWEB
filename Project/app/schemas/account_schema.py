@@ -14,3 +14,5 @@ class AccountSchema( Schema ):
 	active = fields.Boolean()
 	last_scrape_fail = fields.Boolean( dump_only=True )
 	last_email_fail = fields.Boolean( dump_only=True )
+	last_scraped = fields.DateTime(dump_only=True)
+	last_emailed = fields.DateTime(dump_only=True)

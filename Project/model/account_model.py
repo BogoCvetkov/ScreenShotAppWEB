@@ -24,3 +24,5 @@ class AccountModel( Base, BaseMixin ):
 	                           cascade="all,delete-orphan", passive_deletes=True )
 	logs = relationship( "LogModel", backref="account",
 	                     cascade="all,delete-orphan", passive_deletes=True )
+	schedules = relationship("ScheduleModel", backref="account",
+						cascade="all,delete-orphan", passive_deletes=True)
