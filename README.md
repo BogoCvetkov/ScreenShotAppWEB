@@ -25,10 +25,11 @@
 
 <p align="center">
   <a href="#about-the-project">About The Project</a> •
+   <a href="#so-why-the-same-app-again">So why the same app again?</a> •
   <a href="#description-of-the-problem">Description of the problem</a> •
-  <a href="#how-to-use">How to use</a> •
   <a href="#project-workflow">Project Workflow</a> •
   <a href="#project-structure">Project Structure</a> 
+  
 </p>
 
 ## Built With
@@ -73,7 +74,7 @@
 This web app is the natural evolution of a previous more simple native app that I have created for my team,  inspired by a **REAL-world scenario**, that we **had at the company** (Digital-Marketing company) I'm working at. 
 You can check that app here if you're curious: https://github.com/BogoCvetkov/AdCapture_bot
 
-## So why the same app again ?
+## So why the same app again
 During the first month of it's usage in my team I managed to get a lot of feedback about the flaws of the first app. It was not as intuitive to use, it was harder to maintain and also it didn't provide the level of automation that it was created for. Still it turn out to provide value for the company and our clients, so I decided it's time to get serious about it and create a REAL app, that could scale better and really achieve it's goal of delivering automation. An app that could actually be sold as a service.
 
 FLAWS OF THE OLD APP:
