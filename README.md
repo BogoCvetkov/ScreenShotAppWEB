@@ -83,10 +83,10 @@ FLAWS OF THE OLD APP:
 
 HOW WILL THIS APP BE BETTER:
 - first it's going to be a web-based app - this significantly would improve the maintainability, accessibility and scalability issues
-- the architecture and design of the app is inspired from Facebook Ads Manager - something all of my teammates(+ME) are using on a daily basis. So it should feel much more intuitive and familiar.
+- the architecture and design of the app is inspired by Facebook Ads Manager - something all of my teammates(+ME) are using on a daily basis. So it should feel much more intuitive and familiar.
 - as any REAL app it includes access management
 - the app itself will be an unified shared environment, that contains all the resources in itself. Users (my teammates) will just be accessing those resources after authentication. Meaning that multiple people could manage and modify the same resource. This is the way Facebook generally designes it's platform, so I really wanted to stay close to that idea. Also this would make the learning curve much less steeper.
-- it will achieve real automation and hopefully a degree of stability - it will run on a server, with background workers active 24/7. So my colleague will only have to configure and schedule the particular jobs and leave the rest to the bots
+- it will achieve real automation and hopefully a degree of stability - it will run on a server, with background workers active 24/7. So my colleagues will only have to configure and schedule the particular jobs once and leave the rest to the bots
 - this solution will be scalable as well because it's a set once operation - meaning adding more and more accounts, will not result in more time consumed for the team.
 
 I can really write a lot more about this app , the idea, the multiple challenges that I've faced, how I solved them etc. But this would get quite long, so I leave it at that.😅
@@ -110,15 +110,20 @@ Here I have spend a lot of time in researching how to properly structure the dat
 Now I had to really transform this app into a web-based one. I created an API that would be consumed by the Frontend, where the user will actually controll the whole flow.
 
 ### Phase 4 - User Management and Authentication
-Since this is an app intended only to be used internally inside the company, I had to restrict the access to it. I'm using JWT tokens for that purpouse. There are still other things that I plan to implement to enhance security.
+Since this is an app intended only to be used internally inside the company, I had to restrict the access to it. I'm using JWT tokens for that purpouse. All passwords are hashed. There would also be some endpoints accessible only for particular roles etc. There are still other things that I plan to implement to enhance security.
 
 ### Phase 5 - Async - offloading time consuming tasks to background workers
-The challenge here was taking care of time-consuming operations - taking screenshots and sending emails should no block the main tread - were requests are being handled. So after a lenghtly research I decided to use task queues and background workers that would execute the jobs in the background.
+The challenge here was taking care of time-consuming operations - taking screenshots and sending emails should not block the main tread - were requests are being handled. So after a lenghtly research I decided to use task queues and background workers that would execute the jobs in the background.
 
-### Phase 6 - Creating the schedule script that will run as a separate daemon process on the server
+### Phase 6 - Taking care of multi-threading
+Since I have a total of 4 workers running and all of them are accessing the same resources,this means it's quite possible that more than one worker tries to modify the same file at the same time. This is my first time dealing with multi-threading scenarios. So I've spent about two weeks researching and developing a mechanism by which the workers would communicate and synchronise the operations between themselves so that two important conditions are always being met:
+- priority jobs(jobs in the schedule queue) are always being executed - and all other queues that have the same job won't execute it
+- save server resources - if the job was already done or is currently being done, skip it in the other workers - stay DRY
+
+### Phase 7 - Creating the schedule script that will run as a separate daemon process on the server
 This script runs on the background constantly monitoring the scheduled jobs and when the time comes it sends them to the respective task queue to be executed by the workers.
 
-### Phase 7 - Taking care of the Frontend - Not yet ready
+### Phase 8 - Taking care of the Frontend - Not yet ready
 
 ## Project Structure
 ```
