@@ -128,63 +128,103 @@ This script runs on the background constantly monitoring the scheduled jobs and 
 
 ## Project Structure
 ```
-📦 AdCapture_bot
-├─ .gitignore
-├─ .idea
-├─ Drivers
-│  └─ chromedriver.exe
+📦 ScreenShotAppWEB
+├─ .gitignore
 ├─ Project
-│  ├─ __init__.py
+│  |
+│  ├─ alembic.ini
+│  ├─ alembic
+│  │  ├─ env.py
+│  │  ├─ script.py.mako
+│  │  └─ versions
+│  │     ├─ 22e61dc73dc0_add_last_operation_date_in_accounts_.py
+│  │     ├─ 28736d0b84e3_add_account_table.py
+│  │     ├─ 360776d91d7a_add_table_for_password_reset_token.py
+│  │     ├─ 47b9c1118ca4_add_account_page_index.py
+│  │     ├─ 6a70d4f336c0_create_schedules_table.py
+│  │     ├─ 6c589bf489b8_add_last_changed_column_to_user.py
+│  │     ├─ 77f1d7fab661_create_a_table_for_pdf_screenshots_with_.py
+│  │     ├─ 93eb863789cf_add_pages_table.py
+│  │     ├─ a59d2adf71b1_make_account_name_unique.py
+│  │     ├─ bc799c6d0d13_add_logs_table.py
+│  │     └─ c76339936dc9_add_user_table.py
+│  ├─ app
+│  │  ├─ Async
+│  │  │  ├─ callbacks.py
+│  │  │  ├─ jobs
+│  │  │  │  ├─ clean_up.py
+│  │  │  │  ├─ make_screenshot.py
+│  │  │  │  ├─ scheduled_emails.py
+│  │  │  │  └─ send_emails.py
+│  │  │  ├─ queues.py
+│  │  │  ├─ redis_conn.py
+│  │  │  ├─ spawn.txt
+│  │  │  └─ workers
+│  │  │     ├─ client_worker.py
+│  │  │     └─ kill_all.py
+│  │  ├─ app.py
+│  │  ├─ auth
+│  │  │  ├─ jwt.py
+│  │  │  └─ security.py
+│  │  ├─ controller
+│  │  │  ├─ account_controller.py
+│  │  │  ├─ auth_controller.py
+│  │  │  ├─ controller_factory.py
+│  │  │  ├─ me_controller.py
+│  │  │  ├─ page_controller.py
+│  │  │  ├─ schedule_controller.py
+│  │  │  ├─ service_controller.py
+│  │  │  └─ user_controller.py
+│  │  ├─ routes
+│  │  │  ├─ all_routes.py
+│  │  │  └─ api
+│  │  │     ├─ account_route.py
+│  │  │     ├─ auth_route.py
+│  │  │     ├─ me_route.py
+│  │  │     ├─ page_route.py
+│  │  │     ├─ schedule_route.py
+│  │  │     ├─ service_route.py
+│  │  │     └─ user_route.py
+│  │  └─ schemas
+│  │     ├─ account_schema.py
+│  │     ├─ auth_schema.py
+│  │     ├─ page_schema.py
+│  │     ├─ schedule_schema.py
+│  │     └─ user_chema.py
+│  ├─ config.py
+│  ├─ errors
+│  │  ├─ custom_errors.py
+│  │  └─ handler.py
 │  ├─ model
-│  │  ├─ __init__.py
-│  │  ├─ database.db
-│  │  └─ model.py
-│  ├─ modules
-│  │  ├─ __init__.py
-│  │  ├─ controller.py
-│  │  ├─ dir_maker.py
-│  │  ├─ email_sender.py
-│  │  ├─ to_pdf.py
-│  │  └─ web_driver.py
-│  └─ view
-│     ├─ __init__.py
-│     ├─ add_page.kv
-│     ├─ app.py
-│     ├─ capture_menu.kv
-│     ├─ database.kv
-│     ├─ fast_flow.kv
-│     ├─ resources
-│     │  ├─ background
-│     │  │  ├─ Untitled-1.psd
-│     │  │  ├─ app_bg.png
-│     │  │  ├─ app_bg_1.png
-│     │  │  ├─ app_bg_2.png
-│     │  │  ├─ app_bg_3.png
-│     │  │  └─ app_bg_4.png
-│     │  ├─ buttons
-│     │  │  ├─ 5364002.jpg
-│     │  │  ├─ 5367303.ai
-│     │  │  ├─ 5367305.eps
-│     │  │  ├─ 5367305.psd
-│     │  │  ├─ Dark_green.png
-│     │  │  ├─ Dark_green_normal.png
-│     │  │  ├─ Dark_red.png
-│     │  │  ├─ Dark_red_normal.png
-│     │  │  ├─ Fonts.txt
-│     │  │  ├─ Light_blue.png
-│     │  │  ├─ Light_blue_normal.png
-│     │  │  ├─ Light_green.png
-│     │  │  ├─ Light_green_normal.png
-│     │  │  ├─ Light_orange.png
-│     │  │  ├─ Light_orange_normal.png
-│     │  │  ├─ Light_red.png
-│     │  │  ├─ Light_red_normal.png
-│     │  │  ├─ app_bg.png
-│     │  │  └─ flat-design-cta-button-collection.zip
-│     │  └─ icons
-│     │     └─ 1260673.png
-│     └─ xbot.kv
-├─ README.md
-└─ gifs
+│  │  ├─ DB.py
+│  │  ├─ account_model.py
+│  │  ├─ all_models.py
+│  │  ├─ common
+│  │  │  └─ base_mixin.py
+│  │  ├─ features
+│  │  │  └─ searching.py
+│  │  ├─ logs_model.py
+│  │  ├─ page_model.py
+│  │  ├─ reset_pass_model.py
+│  │  ├─ schedule_model.py
+│  │  ├─ screenshot_model.py
+│  │  └─ user_model.py
+│  ├─ scripts
+│  │  └─ schedules.py
+│  ├─ server.py
+│  └─ service
+│     ├─ bots
+│     │  ├─ __init__.py
+│     │  ├─ base.py
+│     │  ├─ capture_bot.py
+│     │  └─ send_bot.py
+│     ├─ scraper
+│     │  ├─ ad_capture.py
+│     │  └─ web_driver.py
+│     └─ utils
+│        ├─ dir_maker.py
+│        ├─ email_sender.py
+│        └─ to_pdf.py
+└─ README.md
 ```
 ©generated by [Project Tree Generator](https://woochanleee.github.io/project-tree-generator)
