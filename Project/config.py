@@ -5,6 +5,7 @@ from datetime import timedelta
 class DevelopmentConfig:
 	TESTING = True
 	DEBUG = True
+	TEMPLATES_AUTO_RELOAD = True
 	ENV = "development"
 	JSON_SORT_KEYS = False
 	JWT_SECRET_KEY = os.environ["JWT_SECRET"]
@@ -14,6 +15,7 @@ class DevelopmentConfig:
 	JWT_COOKIE_SAMESITE = "Strict"
 	JWT_ACCESS_COOKIE_NAME = "jwt"
 	JWT_COOKIE_CSRF_PROTECT = False
+	REDIS_URL = "redis://localhost"
 
 
 class ProductConfig:
