@@ -10,6 +10,7 @@ from Project.model.DB import Session
 from Project.service.bots import EmailBot
 from Project.app.Async.callbacks import on_failed_job
 from Project.app.Async.queues import filter_accounts_from_schedule_queue
+from Project.app.Async.utils import send_event
 
 
 @job("emails", connection=redis_conn, timeout="1m", failure_ttl="168h")
@@ -32,7 +33,7 @@ def send_email(initial_list, user=None):
         # Commit DB Session
         db_sess.commit()
 
-        return status
+        return send_event(status)
     except Exception as e:
         db_sess.rollback()
         raise e

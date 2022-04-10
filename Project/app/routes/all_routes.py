@@ -5,9 +5,13 @@ from Project.app.routes.api.user_route import *
 from Project.app.routes.api.auth_route import *
 from Project.app.routes.api.me_route import *
 from Project.app.routes.api.schedule_route import *
+from Project.app.routes.api.event_route import *
+
+# View Routers
+from Project.app.routes.view.home import *
 
 
-def register_routes(application, prefix=None):
+def register_api_routes(application, prefix=None):
     # registering API routes
 
     # No JWT token required
@@ -18,6 +22,9 @@ def register_routes(application, prefix=None):
                              view_func=ResetPassRouter.as_view("reset_route"))
     application.add_url_rule(f"{prefix}/logout/",
                              view_func=LogoutRouter.as_view("logout_route"))
+
+    application.add_url_rule(f"{prefix}/stream/event/",
+                             view_func=EventRouter.as_view("event_route"))
 
     # JWT token required
     application.add_url_rule(f"{prefix}/accounts/",
@@ -45,3 +52,9 @@ def register_routes(application, prefix=None):
     application.add_url_rule(f"{prefix}/users/", view_func=UsersRouter.as_view("users_route"))
     application.add_url_rule(f"{prefix}/users/<int:id>",
                              view_func=UserRouter.as_view("user_route"))
+
+
+def register_view_routes(appplication):
+    # Register routes for the frontend
+
+    appplication.add_url_rule("/", view_func=HomeViewRouter.as_view("home_view_route"))

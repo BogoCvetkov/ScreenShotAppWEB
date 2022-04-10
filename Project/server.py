@@ -4,6 +4,7 @@ load_dotenv( ".env" )
 
 from Project.config import DevelopmentConfig, ProductConfig
 from Project.app.app import create_app, return_to_db_pool
+from waitress import serve
 
 if os.environ["ENV"] == "development":
 	conf_file = DevelopmentConfig
@@ -16,4 +17,4 @@ app = create_app( conf_file )
 app.teardown_appcontext( return_to_db_pool )
 
 if __name__ == "__main__":
-	app.run()
+	serve(app,port=5000)
