@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello</h1>
+    <h2>BROOOOOO</h2>
+    <p>{{ url_for('sse.stream') }}</p>
+    <div class="test">
+        
+    </div>
+<h3></h3>
+<script >
+    console.log("Running")
+    const el = document.querySelector(".test")
+
+    const source= new EventSource("/api/stream/")
+    source.addEventListener("workers",(event)=>{
+        console.log(event.data)
+        let data = JSON.parse(event.data)
+        let newEl = document.createElement("div")
+        newEl.textContent = data.message
+        el.append(newEl)
+    },false)
+    source.addEventListener("error", (event)=>{
+       console.log(event)
+    },false)
+</script>
+</body>
+</html>
