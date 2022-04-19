@@ -14,7 +14,7 @@ def filter_sort(model, queries):
                 stmt = stmt.where(
                     model.__dict__[col].ilike(f"%{queries[col]}%"))
             if isinstance(model.__dict__[col].type, Integer):
-                # expression example - ">,5", "==,5" etc..
+                # expression example - ">,5", "=,5" etc..
                 exp = queries[col].split(",")
                 if operatorMap.get(exp[0], None):
                     stmt = stmt.where(
@@ -23,7 +23,7 @@ def filter_sort(model, queries):
             if isinstance(model.__dict__[col].type, DateTime):
                 # expression example - ">,date", "<,date"
                 exp = queries[col].split(",")
-                date = datetime.fromtimestamp(float(exp[1]))
+                date = datetime.fromtimestamp(round(int(exp[1])))
                 if operatorMap.get(exp[0], None):
                     stmt = stmt.where(
                         operatorMap[exp[0]](

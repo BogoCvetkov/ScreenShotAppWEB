@@ -17,7 +17,7 @@ def return_to_db_pool(e=None):
 
 # App factory pattern
 def create_app(config_filename):
-    app = Flask(__name__, template_folder="views")
+    app = Flask(__name__, template_folder="views",static_folder='public')
     app.config.from_object(config_filename)
 
     # Register JWT verification

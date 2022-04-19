@@ -4,31 +4,208 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello</h1>
-    <h2>BROOOOOO</h2>
-    <p>{{ url_for('sse.stream') }}</p>
-    <div class="test">
-        
-    </div>
-<h3></h3>
-<script >
-    console.log("Running")
-    const el = document.querySelector(".test")
-
-    const source= new EventSource("/api/stream/")
-    source.addEventListener("workers",(event)=>{
-        console.log(event.data)
-        let data = JSON.parse(event.data)
-        let newEl = document.createElement("div")
-        newEl.textContent = data.message
-        el.append(newEl)
-    },false)
-    source.addEventListener("error", (event)=>{
-       console.log(event)
-    },false)
-</script>
+    <container class="main">
+        <div class="main-col-1">HELLLLLLLLLLO</div>
+        <div class="main-col-2">
+            <div class = "main-col-2__info_boxes">
+                <div class="wrapper box_1">
+                    <div class="info_box">
+                        <img src="{{ url_for('static', filename='img/robot_1.png') }}">
+                        <p class="info_box_heading">SCHEDULE BOT</p>
+                        <div class ="info_box-stats">
+                            <div class="stat_wrapper">
+                               <img src="{{ url_for('static', filename='img/search-3076.png') }}">
+                               <p>Hello</p>
+                            </div>
+                            <div class="stat_wrapper">
+                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
+                               <p>Hello</p>
+                            </div>
+                            <div class="stat_wrapper">
+                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
+                               <p>Hello</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper box_2">
+                    <div class="info_box">
+                        <img src="{{ url_for('static', filename='img/robot_2_orange.png') }}">
+                        <p class="info_box_heading">SCHEDULE BOT</p>
+                        <div class ="info_box-stats">
+                            <div class="stat_wrapper">
+                               <img src="{{ url_for('static', filename='img/search-3076.png') }}">
+                               <p>Hello</p>
+                            </div>
+                            <div class="stat_wrapper">
+                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
+                               <p>Hello</p>
+                            </div>
+                            <div class="stat_wrapper">
+                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
+                               <p>Hello</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-col-2__nav_div">
+                <div class="tab tab_active" id="tab_accounts">Accounts</div>
+                <div class="tab" id="tab_assets">Assets</div>
+            </div>
+            <div class="main-col-2__actions_div">
+                <div class="actions_div__btn_wrapper">
+                    <btn id="capture">+ New Account</btn> 
+                    <btn id="edit">Edit</btn>
+                    <btn id="delete"> Delete</btn>     
+                </div>
+                <div class="actions_div__search_field">
+                    <div class="wrapper">
+                        <img class="icon btn--search" src="{{ url_for('static', filename='img/search-3076.png') }}">
+                        <input id="search" type="text">
+                    </div>
+                </div>
+                <div class="drop-down">
+                    <img class="icon btn--filter btn--dropdown" id="filterBtn" src="{{ url_for('static', filename='img/filter.png') }}">
+                    <div class="icon btn--filter__counter hidden" id="filterCounter"></div>
+                    <!-- Dropdown Filter Menu -->
+                    <div class="filter__container hidden">
+                        <div id="filterMenu">
+                            <!-- <div class="filter__row">
+                                <div >
+                                    <label>Field</label>
+                                    <select id="filter--field">
+                                        <option value="email">Email Account</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label >Operator</label>
+                                    <select id="filter--operator">
+                                        <option value=">">gt</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Value</label>
+                                    <input id="filter--value" placeholder="Filter value">
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="wrapper__btn--filter">
+                         <btn class="btn--add-filter" id="add-filter">+ ADD FILTER</btn>
+                         <btn class="btn--clear-filter" id ="clear-filters">CLEAR FILTERS</btn>
+                        </div>
+                        
+                    </div>    
+                </div>
+            </div>
+            <div class= "table_div__wrapper">
+                <div class="main-col-2__table_div">
+                    <table class = "accounts--table">
+                        <thead>
+                            <th>ID</th>
+                            <th>Account Email</th>
+                            <th>Account Name</th>
+                            <th>Status</th>
+                            <th>Last screenshot status</th>
+                            <th>Last email status</th>
+                            <th>Last screenshot date</th>
+                            <th>Last email date</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>On</td>
+                                <td>Skoda</td>
+                                <td>Emailing</td>
+                                <td>Success</td>
+                                <td>Failed</td>
+                                <td>04/04/2022</td>
+                                <td>04/04/2022</td>
+                                <td>Link</td>
+                            </tr>
+                            <tr>
+                                <td>On</td>
+                                <td>Skoda</td>
+                                <td>Emailing</td>
+                                <td>Success</td>
+                                <td>Failed</td>
+                                <td>04/04/2022</td>
+                                <td>04/04/2022</td>
+                                <td>Link</td>
+                            </tr>
+                            <tr>
+                                <td>On</td>
+                                <td>Skoda</td>
+                                <td>Emailing</td>
+                                <td>Success</td>
+                                <td>Failed</td>
+                                <td>04/04/2022</td>
+                                <td>04/04/2022</td>
+                                <td>Link</td>
+                            </tr>
+                            <tr>
+                                <td>On</td>
+                                <td>Skoda</td>
+                                <td>Emailing</td>
+                                <td>Success</td>
+                                <td>Failed</td>
+                                <td>04/04/2022</td>
+                                <td>04/04/2022</td>
+                                <td>Link</td>
+                            </tr>
+                            <tr>
+                                <td>On</td>
+                                <td>Skoda</td>
+                                <td>Emailing</td>
+                                <td>Success</td>
+                                <td>Failed</td>
+                                <td>04/04/2022</td>
+                                <td>04/04/2022</td>
+                                <td>Link</td>
+                            </tr>
+                            <tr>
+                                <td>On</td>
+                                <td>Skoda</td>
+                                <td>Emailing</td>
+                                <td>Success</td>
+                                <td>Failed</td>
+                                <td>04/04/2022</td>
+                                <td>04/04/2022</td>
+                                <td>Link</td>
+                            </tr>
+                            <tr>
+                                <td>On</td>
+                                <td>Skoda</td>
+                                <td>Emailing</td>
+                                <td>Success</td>
+                                <td>Failed</td>
+                                <td>04/04/2022</td>
+                                <td>04/04/2022</td>
+                                <td>Link</td>
+                            </tr>
+                
+                        </tbody>
+                    </table>
+                </div>
+                <table>
+                <tfooter>
+                    <tf>Summary </tf>
+                    <tf>Accounts <span>60</span></tf>
+                    <tf>Emailing</tf>
+                    <tf>Success</tf>
+                    <tf>Failed</tf>
+                </tfooter>
+            </div>
+        </div>
+    </container>
+<script src="{{ url_for('static', filename='js/controller/controller.js') }}" type="module"></script>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 </html>
