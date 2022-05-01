@@ -8,16 +8,3 @@ class LogRouter( MethodView ):
 
 	def get( self ):
 		return log_controller.get_all_logs()
-
-# class ScheduleRouter( MethodView ):
-#
-# 	decorators = [verify_jwt]
-#
-# 	def get( self, id ):
-# 		return schedule_controller.get_schedule( id )
-#
-# 	def patch( self, id ):
-# 		return schedule_controller.update_schedule( id )
-#
-# 	def delete( self, id ):
-# 		return schedule_controller.delete_schedule( id )
