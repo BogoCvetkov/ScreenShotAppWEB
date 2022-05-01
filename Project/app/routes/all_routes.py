@@ -6,6 +6,7 @@ from Project.app.routes.api.auth_route import *
 from Project.app.routes.api.me_route import *
 from Project.app.routes.api.schedule_route import *
 from Project.app.routes.api.event_route import *
+from Project.app.routes.api.log_route import *
 
 # View Routers
 from Project.app.routes.view.home import *
@@ -47,6 +48,8 @@ def register_api_routes(application, prefix=None):
                              view_func=MeRouter.as_view("me_route"))
     application.add_url_rule(f"{prefix}/reset-my-pass/",
                              view_func=ResetLoggedUserPassRouter.as_view("reset_my_pass_route"))
+
+    application.add_url_rule(f"{prefix}/logs/", view_func=LogRouter.as_view("logs_route"))
 
     # /users/ is restricted to admins only
     application.add_url_rule(f"{prefix}/users/", view_func=UsersRouter.as_view("users_route"))
