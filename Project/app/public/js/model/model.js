@@ -3,6 +3,9 @@ import { APIResource } from "./apiFetch.js";
 // Data class used for transforming the api json response
 class Data {
   constructor(data) {
+    // Getting resource by ID Param doesn't return an array, so we make it one.
+    if (data.data instanceof Array === false) data.data = [data.data];
+    console.log(data);
     this.data = data;
   }
 
@@ -18,12 +21,15 @@ class Data {
         el["last_emailed"] = new Date(
           el["last_emailed"]
         ).toLocaleString();
+
+      if (el["date"])
+        el["date"] = new Date(el["date"]).toLocaleString();
     }
     return this.data;
   }
 }
 
-// Uses and instance of APIResource to fetch data
+// Uses an instance of APIResource to fetch data
 export class Model {
   constructor(apiResource) {
     this.api = apiResource;

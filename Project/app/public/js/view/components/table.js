@@ -1,13 +1,32 @@
+import { HTMlMarkup } from "./markup.js";
+
+// This module contains the components of the main table
+
 export class Table {
   static createRow(fields, data) {
     let row = document.createElement("tr");
     row.dataset.id = data["id"];
+    row.classList.add("striped");
+    // Append a checkbox to every row
+    let checkTd = document.createElement("td");
+    checkTd.append(this._newCheckBox());
+    checkTd.firstElementChild.dataset.type = "selected--field";
+    row.append(checkTd);
 
+    // Append the data to the row
     for (let field of fields) {
       let td = document.createElement("td");
       td.dataset.field = field[0];
       td.dataset.type = field[1];
-      td.textContent = data[field[0]];
+      // Adding a slider for the active field
+      if (field[0] === "active") {
+        td.insertAdjacentHTML(
+          "beforeend",
+          HTMlMarkup.statusSlider(data[field[0]])
+        );
+      } else {
+        td.textContent = data[field[0]];
+      }
       row.append(td);
     }
 
@@ -16,11 +35,18 @@ export class Table {
 
   static createTableColumns(columns) {
     const head = document.createElement("thead");
+    // Append a checkbox to table head
+    let checkTh = document.createElement("th");
+    checkTh.append(this._newCheckBox());
+    checkTh.firstElementChild.id = "selectAll";
+    head.append(checkTh);
+
     for (let col of columns) {
       let th = document.createElement("th");
       th.textContent = col;
       head.append(th);
     }
+
     return head;
   }
 
@@ -74,5 +100,12 @@ export class Table {
     filterRow.append(div1, div2, div3);
 
     return filterRow;
+  }
+
+  static _newCheckBox() {
+    const checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.classList.add("checkbox");
+    return checkBox;
   }
 }

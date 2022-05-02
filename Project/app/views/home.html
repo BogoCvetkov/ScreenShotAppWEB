@@ -63,8 +63,8 @@
             </div>
             <div class="main-col-2__actions_div">
                 <div class="actions_div__btn_wrapper">
-                    <btn id="capture">+ New Account</btn> 
-                    <btn id="edit">Edit</btn>
+                    <btn id="addNew">+ New Account</btn> 
+                    <btn id="edit" class ="disabled">Edit</btn>
                     <btn id="delete"> Delete</btn>     
                 </div>
                 <div class="actions_div__search_field">
@@ -110,10 +110,10 @@
                 <div class="main-col-2__table_div">
                     <table class = "accounts--table">
                         <thead>
+                            <th>Off/On</th>
                             <th>ID</th>
                             <th>Account Email</th>
                             <th>Account Name</th>
-                            <th>Status</th>
                             <th>Last screenshot status</th>
                             <th>Last email status</th>
                             <th>Last screenshot date</th>
@@ -121,7 +121,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>On</td>
+                                <td></td>
                                 <td>Skoda</td>
                                 <td>Emailing</td>
                                 <td>Success</td>
@@ -195,17 +195,176 @@
                     </table>
                 </div>
                 <table>
-                <tfooter>
-                    <tf>Summary </tf>
-                    <tf>Accounts <span>60</span></tf>
-                    <tf>Emailing</tf>
-                    <tf>Success</tf>
-                    <tf>Failed</tf>
-                </tfooter>
+                    <tfooter>
+                        <tf>Summary </tf>
+                        <tf>Accounts <span>60</span></tf>
+                        <tf>Emailing</tf>
+                        <tf>Success</tf>
+                        <tf>Failed</tf>
+                    </tfooter>
+                </table>
             </div>
         </div>
     </container>
-<script src="{{ url_for('static', filename='js/controller/controller.js') }}" type="module"></script>
-<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+    <!-- Create Menu -->
+    <!-- <div class="create__wrapper top--layer">
+        <div class="create--resource__window">
+            <div class="close-X">X</div>
+            <h3>Create Account</h3>
+            <div class="create--form">
+                <div class="resource--field">
+                    <p>Account Name</p>
+                    <input type="text">
+                </div>
+                <div class="resource--field">
+                    <p>Account Email</p>
+                    <input type="text">
+                </div>
+                <btn id="create"> CREATE</btn> 
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- EDIT MENU -->
+
+    <div class="update__wrapper ">
+        <div class="update--resource__window">
+            
+            <!-- Switch -->
+            <div class="resource__menu--header">
+                <div class="close-X">X</div>
+                <label class="switch">
+                    <input type="checkbox" name="active" data-selector="resource--field" checked>
+                    <span class="slider round"></span>
+                </label>
+            
+            </div>
+            <h3>UPDATE ACCOUNT</h3>
+            <div class="update--form">
+                <div class="resource--field">
+                    <p>Account Name</p>
+                    <input name="name" data-input="true" data-selector="resource--field" type="text">
+                </div>
+                <div class="resource--field">
+                    <p>Account Email</p>
+                    <input name="email" data-input="true" data-selector="resource--field" type="text">
+                </div>
+            </div>
+            <div class="resource--field field__email--body">
+                <p>Email Body</p>
+                <textarea name="email_body" data-input="true" data-selector="resource--field"  type="text"></textarea>
+            </div>
+            <btn id="update"> Update</btn> 
+
+            <div class="resource__menu-side">
+                <div class = "stat__section section">
+                    <h3 class="heading-first">STATS</h3>
+                    <div class="resource__stat--wrapper">
+                        <div class = "resource__stat">
+                            <h4> Last Email Status</h4>
+                            <div class="dot--container" name="last_email_fail">   
+                            </div>
+                        </div>
+                        <div class = "resource__stat">
+                            <h4> Last Screenshot Status</h4>
+                            <div class="dot--container" name="last_scrape_fail">
+                            </div>
+                        </div>
+                        <div class = "resource__stat">
+                            <h4> Last Screenshot Date</h4>
+                            <p name="last_scraped"> 10/24/56</p>
+                        </div>
+                        <div class = "resource__stat">
+                            <h4> Last Email Date</h4>
+                            <p name="last_emailed"> 10/24/56</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="action__section section">
+                    <h3 class = "heading-second">ACTIONS</h3>
+                    <div class = "resource__actions--wrapper">
+                        <div class = "resource__action icon" id = "lastPDF">
+                            <img src="{{ url_for('static', filename='img/pdf.png') }}" >
+                            <p>Last PDF</p>
+                        </div>
+                        <div class = "resource__action icon" id="captureAcc">
+                            <img src="{{ url_for('static', filename='img/screenshot.png') }}" >
+                            <p>Capture</p>
+                        </div>
+                        <div class = "resource__action icon" id="sendEmail">
+                            <img src="{{ url_for('static', filename='img/email.png') }}" >
+                            <p>Send Email</p>
+                        </div>
+                        <div class = "resource__action icon" id="checkLogs">
+                            <img src="{{ url_for('static', filename='img/logs.png') }}" >
+                            <p>Check Logs</p>
+                        </div>
+                        <div class = "resource__action icon" id="checkSchedule">
+                            <img src="{{ url_for('static', filename='img/calendar.png') }}" >
+                            <p>Check Schedule</p>
+                        </div>
+                        <div class = "resource__action icon" id="addSchedule">
+                            <img src="{{ url_for('static', filename='img/calendar_add.png') }}" >
+                            <p>Add Schedule</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="delete__section section">
+                    <btn id="deleteResource"> Delete</btn>     
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs Table -->
+    <div class="logs__wrapper top--layer hidden ">
+        <div class="account-logs-screen">
+            <div class="close-wrapper">
+                <h3>ACTIVITY LOGS</h3>
+                <div class="close-X">X</div>
+            </div>
+            <table class = "account--logs-table">
+                <thead>
+                    <th>Started by</th>
+                    <th>Info</th>
+                    <th>Date</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Create Schedule -->
+    <!-- <div class="create__wrapper top--layer ">
+        <div class="create--resource__window">
+            <div class="close-X">X</div>
+            <h3>Create Schedule</h3>
+            <div class="create--form">
+                <div class="resource--field">
+                    <p>Day</p>
+                    <select name="day">
+                     <option value='0'>Monday</option>
+                     <option value='1'>Tuesday</option>
+                     <option value='2'>Wednesday</option>
+                     <option value='3'>Thursday</option>
+                     <option value='4'>Friday</option>
+                     <option value='5'>Saturday</option>
+                     <option value='6'>Sunday</option>
+                    </select>
+                </div>
+                <div class="resource--field">
+                    <p>Hour</p>
+                    <input type="number" name="hour">
+                </div>
+                <btn id="create"> CREATE</btn> 
+            </div>
+        </div>
+    </div>  -->
+
+    <script src="{{ url_for('static', filename='js/controller/controller.js') }}" type="module"></script>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 </html>

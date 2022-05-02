@@ -10,6 +10,7 @@ function createAPIDict(prefix) {
     schedules: `${prefix}/schedules/`,
     services: `${prefix}/service/`,
     users: `${prefix}/users/`,
+    logs: `${prefix}/logs/`,
   };
 
   return apiEndpointsDict;

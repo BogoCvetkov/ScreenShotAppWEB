@@ -1,9 +1,12 @@
-import { Table } from "./components/tables.js";
+import { Table } from "./components/table.js";
+
+// This module contains the VIEW of the MVC- in particular the view for the table on the main page
 
 // A base class for declaring the methods used in the subclasses (works as an Abstract Base Class)
 class TableView {
   static container = document.querySelector(".main-col-2__table_div");
 
+  // Fill the data in the table
   static updateTable(data) {
     const tableBody = this.container.querySelector("tbody");
     tableBody.innerHTML = "";
@@ -13,6 +16,7 @@ class TableView {
     }
   }
 
+  // Create the Table
   static renderTable() {
     const table = document.createElement("table");
     table.classList.add(this.tableClass);
@@ -42,10 +46,10 @@ class TableView {
 export class AccountsTableView extends TableView {
   static tableClass = ".accounts--table";
   static fields = [
+    ["active", "bool"],
     ["id", "int"],
     ["email", "str"],
     ["name", "str"],
-    ["active", "bool"],
     ["last_scrape_fail", "bool"],
     ["last_email_fail", "bool"],
     ["last_scraped", "date"],
@@ -53,10 +57,10 @@ export class AccountsTableView extends TableView {
   ];
 
   static columns = [
+    "Active",
     "ID",
     "Account Email",
     "Account Name",
-    "Active",
     "Last screenshot fail",
     "Last email fail",
     "Last screenshot date",

@@ -1,10 +1,13 @@
 import { apiEndpointMap } from "../config.js";
 
+// Class for fetching the Api. It's not being used directly, but inside the model class.
+// Every instance is a different resource./accounts,pages,users, etc./
 export class APIResource {
   constructor(resource) {
     this.apiEndpoint = apiEndpointMap[resource];
   }
 
+  // Options parameter contains the url params and query
   async get(options = undefined) {
     let url = this.apiEndpoint;
     if (options && options.url_param !== undefined)
@@ -19,6 +22,7 @@ export class APIResource {
     }
   }
 
+  // Creating resource
   async post(body = undefined, options = undefined) {
     let url = this.apiEndpoint;
     if (options && options.query !== undefined)
@@ -31,6 +35,7 @@ export class APIResource {
     }
   }
 
+  // Updating a resource
   async patch(id, body = undefined) {
     let url = `${this.apiEndpoint}${id}`;
     try {
@@ -41,6 +46,7 @@ export class APIResource {
     }
   }
 
+  // Deleting a resource
   async delete(id) {
     let url = `${this.apiEndpoint}${id}`;
     try {
