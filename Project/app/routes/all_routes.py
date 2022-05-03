@@ -1,5 +1,6 @@
 from Project.app.routes.api.account_route import *
 from Project.app.routes.api.page_route import *
+from Project.app.routes.api.keyword_route import *
 from Project.app.routes.api.service_route import *
 from Project.app.routes.api.user_route import *
 from Project.app.routes.api.auth_route import *
@@ -36,6 +37,10 @@ def register_api_routes(application, prefix=None):
     application.add_url_rule(f"{prefix}/pages/", view_func=PagesRouter.as_view("pages_route"))
     application.add_url_rule(f"{prefix}/pages/<int:id>",
                              view_func=PageRouter.as_view("page_route"))
+
+    application.add_url_rule(f"{prefix}/keywords/", view_func=KeywordsRouter.as_view("keywords_route"))
+    application.add_url_rule(f"{prefix}/keywords/<int:id>",
+                             view_func=KeywordRouter.as_view("keyword_route"))
 
     application.add_url_rule(f"{prefix}/schedules/", view_func=SchedulesRouter.as_view("schedules_route"))
     application.add_url_rule(f"{prefix}/schedules/<int:id>",

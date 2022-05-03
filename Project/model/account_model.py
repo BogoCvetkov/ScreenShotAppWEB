@@ -20,6 +20,10 @@ class AccountModel( Base, BaseMixin ):
 	                      cascade="all,delete-orphan",
 	                      backref="account",
 	                      passive_deletes=True )
+	keywords = relationship("KeywordModel",
+						 cascade="all,delete-orphan",
+						 backref="account",
+						 passive_deletes=True)
 	screenshot = relationship( "ScreenShotModel", uselist=False, backref="account",
 	                           cascade="all,delete-orphan", passive_deletes=True )
 	logs = relationship( "LogModel", backref="account",

@@ -7,3 +7,4 @@ from Project.model.logs_model import LogModel
 from Project.model.reset_pass_model import ResetPassModel
 from Project.model.screenshot_model import ScreenShotModel
 from Project.model.schedule_model import ScheduleModel
+from Project.model.keyword_model import KeywordModel
