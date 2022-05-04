@@ -7,6 +7,7 @@ function createAPIDict(prefix) {
     logOut: `${prefix}/logout`,
     me: `${prefix}/me/`,
     pages: `${prefix}/pages/`,
+    keywords: `${prefix}/keywords/`,
     schedules: `${prefix}/schedules/`,
     services: `${prefix}/service/`,
     users: `${prefix}/users/`,

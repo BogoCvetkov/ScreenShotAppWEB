@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,31 +8,34 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
+
 <body>
     <container class="main">
         <div class="main-col-1">HELLLLLLLLLLO</div>
         <div class="main-col-2">
-            <div class = "main-col-2__info_boxes">
+            <div class="main-col-2__info_boxes">
                 <div class="wrapper box_1">
                     <div class="info_box">
                         <img src="{{ url_for('static', filename='img/robot_1.png') }}">
                         <p class="info_box_heading">SCHEDULE BOT</p>
-                        <div class ="info_box-stats">
+                        <div class="info_box-stats">
                             <div class="stat_wrapper">
-                               <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                               <p>Hello</p>
+                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
+                                <p>Hello</p>
                             </div>
                             <div class="stat_wrapper">
                                 <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                               <p>Hello</p>
+                                <p>Hello</p>
                             </div>
                             <div class="stat_wrapper">
                                 <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                               <p>Hello</p>
+                                <p>Hello</p>
                             </div>
                         </div>
                     </div>
@@ -40,32 +44,39 @@
                     <div class="info_box">
                         <img src="{{ url_for('static', filename='img/robot_2_orange.png') }}">
                         <p class="info_box_heading">SCHEDULE BOT</p>
-                        <div class ="info_box-stats">
+                        <div class="info_box-stats">
                             <div class="stat_wrapper">
-                               <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                               <p>Hello</p>
+                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
+                                <p>Hello</p>
                             </div>
                             <div class="stat_wrapper">
                                 <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                               <p>Hello</p>
+                                <p>Hello</p>
                             </div>
                             <div class="stat_wrapper">
                                 <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                               <p>Hello</p>
+                                <p>Hello</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="main-col-2__nav_div">
-                <div class="tab tab_active" id="tab_accounts">Accounts</div>
-                <div class="tab" id="tab_assets">Assets</div>
+                <div class="tab tab_active" id="tab_accounts" data-resource="accounts">Accounts</div>
+                <div class="tab" id="tab_assets" data-resource="pages">Pages</div>
+                <div class="tab" id="tab_assets" data-resource="keywords">Keywords</div>
             </div>
             <div class="main-col-2__actions_div">
                 <div class="actions_div__btn_wrapper">
-                    <btn id="addNew">+ New Account</btn> 
-                    <btn id="edit" class ="disabled">Edit</btn>
-                    <btn id="delete"> Delete</btn>     
+                    <btn id="addNew">+ New Account</btn>
+                    <btn id="edit" class="disabled">Edit</btn>
+                    <div class="drop-down">
+                        <btn id="bulkActions">Bulk Actions ⮟</btn>
+                        <div class="btn_bulk__container hidden ">
+                            <btn id="pause"> Pause</btn>
+                            <btn id="activate"> Activate</btn>
+                        </div>
+                    </div>
                 </div>
                 <div class="actions_div__search_field">
                     <div class="wrapper">
@@ -74,7 +85,8 @@
                     </div>
                 </div>
                 <div class="drop-down">
-                    <img class="icon btn--filter btn--dropdown" id="filterBtn" src="{{ url_for('static', filename='img/filter.png') }}">
+                    <img class="icon btn--filter btn--dropdown" id="filterBtn"
+                        src="{{ url_for('static', filename='img/filter.png') }}">
                     <div class="icon btn--filter__counter hidden" id="filterCounter"></div>
                     <!-- Dropdown Filter Menu -->
                     <div class="filter__container hidden">
@@ -99,100 +111,61 @@
                             </div> -->
                         </div>
                         <div class="wrapper__btn--filter">
-                         <btn class="btn--add-filter" id="add-filter">+ ADD FILTER</btn>
-                         <btn class="btn--clear-filter" id ="clear-filters">CLEAR FILTERS</btn>
+                            <btn class="btn--add-filter" id="add-filter">+ ADD FILTER</btn>
+                            <btn class="btn--clear-filter" id="clear-filters">CLEAR FILTERS</btn>
                         </div>
-                        
-                    </div>    
+
+                    </div>
                 </div>
             </div>
-            <div class= "table_div__wrapper">
+            <div class="table_div__wrapper">
                 <div class="main-col-2__table_div">
-                    <table class = "accounts--table">
+
+                    <!-- Accounts table -->
+                    <table class="accounts--table">
                         <thead>
-                            <th>Off/On</th>
+                            <th><input type="checkbox" class="checkbox select-all"></th>
+                            <th>Active</th>
                             <th>ID</th>
                             <th>Account Email</th>
                             <th>Account Name</th>
-                            <th>Last screenshot status</th>
-                            <th>Last email status</th>
+                            <th>Last screenshot fail</th>
+                            <th>Last email fail</th>
                             <th>Last screenshot date</th>
                             <th>Last email date</th>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td>Skoda</td>
-                                <td>Emailing</td>
-                                <td>Success</td>
-                                <td>Failed</td>
-                                <td>04/04/2022</td>
-                                <td>04/04/2022</td>
-                                <td>Link</td>
-                            </tr>
-                            <tr>
-                                <td>On</td>
-                                <td>Skoda</td>
-                                <td>Emailing</td>
-                                <td>Success</td>
-                                <td>Failed</td>
-                                <td>04/04/2022</td>
-                                <td>04/04/2022</td>
-                                <td>Link</td>
-                            </tr>
-                            <tr>
-                                <td>On</td>
-                                <td>Skoda</td>
-                                <td>Emailing</td>
-                                <td>Success</td>
-                                <td>Failed</td>
-                                <td>04/04/2022</td>
-                                <td>04/04/2022</td>
-                                <td>Link</td>
-                            </tr>
-                            <tr>
-                                <td>On</td>
-                                <td>Skoda</td>
-                                <td>Emailing</td>
-                                <td>Success</td>
-                                <td>Failed</td>
-                                <td>04/04/2022</td>
-                                <td>04/04/2022</td>
-                                <td>Link</td>
-                            </tr>
-                            <tr>
-                                <td>On</td>
-                                <td>Skoda</td>
-                                <td>Emailing</td>
-                                <td>Success</td>
-                                <td>Failed</td>
-                                <td>04/04/2022</td>
-                                <td>04/04/2022</td>
-                                <td>Link</td>
-                            </tr>
-                            <tr>
-                                <td>On</td>
-                                <td>Skoda</td>
-                                <td>Emailing</td>
-                                <td>Success</td>
-                                <td>Failed</td>
-                                <td>04/04/2022</td>
-                                <td>04/04/2022</td>
-                                <td>Link</td>
-                            </tr>
-                            <tr>
-                                <td>On</td>
-                                <td>Skoda</td>
-                                <td>Emailing</td>
-                                <td>Success</td>
-                                <td>Failed</td>
-                                <td>04/04/2022</td>
-                                <td>04/04/2022</td>
-                                <td>Link</td>
-                            </tr>
-                
-                        </tbody>
+                        <tbody></tbody>
                     </table>
+
+                    <!-- Pages Table -->
+
+                    <table class="pages--table hidden">
+                        <thead>
+                            <th><input type="checkbox" class="checkbox select-all"></th>
+                            <th>Active</th>
+                            <th>ID</th>
+                            <th>Page Name</th>
+                            <th>Page ID</th>
+                            <th>Account ID</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <!-- Keywords Table -->
+
+                    <table class="keywords--table hidden">
+                        <thead>
+                            <th><input type="checkbox" class="checkbox select-all"></th>
+                            <th>Active</th>
+                            <th>ID</th>
+                            <th>Keyword</th>
+                            <th>Account ID</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+
+
                 </div>
                 <table>
                     <tfooter>
@@ -206,6 +179,7 @@
             </div>
         </div>
     </container>
+
 
     <!-- Create Menu -->
     <!-- <div class="create__wrapper top--layer">
@@ -227,11 +201,12 @@
     </div> -->
 
 
-    <!-- EDIT MENU -->
+    <!-- EDIT MENU-->
 
-    <div class="update__wrapper ">
-        <div class="update--resource__window">
-            
+    <div class="update__wrapper hidden ">
+        <!-- MENU for ACCOUNTS -->
+        <div class="update--resource__window accounts--resource hidden">
+
             <!-- Switch -->
             <div class="resource__menu--header">
                 <div class="close-X">X</div>
@@ -239,7 +214,7 @@
                     <input type="checkbox" name="active" data-selector="resource--field" checked>
                     <span class="slider round"></span>
                 </label>
-            
+
             </div>
             <h3>UPDATE ACCOUNT</h3>
             <div class="update--form">
@@ -254,69 +229,197 @@
             </div>
             <div class="resource--field field__email--body">
                 <p>Email Body</p>
-                <textarea name="email_body" data-input="true" data-selector="resource--field"  type="text"></textarea>
+                <textarea name="email_body" data-input="true" data-selector="resource--field" type="text"></textarea>
             </div>
-            <btn id="update"> Update</btn> 
+            <btn id="update"> Update</btn>
 
             <div class="resource__menu-side">
-                <div class = "stat__section section">
+                <div class="stat__section section">
                     <h3 class="heading-first">STATS</h3>
                     <div class="resource__stat--wrapper">
-                        <div class = "resource__stat">
+                        <div class="resource__stat">
                             <h4> Last Email Status</h4>
-                            <div class="dot--container" name="last_email_fail">   
+                            <div class="dot--container" name="last_email_fail">
                             </div>
                         </div>
-                        <div class = "resource__stat">
+                        <div class="resource__stat">
                             <h4> Last Screenshot Status</h4>
                             <div class="dot--container" name="last_scrape_fail">
                             </div>
                         </div>
-                        <div class = "resource__stat">
+                        <div class="resource__stat">
                             <h4> Last Screenshot Date</h4>
                             <p name="last_scraped"> 10/24/56</p>
                         </div>
-                        <div class = "resource__stat">
+                        <div class="resource__stat">
                             <h4> Last Email Date</h4>
                             <p name="last_emailed"> 10/24/56</p>
                         </div>
                     </div>
                 </div>
                 <div class="action__section section">
-                    <h3 class = "heading-second">ACTIONS</h3>
-                    <div class = "resource__actions--wrapper">
-                        <div class = "resource__action icon" id = "lastPDF">
-                            <img src="{{ url_for('static', filename='img/pdf.png') }}" >
+                    <h3 class="heading-second">ACTIONS</h3>
+                    <div class="resource__actions--wrapper">
+                        <div class="resource__action icon" id="lastPDF">
+                            <img src="{{ url_for('static', filename='img/pdf.png') }}">
                             <p>Last PDF</p>
                         </div>
-                        <div class = "resource__action icon" id="captureAcc">
-                            <img src="{{ url_for('static', filename='img/screenshot.png') }}" >
+                        <div class="resource__action icon" id="captureAcc">
+                            <img src="{{ url_for('static', filename='img/screenshot.png') }}">
                             <p>Capture</p>
                         </div>
-                        <div class = "resource__action icon" id="sendEmail">
-                            <img src="{{ url_for('static', filename='img/email.png') }}" >
+                        <div class="resource__action icon" id="sendEmail">
+                            <img src="{{ url_for('static', filename='img/email.png') }}">
                             <p>Send Email</p>
                         </div>
-                        <div class = "resource__action icon" id="checkLogs">
-                            <img src="{{ url_for('static', filename='img/logs.png') }}" >
+                        <div class="resource__action icon" id="checkLogs">
+                            <img src="{{ url_for('static', filename='img/logs.png') }}">
                             <p>Check Logs</p>
                         </div>
-                        <div class = "resource__action icon" id="checkSchedule">
-                            <img src="{{ url_for('static', filename='img/calendar.png') }}" >
+                        <div class="resource__action icon" id="checkSchedule">
+                            <img src="{{ url_for('static', filename='img/calendar.png') }}">
                             <p>Check Schedule</p>
                         </div>
-                        <div class = "resource__action icon" id="addSchedule">
-                            <img src="{{ url_for('static', filename='img/calendar_add.png') }}" >
+                        <div class="resource__action icon" id="addSchedule">
+                            <img src="{{ url_for('static', filename='img/calendar_add.png') }}">
                             <p>Add Schedule</p>
                         </div>
                     </div>
                 </div>
                 <div class="delete__section section">
-                    <btn id="deleteResource"> Delete</btn>     
+                    <btn id="deleteResource"> Delete</btn>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENU for PAGES -->
+        <div class="update--resource__window pages--resource hidden">
+
+            <!-- Switch -->
+            <div class="resource__menu--header">
+                <div class="close-X">X</div>
+                <label class="switch">
+                    <input type="checkbox" name="active" data-selector="resource--field" checked>
+                    <span class="slider round"></span>
+                </label>
+
+            </div>
+            <h3>UPDATE PAGE</h3>
+            <div class="update--form">
+                <div class="resource--field">
+                    <p>Page Name</p>
+                    <input name="name" data-input="true" data-selector="resource--field" type="text">
+                </div>
+                <div class="resource--field">
+                    <p>Page Id</p>
+                    <input name="page_id" data-input="true" data-selector="resource--field" type="text">
+                </div>
+            </div>
+            <btn id="update"> Update</btn>
+
+            <div class="resource__menu-side">
+                <div class="stat__section section">
+                    <h3 class="heading-first">PAGE OWNER INFO</h3>
+                    <div class="resource__stat--wrapper">
+                        <div class="resource__stat">
+                            <h4> Last Email Status</h4>
+                            <div class="dot--container" name="last_email_fail">
+                            </div>
+                        </div>
+                        <div class="resource__stat">
+                            <h4> Last Screenshot Status</h4>
+                            <div class="dot--container" name="last_scrape_fail">
+                            </div>
+                        </div>
+                        <div class="resource__stat">
+                            <h4> Account Name</h4>
+                            <p name="acc_name"></p>
+                        </div>
+                        <div class="resource__stat">
+                            <h4> Account Email</h4>
+                            <p name="email"> </p>
+                        </div>
+
+                        <div class="resource__stat">
+                            <h4> Last Screenshot Date</h4>
+                            <p name="last_scraped"></p>
+                        </div>
+                        <div class="resource__stat">
+                            <h4> Last Email Date</h4>
+                            <p name="last_emailed"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="delete__section section">
+                    <btn id="deleteResource"> Delete</btn>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- MENU for KEYWORDS -->
+        <div class="update--resource__window keywords--resource hidden">
+
+            <!-- Switch -->
+            <div class="resource__menu--header">
+                <div class="close-X">X</div>
+                <label class="switch">
+                    <input type="checkbox" name="active" data-selector="resource--field" checked>
+                    <span class="slider round"></span>
+                </label>
+
+            </div>
+            <h3>UPDATE KEYWORD</h3>
+            <div class="update--form">
+                <div class="resource--field">
+                    <p>Keyword</p>
+                    <input name="keyword" data-input="true" data-selector="resource--field" type="text">
+                </div>
+            </div>
+            <btn id="update"> Update</btn>
+
+            <div class="resource__menu-side">
+                <div class="stat__section section">
+                    <h3 class="heading-first">KEYWORD OWNER INFO</h3>
+                    <div class="resource__stat--wrapper">
+                        <div class="resource__stat">
+                            <h4> Last Email Status</h4>
+                            <div class="dot--container" name="last_email_fail">
+                            </div>
+                        </div>
+                        <div class="resource__stat">
+                            <h4> Last Screenshot Status</h4>
+                            <div class="dot--container" name="last_scrape_fail">
+                            </div>
+                        </div>
+                        <div class="resource__stat">
+                            <h4> Account Name</h4>
+                            <p name="acc_name"></p>
+                        </div>
+                        <div class="resource__stat">
+                            <h4> Account Email</h4>
+                            <p name="email"> </p>
+                        </div>
+
+                        <div class="resource__stat">
+                            <h4> Last Screenshot Date</h4>
+                            <p name="last_scraped"></p>
+                        </div>
+                        <div class="resource__stat">
+                            <h4> Last Email Date</h4>
+                            <p name="last_emailed"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="delete__section section">
+                    <btn id="deleteResource"> Delete</btn>
                 </div>
             </div>
         </div>
     </div>
+
+
+
 
     <!-- Logs Table -->
     <div class="logs__wrapper top--layer hidden ">
@@ -325,7 +428,7 @@
                 <h3>ACTIVITY LOGS</h3>
                 <div class="close-X">X</div>
             </div>
-            <table class = "account--logs-table">
+            <table class="account--logs-table">
                 <thead>
                     <th>Started by</th>
                     <th>Info</th>
@@ -364,7 +467,14 @@
         </div>
     </div>  -->
 
+    <!-- MESSAGES DIV -->
+
+    <!-- <div class="message--container msg--success">
+        <p>New Message</p>
+    </div> -->
+
     <script src="{{ url_for('static', filename='js/controller/controller.js') }}" type="module"></script>
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
+
 </html>

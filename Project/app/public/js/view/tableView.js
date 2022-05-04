@@ -8,7 +8,9 @@ class TableView {
 
   // Fill the data in the table
   static updateTable(data) {
-    const tableBody = this.container.querySelector("tbody");
+    const tableBody = this.container.querySelector(
+      `${this.tableClass} tbody`
+    );
     tableBody.innerHTML = "";
     for (let el of data) {
       const row = Table.createRow(this.fields, el);
@@ -16,9 +18,11 @@ class TableView {
     }
   }
 
-  // Create the Table
-  static renderTable() {
+  // Create the Table - I moved the Table Template to the main HTML document
+  // This is not currently being used
+  static renderTable(opts) {
     const table = document.createElement("table");
+    if (opts && opts.hidden) table.classList.add("hidden");
     table.classList.add(this.tableClass);
     const head = Table.createTableColumns(this.columns);
     const body = document.createElement("tbody");
@@ -68,14 +72,35 @@ export class AccountsTableView extends TableView {
   ];
 }
 
-export class AssetsTableView extends TableView {
-  static tableClass = ".assets--table";
+export class PagesTableView extends TableView {
+  static tableClass = ".pages--table";
 
   static fields = [
+    ["active", "bool"],
     ["id", "int"],
     ["name", "str"],
     ["page_id", "str"],
+    ["account_id", "int"],
   ];
 
-  static columns = ["ID", "Asset Name", "Page ID"];
+  static columns = [
+    "Active",
+    "ID",
+    "Page Name",
+    "Page ID",
+    "Account ID",
+  ];
+}
+
+export class KeywordsTableView extends TableView {
+  static tableClass = ".keywords--table";
+
+  static fields = [
+    ["active", "bool"],
+    ["id", "int"],
+    ["keyword", "str"],
+    ["account_id", "int"],
+  ];
+
+  static columns = ["Active", "ID", "Keyword", "Account ID"];
 }

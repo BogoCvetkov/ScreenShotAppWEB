@@ -9,7 +9,7 @@ export class Table {
     row.classList.add("striped");
     // Append a checkbox to every row
     let checkTd = document.createElement("td");
-    checkTd.append(this._newCheckBox());
+    checkTd.append(this._newCheckBox(data["id"]));
     checkTd.firstElementChild.dataset.type = "selected--field";
     row.append(checkTd);
 
@@ -102,9 +102,10 @@ export class Table {
     return filterRow;
   }
 
-  static _newCheckBox() {
+  static _newCheckBox(id) {
     const checkBox = document.createElement("input");
     checkBox.type = "checkbox";
+    checkBox.dataset.id = id;
     checkBox.classList.add("checkbox");
     return checkBox;
   }

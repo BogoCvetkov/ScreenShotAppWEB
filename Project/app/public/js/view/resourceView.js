@@ -1,5 +1,9 @@
 import { ResourceMenu } from "./components/menu.js";
-import { AccountsTableView, AssetsTableView } from "./tableView.js";
+import {
+  AccountsTableView,
+  KeywordsTableView,
+  PagesTableView,
+} from "./tableView.js";
 
 // This module contains the VIEW of the MVC- in particular the view for the menus related to resource management - CRUD
 
@@ -11,10 +15,16 @@ class baseResourceView {
 
   //  Unhiding the menu - part of the main HTML code
   static showUpdateMenu(data, resource) {
-    const updateMenu = document.querySelector(".update__wrapper");
+    // The wrapper that contains all update menus
+    const updateWrap = document.querySelector(".update__wrapper");
     // Set the Resource id and type in the menu
-    updateMenu.dataset.id = data.id;
-    updateMenu.dataset.resource = resource;
+    updateWrap.dataset.id = data.id;
+    updateWrap.dataset.resource = resource;
+
+    // The particular resource update Menu
+    const updateMenu = document.querySelector(
+      `.update--resource__window.${resource}--resource`
+    );
     // Update all fields of the respective resource
     this.fields.forEach((field) => {
       if (field[1] !== "bool") {
@@ -41,6 +51,7 @@ class baseResourceView {
     slider.checked = data.active;
     // Show Menu
     updateMenu.classList.remove("hidden");
+    updateWrap.classList.remove("hidden");
   }
 }
 
@@ -69,6 +80,7 @@ export class AccountView extends baseResourceView {
       hourTab.className = "hour-tab";
       hourTab.textContent = sched.hour;
       hourTab.dataset.id = sched.id;
+      hourTab.dataset.resource = "schedules";
       hourTab.insertAdjacentHTML(
         "beforeend",
         "<div class='close-X'>X</div>"
@@ -83,10 +95,22 @@ export class AccountView extends baseResourceView {
     const accId = document.querySelector(".update__wrapper").dataset
       .id;
     schedMenu.dataset.id = accId;
+    schedMenu.dataset.resource = "schedules";
   }
 }
 
-export class AssetView extends baseResourceView {
-  static type = "assets";
-  static fields = AssetsTableView.fields;
+export class PageView extends baseResourceView {
+  static type = "pages";
+  static fields = PagesTableView.fields.concat([
+    ...AccountsTableView.fields,
+    ["acc_name", "str"],
+  ]);
+}
+
+export class KeywordView extends baseResourceView {
+  static type = "keywords";
+  static fields = KeywordsTableView.fields.concat([
+    ...AccountsTableView.fields,
+    ["acc_name", "str"],
+  ]);
 }

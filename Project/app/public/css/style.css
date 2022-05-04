@@ -154,7 +154,7 @@ container .main-col-2{
 .main-col-2__nav_div{
     grid-row-start: 3;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr;
     justify-items: center;
     margin: 0 5rem;
     column-gap: 2rem;
@@ -187,6 +187,35 @@ container .main-col-2{
     align-items: center;
     justify-items: start;
     padding: 2rem 2rem 1rem 1rem;
+}
+
+.actions_div__btn_wrapper{
+    display: flex;
+    align-items: center;
+}
+
+.btn_bulk__container{
+    position: absolute;
+    min-height:5rem;
+    top:2.5rem;
+    right:-1rem;
+    min-width:10rem;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    background-color: #383B41;
+    border-radius: 6px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.7rem;
+    z-index: 3;
+}
+#bulkActions{
+    margin-left:1.8rem
+}
+.btn_bulk__container btn {
+    text-align: center;
+    width: 60%;
+    margin-bottom: 1rem;
 }
 
 
@@ -338,7 +367,7 @@ select,input,label{
 }
 
 /* ACTION BUTTONS */
-.actions_div__btn_wrapper btn{
+.actions_div__btn_wrapper > btn{
     margin-left: 1.8rem;
 }
 
@@ -364,14 +393,27 @@ btn#addNew{
     background: -webkit-linear-gradient(to left, #da22ff, #9733ee);  
     background: linear-gradient(to left, #da22ff, #9733ee);
 }
+btn#bulkActions{
+    background: -webkit-linear-gradient(to left, #383B41, #4b4f56);  
+    background: linear-gradient(160deg, #62666d, #4b4f56); 
+}
+btn#pause{
+    background: -webkit-linear-gradient(to left, #383B41, #4b4f56);  
+    background: linear-gradient(160deg, #62666d, #4b4f56);
+}
 btn#delete{
-    background-color: #AD081B;
+    background: -webkit-linear-gradient(to left, #383B41, #4b4f56);  
+    background: linear-gradient(160deg, #62666d, #4b4f56);
 }
 btn#edit{
-    background: #833ab4;  /* fallback for old browsers */
+    background: #fcb045;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #fcb045, #f37335);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #fcb045, #f37335); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     
+}
+btn#activate{
+    background: -webkit-linear-gradient(to right, #90ef5d, #38ef7d);
+    background: linear-gradient(to right, #7dce51, #30d26e);
 }
 
 /* TABLE */
@@ -889,6 +931,33 @@ grid-column-end:2 ;
 .hour-tab .close-X{
     color: white;
 
+}
+
+/* MESSAGES */
+
+.message--container{
+    width: 30rem;
+    position: absolute;
+    top: -0.3rem;
+    left:50%;
+    margin-left: -15rem;
+    font-size: 1.15rem;
+    font-weight: 500;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    display: grid;
+    justify-content: center;
+    z-index: 20;
+}
+
+.msg--fail{
+    background: -webkit-linear-gradient(to right, #e13030, #f20a02);
+    background: linear-gradient(to right, #e13030, #f20a02);
+}
+
+.msg--success{
+    background: -webkit-linear-gradient(to right, #90ef5d, #38ef7d);
+    background: linear-gradient(to right, #54c218, #0ac954);
 }
 
 /* ON/OFF SWITCH */

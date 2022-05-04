@@ -9,11 +9,11 @@ export class HTMlMarkup {
                 <div class="create--form">
                     <div class="resource--field">
                         <p>Account Name</p>
-                        <input type="text">
+                        <input type="text" name="name" data-input='true'>
                     </div>
                     <div class="resource--field">
                         <p>Account Email</p>
-                        <input type="email">
+                        <input type="email" name="email" data-input='true'>
                     </div>
                     <btn id="create"> CREATE</btn> 
                 </div>
@@ -68,7 +68,7 @@ export class HTMlMarkup {
 
   static checkScheduleMenu(data) {
     let markup = `
-    <div class="schedule__wrapper top--layer ">
+    <div class="schedule__wrapper top--layer  ">
       <div class="account-schedule-screen">
         <div class="close-wrapper">
           <h3>ACCOUNT SCHEDULE</h3>
@@ -133,4 +133,15 @@ export class HTMlMarkup {
   `;
     return markup;
   }
+
+  // static createNewMessage(response) {
+  //   let markup = `
+  //   <div class="message--container ${
+  //     response.status === "success" ? "msg--success" : "msg--fail"
+  //   }">
+  //       <p>${response.msg}</p>
+  //   </div>
+  //   `;
+  //   return markup;
+  // }
 }
