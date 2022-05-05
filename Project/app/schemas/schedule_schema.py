@@ -11,3 +11,4 @@ class ScheduleSchema( Schema ):
 	day = fields.Integer(required=True,validate=validate.Range(min=0, max=6))
 	hour = fields.Integer(required=True,validate=validate.Range(min=0, max=23))
 	account_id = fields.Integer(required=True)
+	email = fields.Email(required=True)

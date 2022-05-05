@@ -10,6 +10,7 @@ class ScheduleModel(Base, BaseMixin):
     id = Column(Integer, primary_key=True)
     day = Column(Integer)
     hour = Column(Integer)
+    email = Column(String, nullable=False)
     account_id = Column(Integer, ForeignKey("accounts.id", ondelete="CASCADE"),
                         nullable=False)
 
