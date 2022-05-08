@@ -2,7 +2,7 @@ import time
 
 from dotenv import load_dotenv
 
-load_dotenv("Project/.env")
+load_dotenv(".env")
 
 from Project.app.Async.redis_conn import redis_conn
 from rq.decorators import job
@@ -33,10 +33,13 @@ def send_email(initial_list, user=None):
         # Commit DB Session
         db_sess.commit()
 
-        return send_event(status)
+        return status
     except Exception as e:
         db_sess.rollback()
         raise e
     finally:
         # Return session to pool
         Session.remove()
+
+        # Emit an event with the processed ids
+        send_event({ "ids": initial_list })

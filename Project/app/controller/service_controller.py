@@ -109,3 +109,17 @@ def test_schedule():
           "result": { "waiting": schedule_Q.job_ids, "executing": schedule_Q.started_job_registry.get_job_ids() },
           "failed": schedule_Q.failed_job_registry.get_job_ids(),
           "scheduled": schedule_Q.scheduled_job_registry.get_job_ids() }, ), 200
+
+
+# /service/?type=info - returns about the workers activity
+def get_worker_info():
+    return jsonify(
+        { "status": "success", "msg": "Job status of bots.",
+          "data": { "personal_bot":
+                          { "capture": { "waiting": screenshot_Q.job_ids,
+                                         "executing": screenshot_Q.started_job_registry.get_job_ids() },
+                            "email": { "waiting": email_Q.job_ids,
+                                       "executing": email_Q.started_job_registry.get_job_ids() } },
+                      "schedule_bot": { "waiting": schedule_Q.job_ids,
+                                        "executing": schedule_Q.started_job_registry.get_job_ids(),
+                                        "retry": schedule_Q.scheduled_job_registry.get_job_ids() } } }), 200

@@ -58,7 +58,7 @@ class CaptureBot(BaseBot):
     def _was_scraped_soon(self, account):
         if not account.last_scraped:
             return False
-        if account.last_scraped and (datetime.now() - account.last_scraped) > timedelta(minutes=15):
+        if account.last_scraped and (datetime.now() - account.last_scraped) > timedelta(minutes=3):
             return False
         time_passed = datetime.now() - account.last_scraped
         message = f"Latest screenshot for {account.name} was {int(time_passed.seconds / 60)} minutes ago. " \

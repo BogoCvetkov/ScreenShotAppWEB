@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from rq import Worker
 from Project.model.all_models import LogModel, AccountModel
 
-load_dotenv("Project/.env")
+load_dotenv(".env")
 
 from Project.model.DB import Session
 from Project.errors.custom_errors import AppServiceError

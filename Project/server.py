@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import os
-load_dotenv( ".env" )
+load_dotenv(".env")
 
 from Project.config import DevelopmentConfig, ProductConfig
 from Project.app.app import create_app, return_to_db_pool

@@ -2,7 +2,7 @@ import time
 
 from dotenv import load_dotenv
 
-load_dotenv("Project/.env")
+load_dotenv(".env")
 
 from Project.app.Async.redis_conn import redis_conn, redis_conn_d
 from rq import Retry, Worker
@@ -14,6 +14,7 @@ from Project.service.scraper.web_driver import BuildWebDriver
 from Project.app.Async.callbacks import on_failed_job
 from Project.app.Async.queues import screenshot_Q, schedule_Q, email_Q
 from Project.app.Async.jobs.clean_up import close_browser_sessions
+from Project.app.Async.utils import send_event
 
 
 @job("schedules", connection=redis_conn, timeout="5m", failure_ttl="168h", on_failure=on_failed_job,
@@ -67,6 +68,9 @@ def send_scheduled_emails(acc_id, sess_name):
 
         # Return session to pool
         Session.remove()
+
+        # Emit an event with the processed ids
+        send_event({ "ids": [acc_id] })
 
 
 # helper function

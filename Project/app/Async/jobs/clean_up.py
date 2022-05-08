@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-load_dotenv("Project/.env")
+load_dotenv(".env")
 
 from Project.app.Async.redis_conn import redis_conn
 from rq.decorators import job
@@ -35,4 +35,14 @@ def close_browser_sessions():
     #     print(f"Retry: {schedule_Q.scheduled_job_registry.get_job_ids()}")
     #     print(f"Clean_up: {clean_up_Q.job_ids}")
     #     print(f"Clean_up executing: {clean_up_Q.started_job_registry.get_job_ids()}")
+    #     print("-------------------")
+
+    #FOR USER BOTS
+
+    # while True:
+    #     time.sleep(2)
+    #     print(f"Screen Waiting: {screenshot_Q.job_ids}")
+    #     print(f"Executing Screen: {screenshot_Q.started_job_registry.get_job_ids()}")
+    #     print(f"Email Waiting: {email_Q.job_ids}")
+    #     print(f"Executing Email: {email_Q.started_job_registry.get_job_ids()}")
     #     print("-------------------")

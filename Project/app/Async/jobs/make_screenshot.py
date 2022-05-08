@@ -2,7 +2,7 @@ import time
 
 from dotenv import load_dotenv
 
-load_dotenv("Project/.env")
+load_dotenv(".env")
 
 from Project.app.Async.redis_conn import redis_conn
 from Project.service.scraper.web_driver import BuildWebDriver
@@ -11,6 +11,7 @@ from Project.model.DB import Session
 from Project.service.bots import CaptureBot
 from Project.model.logs_model import LogModel
 from Project.app.Async.queues import filter_accounts_from_schedule_queue
+from Project.app.Async.utils import send_event
 
 
 @job("screenshots", connection=redis_conn, timeout="10m", failure_ttl="168h")
@@ -53,3 +54,6 @@ def capture_pages(initial_list, user=None):
 
         # Return session to pool
         Session.remove()
+
+        # Emit an event with the processed ids
+        send_event({ "ids": initial_list })
