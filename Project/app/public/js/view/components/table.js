@@ -19,13 +19,18 @@ export class Table {
       td.dataset.field = field[0];
       td.dataset.type = field[1];
       // Adding a slider for the active field
-      if (field[0] === "active") {
+      if (field[1] !== "bool") {
+        td.textContent = data[field[0]];
+      } else if (field[0] === "active") {
         td.insertAdjacentHTML(
           "beforeend",
           HTMlMarkup.statusSlider(data[field[0]])
         );
       } else {
-        td.textContent = data[field[0]];
+        td.insertAdjacentHTML(
+          "beforeend",
+          HTMlMarkup.statusDot(data[field[0]])
+        );
       }
       row.append(td);
     }

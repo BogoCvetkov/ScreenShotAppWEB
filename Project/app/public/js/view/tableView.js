@@ -16,6 +16,9 @@ class TableView {
       const row = Table.createRow(this.fields, el);
       tableBody.append(row);
     }
+    document.getElementById(
+      "accSummary"
+    ).innerHTML = `Number of results: <span id="accSummary">${tableBody.childElementCount}</span>`;
   }
 
   // Create the Table - I moved the Table Template to the main HTML document
@@ -34,12 +37,15 @@ class TableView {
 
   static updateRow(id, data) {
     const row = document.querySelector(`tr[data-id="${id}"]`);
-    for (let field of this.fields) {
-      if (data[field[0]] !== undefined) {
-        const td = row.querySelector(`td[data-field="${field[0]}"]`);
-        td.textContent = data[field[0]];
+    if (row)
+      for (let field of this.fields) {
+        if (data[field[0]] !== undefined) {
+          const td = row.querySelector(
+            `td[data-field="${field[0]}"]`
+          );
+          td.textContent = data[field[0]];
+        }
       }
-    }
   }
 
   static addFilter() {

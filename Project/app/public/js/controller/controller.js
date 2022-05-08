@@ -4,6 +4,7 @@ import {
 } from "../view/tableView.js";
 import { EventHandlers } from "../view/eventHandlers.js";
 import * as cb from "./callbacks.js";
+import { addSSE } from "./sse.js";
 
 async function test() {
   // const api = new APIResource("accounts");
@@ -14,6 +15,9 @@ async function test() {
   // AccountsTableView.updateTable(result.data);
   // AssetsTableView.updateRow(67, result.data[0]);
   // AccountsTableView.addFilter();
+  cb.controllUpdateBotData();
+  cb.controllUpdateAccRow(55);
+  // addSSE();
 }
 
 // Register callbacks with the Eventhandlers
@@ -40,16 +44,27 @@ async function addHandlers() {
     // Handlers of nested menus
     {
       updateResource: cb.controllUpdateResource,
+      deleteResource: cb.controllDeleteResource,
+      accServices: cb.controllService,
       getAccLogs: cb.controllGetAccLogs,
       getAccSched: cb.controllGetAccSchedule,
       deleteResource: cb.controllDeleteResource,
       showCreateSched: cb.controllShowCreateSchedule,
+      showCreatePage: cb.controllShowCreatePage,
+      showCreateKeyword: cb.controllShowCreateKeyword,
+      showConfirm: cb.controllShowConfirmWindow,
       createResource: cb.controllCreateResource,
     }
   );
   EventHandlers.selectAllHandler();
   EventHandlers.selectedListenerHandler();
-  EventHandlers.showBulkActionsHandler(cb.controllUpdateResource);
+  EventHandlers.showBulkActionsHandler({
+    updateResource: cb.controllUpdateResource,
+    accServices: cb.controllService,
+  });
+  EventHandlers.showTodaySchedule(cb.controllGetTodaySchedule);
+  EventHandlers.showQueueWindows();
+  EventHandlers.tableSliderHandler(cb.controllUpdateResource);
 }
 
 test()

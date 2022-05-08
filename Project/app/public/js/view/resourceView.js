@@ -46,6 +46,18 @@ class baseResourceView {
           ResourceMenu.showStatusDot(element, data[field[0]]);
       }
     });
+
+    if (resource === "accounts") {
+      // add the PDF location
+      const element = document.getElementById("lastPDF");
+      if (data.screenshot)
+        element.dataset.pdf = data.screenshot["file_dir"];
+
+      // store the email of the account in the addSchedule div
+      const element2 = document.getElementById("addSchedule");
+      element2.dataset.email = data["email"];
+    }
+
     // Mark active/inactive
     const slider = updateMenu.querySelector("input[type='checkbox']");
     slider.checked = data.active;
@@ -91,11 +103,29 @@ export class AccountView extends baseResourceView {
 
   static showCreateSchedMenu() {
     ResourceMenu.generateCreateScheduleMenu();
-    const schedMenu = document.querySelector(".create__wrapper");
+    const createMenu = document.querySelector(".create__wrapper");
     const accId = document.querySelector(".update__wrapper").dataset
       .id;
-    schedMenu.dataset.id = accId;
-    schedMenu.dataset.resource = "schedules";
+    createMenu.dataset.id = accId;
+    createMenu.dataset.resource = "schedules";
+  }
+
+  static showCreatePageMenu() {
+    ResourceMenu.generateCreatePageMenu();
+    const createMenu = document.querySelector(".create__wrapper");
+    const accId = document.querySelector(".update__wrapper").dataset
+      .id;
+    createMenu.dataset.id = accId;
+    createMenu.dataset.resource = "pages";
+  }
+
+  static showCreateKeywordMenu() {
+    ResourceMenu.generateCreateKeywordMenu();
+    const createMenu = document.querySelector(".create__wrapper");
+    const accId = document.querySelector(".update__wrapper").dataset
+      .id;
+    createMenu.dataset.id = accId;
+    createMenu.dataset.resource = "keywords";
   }
 }
 

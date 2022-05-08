@@ -42,4 +42,18 @@ export class ResourceMenu {
       HTMlMarkup.createScheduleMenu()
     );
   }
+
+  static generateCreatePageMenu() {
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      HTMlMarkup.createPageMenu()
+    );
+  }
+
+  static generateCreateKeywordMenu() {
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      HTMlMarkup.createKeywordMenu()
+    );
+  }
 }

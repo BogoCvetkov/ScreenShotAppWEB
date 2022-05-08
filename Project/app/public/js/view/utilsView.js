@@ -10,4 +10,18 @@ export class UtilsView {
   static removeMsg(msg) {
     msg.remove();
   }
+
+  static showConfirmWindow(msg) {
+    Utils.generateConfirmWindow(msg);
+  }
+
+  static showProcessWindow() {
+    const win = Utils.generateProcessWindow();
+    document.body.append(win);
+    return win;
+  }
+
+  static removeProcessWindow(win) {
+    win.remove();
+  }
 }

@@ -20,49 +20,47 @@
         <div class="main-col-1">HELLLLLLLLLLO</div>
         <div class="main-col-2">
             <div class="main-col-2__info_boxes">
-                <div class="wrapper box_1">
+                <div class="wrapper box_1 schedule_bot--wrapper">
                     <div class="info_box">
                         <img src="{{ url_for('static', filename='img/robot_1.png') }}">
-                        <p class="info_box_heading">SCHEDULE BOT</p>
+                        <p class="info_box_heading">Schedule Bot</p>
                         <div class="info_box-stats">
-                            <div class="stat_wrapper">
-                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                                <p>Hello</p>
+                            <div class="stat_wrapper bot-status">
+                                <img src="/public/img/sleep.png">
                             </div>
                             <div class="stat_wrapper">
-                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                                <p>Hello</p>
-                            </div>
-                            <div class="stat_wrapper">
-                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                                <p>Hello</p>
+                                <btn id="schedJobs">Jobs Info</btn>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="wrapper box_2">
+                <div class="wrapper box_2 personal_bot--wrapper">
                     <div class="info_box">
                         <img src="{{ url_for('static', filename='img/robot_2_orange.png') }}">
-                        <p class="info_box_heading">SCHEDULE BOT</p>
+                        <p class="info_box_heading">Your Bot</p>
                         <div class="info_box-stats">
-                            <div class="stat_wrapper">
-                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                                <p>Hello</p>
+                            <div class="stat_wrapper bot-status">
+                                <img src="/public/img/sleep.png">
                             </div>
                             <div class="stat_wrapper">
-                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                                <p>Hello</p>
-                            </div>
-                            <div class="stat_wrapper">
-                                <img src="{{ url_for('static', filename='img/search-3076.png') }}">
-                                <p>Hello</p>
+                                <btn id="yourJobs">Jobs Info</btn>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="wrapper box_3">
+                    <p class="info_box_heading">Menu</p>
+                    <div class="menu_box">
+                        <div class="option_wrapper icon" id="todaySchedule">
+                            <img src="{{ url_for('static', filename='img/calendar.png') }}">
+                            <p>Today's Schedule</p>
+                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="main-col-2__nav_div">
-                <div class="tab tab_active" id="tab_accounts" data-resource="accounts">Accounts</div>
+                <div class="tab tab_active" id="tab_accounts" data-resource="accounts">Accounts <span class=" btn--filter__counter">0</span></div>
                 <div class="tab" id="tab_assets" data-resource="pages">Pages</div>
                 <div class="tab" id="tab_assets" data-resource="keywords">Keywords</div>
             </div>
@@ -75,6 +73,7 @@
                         <div class="btn_bulk__container hidden ">
                             <btn id="pause"> Pause</btn>
                             <btn id="activate"> Activate</btn>
+                            <btn id="captureMany"> Capture</btn>
                         </div>
                     </div>
                 </div>
@@ -129,8 +128,8 @@
                             <th>ID</th>
                             <th>Account Email</th>
                             <th>Account Name</th>
-                            <th>Last screenshot fail</th>
-                            <th>Last email fail</th>
+                            <th>Last screenshot status</th>
+                            <th>Last email status</th>
                             <th>Last screenshot date</th>
                             <th>Last email date</th>
                         </thead>
@@ -169,11 +168,7 @@
                 </div>
                 <table>
                     <tfooter>
-                        <tf>Summary </tf>
-                        <tf>Accounts <span>60</span></tf>
-                        <tf>Emailing</tf>
-                        <tf>Success</tf>
-                        <tf>Failed</tf>
+                        <tf id="accSummary"></tf>
                     </tfooter>
                 </table>
             </div>
@@ -276,6 +271,14 @@
                             <img src="{{ url_for('static', filename='img/logs.png') }}">
                             <p>Check Logs</p>
                         </div>
+                        <div class="resource__action icon" id="addPage">
+                            <img src="{{ url_for('static', filename='img/page_add.png') }}">
+                            <p>Add Page</p>
+                        </div>
+                        <div class="resource__action icon" id="addKeyword">
+                            <img src="{{ url_for('static', filename='img/keyword_add.png') }}">
+                            <p>Add Keyword</p>
+                        </div>
                         <div class="resource__action icon" id="checkSchedule">
                             <img src="{{ url_for('static', filename='img/calendar.png') }}">
                             <p>Check Schedule</p>
@@ -284,6 +287,7 @@
                             <img src="{{ url_for('static', filename='img/calendar_add.png') }}">
                             <p>Add Schedule</p>
                         </div>
+
                     </div>
                 </div>
                 <div class="delete__section section">
@@ -440,37 +444,114 @@
         </div>
     </div>
 
-    <!-- Create Schedule -->
-    <!-- <div class="create__wrapper top--layer ">
-        <div class="create--resource__window">
+    <!-- Todays Schedule -->
+
+    <div class="today--schedule__wrapper top--layer hidden">
+        <div class="close-wrapper">
+            <h3>TODAYS SCHEDULE</h3>
             <div class="close-X">X</div>
-            <h3>Create Schedule</h3>
-            <div class="create--form">
-                <div class="resource--field">
-                    <p>Day</p>
-                    <select name="day">
-                     <option value='0'>Monday</option>
-                     <option value='1'>Tuesday</option>
-                     <option value='2'>Wednesday</option>
-                     <option value='3'>Thursday</option>
-                     <option value='4'>Friday</option>
-                     <option value='5'>Saturday</option>
-                     <option value='6'>Sunday</option>
-                    </select>
-                </div>
-                <div class="resource--field">
-                    <p>Hour</p>
-                    <input type="number" name="hour">
-                </div>
-                <btn id="create"> CREATE</btn> 
-            </div>
         </div>
-    </div>  -->
+        <div class="today--schedule__window">
+            <!-- <div class="scheduled--account">
+               <p class="scheduled--account_email">boogmil@cvetkov@gmail.com</p>
+               <p class="scheduled--account_hour">17</p>
+           </div> -->
+        </div>
+    </div>
+
+
+
+    <!-- Job Queue Menu -->
+
+    <div class="job--queue-wrapper top--layer hidden schedJobs">
+        <div class="close-wrapper">
+            <h3>JOB EXECUTION SCHEME</h3>
+            <div class="close-X">X</div>
+        </div>
+
+        <!-- Schedule Queue Window -->
+        <div class="bot__container bot__container--schedule">
+            <div class="queue__container" id="schedQCont1">
+                <h4>Waiting for execution</h4>
+                <div class="queue" id="waitSchedQ">
+                    <div class="queued--job">56</div>
+                    <div class="queued--job">56</div>
+                    <div class="queued--job">56</div>
+                    <div class="queued--job">56</div>
+                </div>
+            </div>
+            <div class="queue__container" id="schedQCont2">
+                <h4>Failed and waiting for retry</h4>
+                <div class="queue" id="retrySchedQ">
+                    <div class="queued--job">56</div>
+                </div>
+            </div>
+
+            <div class="queue__container" id="schedQCont3">
+                <h4>Currently executing</h4>
+                <div class="queue" id="executeSchedQ">
+                    <div class="queued--job">56</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="job--queue-wrapper top--layer hidden yourJobs">
+        <div class="close-wrapper">
+            <h3>JOB EXECUTION SCHEME</h3>
+            <div class="close-X">X</div>
+        </div>
+
+        <!-- Schedule Queue Window -->
+        <div class="bot__container bot__container--personal">
+            <div class="queue__container" id="persQCont1">
+                <h4>Waiting for execution</h4>
+                <div class="queue" id="waitPersQ">
+                    <div class="queued--job">56</div>
+                    <div class="queued--job">56</div>
+                    <div class="queued--job">56</div>
+                    <div class="queued--job">56</div>
+                    <div class="queued--job">56</div>
+                </div>
+            </div>
+
+            <div class="queue__container" id="persQCont2">
+                <h4>Currently executing</h4>
+                <div class="queue" id="executePersQ">
+                    <div class="queued--job">56</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
 
     <!-- MESSAGES DIV -->
 
     <!-- <div class="message--container msg--success">
         <p>New Message</p>
+    </div> -->
+
+    <!-- CONFIRM SCREEN -->
+    <!-- <div class="confirm--screen">
+        <h4>Confirm Action</h4>
+        <btn id="YES">YES</btn>
+        <btn id="NO">NO</btn>
+    </div> -->
+
+    <!-- Processing Screen -->
+    <!-- <div class="loading--screen">
+        <h2> Processing</h2>
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div> -->
 
     <script src="{{ url_for('static', filename='js/controller/controller.js') }}" type="module"></script>

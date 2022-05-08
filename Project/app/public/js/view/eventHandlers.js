@@ -3,6 +3,7 @@ import { AccountView, PageView } from "./resourceView.js";
 
 // This class contains all Eventhandlers on the main page
 export class EventHandlers {
+  static todayScheduleBtn = document.getElementById("todaySchedule");
   static searchBtn = document.querySelector(".btn--search");
   static filterMenuBtn = document.getElementById("filterBtn");
   static filterMenu = document.getElementById("filterMenu");
@@ -12,8 +13,37 @@ export class EventHandlers {
   static switchTabs = document.querySelectorAll(".tab");
   static editBtn = document.getElementById("edit");
   static pauseBtn = document.getElementById("pause");
+  static captureBtn = document.getElementById("captureMany");
   static activateBtn = document.getElementById("activate");
   static bulkBtn = document.getElementById("bulkActions");
+  static schedJobBtn = document.getElementById("schedJobs");
+  static persJobBtn = document.getElementById("yourJobs");
+
+  // Show Job Queue
+  static showQueueWindows(handler) {
+    const queueWindow1 = document.querySelector(`.schedJobs`);
+    this.schedJobBtn.addEventListener("click", (e) => {
+      queueWindow1.classList.remove("hidden");
+    });
+    const queueWindow2 = document.querySelector(`.yourJobs`);
+    this.persJobBtn.addEventListener("click", (e) => {
+      queueWindow2.classList.remove("hidden");
+    });
+    this._closeWindowHandler(queueWindow1);
+    this._closeWindowHandler(queueWindow2);
+  }
+
+  // Show Today's Schedule
+  static showTodaySchedule(handler) {
+    const todaySchedWrap = document.querySelector(
+      ".today--schedule__wrapper"
+    );
+    this.todayScheduleBtn.addEventListener("click", (e) => {
+      handler();
+      todaySchedWrap.classList.remove("hidden");
+    });
+    this._closeWindowHandler(todaySchedWrap);
+  }
 
   // Switch resource tables
   static switchTabHandler(handlerS) {
@@ -179,6 +209,10 @@ export class EventHandlers {
           this.editBtn.classList.remove("disabled");
           this.editBtn.dataset.disabled = false;
         }
+        // Show number of selected accounts
+        if (e.target.closest(".accounts--table"))
+          document.querySelector("#tab_accounts span").textContent =
+            selectedRows.length;
       })
     );
   }
@@ -200,21 +234,25 @@ export class EventHandlers {
   }
 
   // Show Actions dropdown
-  static showBulkActionsHandler(innerHandler) {
+  static showBulkActionsHandler(innerHandlers) {
     this.bulkBtn.addEventListener("click", () => {
       const bulkDropDown = document.querySelector(
         ".btn_bulk__container"
       );
       bulkDropDown.classList.toggle("hidden");
     });
-    this._pauseManyHandler(innerHandler);
-    this._activateManyHandler(innerHandler);
+    this._pauseManyHandler(innerHandlers.updateResource);
+    this._activateManyHandler(innerHandlers.updateResource);
+    this._captureManyHandler(innerHandlers.accServices);
   }
 
   // Pause many
   static _pauseManyHandler(handler) {
     this.pauseBtn.addEventListener("click", (e) => {
-      const selectedRows = document.querySelectorAll(
+      const table = document.querySelector(
+        `.${this._checkResource()}--table`
+      );
+      const selectedRows = table.querySelectorAll(
         "td .checkbox:checked"
       );
 
@@ -234,7 +272,10 @@ export class EventHandlers {
   // Activate many
   static _activateManyHandler(handler) {
     this.activateBtn.addEventListener("click", (e) => {
-      const selectedRows = document.querySelectorAll(
+      const table = document.querySelector(
+        `.${this._checkResource()}--table`
+      );
+      const selectedRows = table.querySelectorAll(
         "td .checkbox:checked"
       );
 
@@ -244,6 +285,29 @@ export class EventHandlers {
         const resource = this._checkResource();
         handler(resource, id, body);
       }
+      const bulkDropDown = document.querySelector(
+        ".btn_bulk__container"
+      );
+      bulkDropDown.classList.toggle("hidden");
+    });
+  }
+
+  // Capture many
+  static _captureManyHandler(handler) {
+    this.captureBtn.addEventListener("click", (e) => {
+      const table = document.querySelector(`.accounts--table`);
+      const selectedRows = table.querySelectorAll(
+        "td .checkbox:checked"
+      );
+
+      const idList = [];
+
+      for (let row of selectedRows) {
+        idList.push(row.dataset.id);
+      }
+
+      handler("scrape", idList);
+
       const bulkDropDown = document.querySelector(
         ".btn_bulk__container"
       );
@@ -261,12 +325,33 @@ export class EventHandlers {
     CreateMenuHandlers.showMenuHandler(handler, innerHandlers);
   }
 
+  static tableSliderHandler(handler) {
+    const tableWrap = document.querySelector(`.table_div__wrapper`);
+    tableWrap.addEventListener("click", (e) => {
+      if (e.target.className !== "slider round") return;
+      const tr = e.target.closest("tr");
+      const resource = this._checkResource();
+      const body = {
+        active: !e.target.previousElementSibling.checked,
+      };
+      handler(resource, tr.dataset.id, body);
+    });
+  }
+
   // HELPER FUNCTIONS
 
   // Get's the resource type from the active tab
   static _checkResource() {
     const tab = document.querySelector(".tab_active");
     return tab.dataset.resource;
+  }
+
+  //Close window
+  static _closeWindowHandler(element) {
+    const closeBtn = element.querySelector(".close-X");
+    closeBtn.addEventListener("click", (e) => {
+      element.classList.add("hidden");
+    });
   }
 
   // Check all checked accounts
@@ -285,15 +370,21 @@ export class EventHandlers {
   }
 }
 /////////////////////////////////////////////////////////////////////
-// Contains all handlers for the Update Menu of a resource
+// Contains all handlers for elements inside the Update Menu of a resource
 class UpdateMenuHandlers {
   static updateMenu = document.querySelector(".update__wrapper");
   static logMenu = document.querySelector(".logs__wrapper");
   static editBtn = document.getElementById("edit");
   static updateBtn = document.querySelectorAll("#update");
+  static delBtn = document.querySelectorAll("#deleteResource");
   static logsBtn = document.getElementById("checkLogs");
   static checkSchedBtn = document.getElementById("checkSchedule");
   static addSchedBtn = document.getElementById("addSchedule");
+  static addPageBtn = document.getElementById("addPage");
+  static addKeywordBtn = document.getElementById("addKeyword");
+  static pdfBtn = document.getElementById("lastPDF");
+  static captureBtn = document.getElementById("captureAcc");
+  static emailBtn = document.getElementById("sendEmail");
 
   static showMenuHandler(handlers, innerHandlers) {
     this.editBtn.addEventListener("click", (e) => {
@@ -324,6 +415,59 @@ class UpdateMenuHandlers {
       innerHandlers.showCreateSched,
       innerHandlers
     );
+    this._showAddPageHandler(
+      innerHandlers.showCreatePage,
+      innerHandlers
+    );
+    this._showAddKeywordHandler(
+      innerHandlers.showCreateKeyword,
+      innerHandlers
+    );
+    this._checkLastPDFHandler();
+    this._captureAccHandler(innerHandlers.accServices);
+    this._showEmailConfirmHandler(
+      innerHandlers.showConfirm,
+      innerHandlers
+    );
+    this._showDeleteConfirmHandler(
+      innerHandlers.showConfirm,
+      innerHandlers
+    );
+  }
+
+  // Check PDf
+  static _checkLastPDFHandler() {
+    this.pdfBtn.addEventListener("click", (e) => {
+      const pdfLoc = e.currentTarget.dataset.pdf;
+      window.open(pdfLoc, "_blank");
+    });
+  }
+
+  //Capture Account
+  static _captureAccHandler(handler) {
+    this.captureBtn.addEventListener("click", (e) => {
+      const accId = this.updateMenu.dataset.id;
+      handler("scrape", [accId]);
+    });
+  }
+
+  // Show Email Confirmation
+  static _showEmailConfirmHandler(handler, innerHandlers) {
+    this.emailBtn.addEventListener("click", (e) => {
+      const checkWindow = document.querySelector(".confirm--screen");
+      if (!checkWindow) {
+        const email = this.updateMenu.querySelector(
+          "input[name='email']"
+        );
+        handler(`Send email to : ${email.textContent} ?`);
+      }
+      const func = () => {
+        const accId = this.updateMenu.dataset.id;
+        innerHandlers.accServices("email", [accId]);
+      };
+      //  Handling the emailing after confirmation
+      this._executeConsent(func);
+    });
   }
 
   // Updating the resource
@@ -341,11 +485,109 @@ class UpdateMenuHandlers {
     );
   }
 
+  // Show delete confirmation
+  static _showDeleteConfirmHandler(handler, innerHandlers) {
+    this.delBtn.forEach((btn) =>
+      btn.addEventListener("click", (e) => {
+        const checkWindow = document.querySelector(
+          ".confirm--screen"
+        );
+        // If no such window has been shown, show it
+        if (!checkWindow) {
+          handler(
+            `Delete this ${this.updateMenu.dataset.resource} resource?`
+          );
+        }
+        // Define the function that the confirmation will execute
+        const func = () => {
+          const resource = this.updateMenu.dataset.resource;
+          const resourceId = this.updateMenu.dataset.id;
+          innerHandlers
+            .deleteResource(resource, resourceId)
+            // Remove the row from table
+            .then(() => {
+              document
+                .querySelector(
+                  `.table_div__wrapper table:not(.hidden) tr[data-id='${resourceId}']`
+                )
+                .remove();
+              // Hide the menu
+              this.updateMenu.classList.add("hidden");
+            });
+        };
+        //  Handling the deletion after confirmation
+        this._executeConsent(func);
+      })
+    );
+  }
+
+  // Handle confirmation on certain actions
+  static async _executeConsent(func) {
+    const confirmWindow = document.querySelector(".confirm--screen");
+    confirmWindow.addEventListener("click", (e) => {
+      if (e.target.tagName !== "BTN") return;
+      // Function that the confirmation will execute
+      if (e.target.id === "YES") func();
+
+      confirmWindow.remove();
+    });
+  }
+
   // Show the logs menu of an account
   static _showAccLogsHandler(handler) {
     this.logsBtn.addEventListener("click", () => {
       const accId = this.updateMenu.dataset.id;
       handler(accId);
+    });
+  }
+
+  // Show the menu for creating a new page
+  static _showAddPageHandler(handler, innerHandlers) {
+    this.addPageBtn.addEventListener("click", () => {
+      const checkTable = document.querySelector(".create__wrapper");
+      if (!checkTable) {
+        handler();
+        this._removeWindowHandler();
+        // Handling the creation of new Page
+        this._createNewPage(innerHandlers.createResource);
+      }
+    });
+  }
+
+  // Creating new page
+  static _createNewPage(handler) {
+    const createMenu = document.querySelector(".create__wrapper");
+    const createBtn = document.getElementById("create");
+    createBtn.addEventListener("click", () => {
+      let body = this._getFieldData(createMenu);
+      let resource = createMenu.dataset.resource;
+      body["account_id"] = createMenu.dataset.id;
+      handler(resource, body);
+    });
+  }
+
+  // Show the menu for creating a new keyword
+  static _showAddKeywordHandler(handler, innerHandlers) {
+    this.addKeywordBtn.addEventListener("click", () => {
+      const checkTable = document.querySelector(".create__wrapper");
+      if (!checkTable) {
+        handler();
+        this._removeWindowHandler();
+        // Handling the creation of new Keyword
+        this._createNewKeyword(innerHandlers.createResource);
+      }
+    });
+  }
+
+  // Creating new keyword
+  static _createNewKeyword(handler) {
+    const createMenu = document.querySelector(".create__wrapper");
+    const createBtn = document.getElementById("create");
+    createBtn.addEventListener("click", () => {
+      let body = this._getFieldData(createMenu);
+      let resource = createMenu.dataset.resource;
+      body["account_id"] = createMenu.dataset.id;
+      handler(resource, body);
     });
   }
 
@@ -384,6 +626,7 @@ class UpdateMenuHandlers {
       let body = this._getFieldData(createMenu);
       let resource = createMenu.dataset.resource;
       body["account_id"] = createMenu.dataset.id;
+      body["email"] = this.addSchedBtn.dataset.email;
       handler(resource, body);
     });
   }
@@ -467,7 +710,9 @@ class UpdateMenuHandlers {
   }
 }
 
-// Contains all handlers for the create menu of a resource
+///////////////////////////////////////////////////////////////
+
+// Contains all handlers for the create menu of an account
 class CreateMenuHandlers {
   static addNewBtn = document.getElementById("addNew");
 

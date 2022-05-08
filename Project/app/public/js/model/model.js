@@ -58,4 +58,9 @@ export class Model {
     let data = new Data(response.data);
     return data.transformedData;
   }
+
+  async useService(body, options) {
+    const response = await this.api.post(body, options);
+    return response.data;
+  }
 }
