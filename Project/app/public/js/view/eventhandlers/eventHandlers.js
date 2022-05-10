@@ -1,5 +1,5 @@
-import { AccountsTableView, PagesTableView } from "./tableView.js";
-import { AccountView, PageView } from "./resourceView.js";
+import { AccountsTableView, PagesTableView } from "../tableView.js";
+import { AccountView, PageView } from "../resourceView.js";
 
 // This class contains all Eventhandlers on the main page
 export class EventHandlers {

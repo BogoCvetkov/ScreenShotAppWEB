@@ -24,7 +24,7 @@ export class ResourceMenu {
     for (let record of data) {
       logs_table.insertAdjacentHTML(
         "beforeend",
-        HTMlMarkup.createLogRow(record)
+        HTMlMarkup.createAccLogRow(record)
       );
     }
   }

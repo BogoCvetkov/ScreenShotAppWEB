@@ -10,7 +10,7 @@ from Project.app.routes.api.event_route import *
 from Project.app.routes.api.log_route import *
 
 # View Routers
-from Project.app.routes.view.home import *
+from Project.app.routes.view.view_routes import *
 
 
 def register_api_routes(application, prefix=None):
@@ -66,3 +66,5 @@ def register_view_routes(appplication):
     # Register routes for the frontend
 
     appplication.add_url_rule("/", view_func=HomeViewRouter.as_view("home_view_route"))
+
+    appplication.add_url_rule("/logs", view_func=LogsViewRouter.as_view("logs_view_route"))

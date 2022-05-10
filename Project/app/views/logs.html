@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+
+
+
+<body>
+
+    <div class="header">
+        <div class="header__wrapper">
+            <div class="options_set-1">
+                <a href="#" >
+                    <div class="header_option icon">
+                        <img src="{{ url_for('static', filename='img/all_logs.png') }}">
+                        <p>All Logs</p>
+                    </div>
+                </a>
+                <div class="header_option icon">
+                    <img src="{{ url_for('static', filename='img/user.png') }}">
+                    <p>Manage Users</p>
+                </div>
+                <div class="header_option icon">
+                    <img src="{{ url_for('static', filename='img/profile.png') }}">
+                    <p>Manage Profile</p>
+                </div>
+            </div>
+    
+            <div class="options_set-2 icon">
+                <div class="header_option">
+                    <img src="{{ url_for('static', filename='img/logout.png') }}">
+                    <p>Logout</p>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+
+    <div class="logs__container">
+        <div class="wrapper">
+            <h3> ALL LOGS TABLE</h3>
+            <div class="search_logs">
+                <select name="parameters" id="logsParams">
+                    <option value="started_by">Started By</option>
+                    <option value="account_name">Account Name</option>
+                    <option value="log_msg">Message</option>
+                    <option value="log_details">Details</option>
+                    <option value="fail">Failed</option>
+                  </select>
+                  <div class="logs-seaerch-wrapper">
+                    <input type="text">
+                    <img class="icon btn--search" src="{{ url_for('static', filename='img/search-3076.png') }}">
+                 </div>
+            </div>
+            <div class="logs__window">
+                <table class="all_logs--table">
+                    <thead>
+                        <th>Started by</th>
+                        <th>Acc Name</th>
+                        <th>Message</th>
+                        <th>Details</th>
+                        <th>Date</th>
+                        <th>Failed</th>
+                        <th>Account Id</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                    
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/controller/logsController.js') }}" type="module"></script>
+</body>
+
+</html>

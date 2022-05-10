@@ -12,6 +12,7 @@ import {
 } from "../view/resourceView.js";
 import { UtilsView } from "../view/utilsView.js";
 import { GeneralView } from "../view/generalView.js";
+import { LogsView } from "../view/logsView.js";
 
 /* This is where the Model connects to the View */
 
@@ -197,6 +198,14 @@ export async function controllUpdateAccRow(id) {
   const result = await fetchApi("accounts", "get", [options]);
 
   AccountsTableView.updateRow(id, result.data);
+}
+
+//// ALL LOGS PAGE ////
+
+export async function controllGetAllLogs(query) {
+  const options = { query };
+  const result = await fetchApi("logs", "get", [options]);
+  LogsView.generateAllLogsTable(result.data);
 }
 
 ////////////////////////

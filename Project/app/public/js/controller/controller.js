@@ -2,7 +2,7 @@ import {
   AccountsTableView,
   PagesTableView,
 } from "../view/tableView.js";
-import { EventHandlers } from "../view/eventHandlers.js";
+import { EventHandlers } from "../view/eventhandlers/eventHandlers.js";
 import * as cb from "./callbacks.js";
 import { addSSE } from "./sse.js";
 

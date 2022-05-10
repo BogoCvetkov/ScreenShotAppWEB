@@ -55,7 +55,7 @@ export class HTMlMarkup {
     return markup;
   }
 
-  static createLogRow(data) {
+  static createAccLogRow(data) {
     let markup = `
     <tr class=${data.fail ? "tr-red" : "tr-green"}>
       <td>${data["started_by"]}</td>
@@ -262,6 +262,21 @@ export class HTMlMarkup {
         <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
   `;
+    return markup;
+  }
+
+  static createAllLogsRow(data) {
+    let markup = `
+    <tr class= ${data.fail ? "tr-red" : "tr-green"}>
+          <td>${data["started_by"]}</td>
+          <td>${data["account_name"]}</td>
+          <td>${data["log_msg"]}</td>
+          <td>${data["log_details"]}</td>
+          <td>${data["date"]}</td>
+          <td>${data["fail"]}</td>
+          <td>${data["account_id"]}</td>
+      </tr>
+`;
     return markup;
   }
 }

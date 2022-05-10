@@ -114,4 +114,8 @@ export class Table {
     checkBox.classList.add("checkbox");
     return checkBox;
   }
+
+  static generateAllLogsRow(data) {
+    return HTMlMarkup.createAllLogsRow(data);
+  }
 }
