@@ -86,6 +86,11 @@ export class EventHandlers {
       otherTables.forEach((tb) => tb.classList.add("hidden"));
       // Reset Filters
       document.getElementById("clear-filters").click();
+
+      // Synchronize checked fields in the switching table
+      const selField = switchTable
+        .querySelector("td [data-type='selected--field']")
+        ?.dispatchEvent(new Event("change", { bubbles: true }));
     });
   }
 
@@ -464,7 +469,9 @@ class UpdateMenuHandlers {
         const email = this.updateMenu.querySelector(
           "input[name='email']"
         );
-        handler(`Send email to : ${email.textContent} ?`);
+        handler(
+          `Send email to : <span> ${email.textContent} </span> ?`
+        );
       }
       const func = () => {
         const accId = this.updateMenu.dataset.id;

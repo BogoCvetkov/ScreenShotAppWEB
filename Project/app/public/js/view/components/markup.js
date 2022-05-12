@@ -247,7 +247,7 @@ export class HTMlMarkup {
   static createConfirmWindow(msg) {
     let markup = `
     <div class="confirm--screen">
-        <h4>${msg}</h4>
+        <h3>${msg}</h3>
         <btn id="YES">YES</btn>
         <btn id="NO">NO</btn>
     </div>

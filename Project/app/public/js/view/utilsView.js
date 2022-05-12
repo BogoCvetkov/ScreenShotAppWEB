@@ -22,7 +22,7 @@ export class UtilsView {
 
   static showProcessWindow() {
     const win = Utils.generateProcessWindow();
-    document.body.append(win);
+    document.body.prepend(win);
     return win;
   }
 

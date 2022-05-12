@@ -319,7 +319,7 @@ async function displayMsg(result) {
 // Displays failed responses from the API
 function errorWrapper(func) {
   const newFunc = async (...args) => {
-    func(...args).catch((e) => {
+    await func(...args).catch((e) => {
       // Check if user token is expired and refresh the view
       if (e.response.status === 401) location.assign(location.origin);
 
