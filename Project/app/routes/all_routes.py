@@ -62,9 +62,17 @@ def register_api_routes(application, prefix=None):
                              view_func=UserRouter.as_view("user_route"))
 
 
-def register_view_routes(appplication):
+def register_view_routes(application):
     # Register routes for the frontend
 
-    appplication.add_url_rule("/", view_func=HomeViewRouter.as_view("home_view_route"))
+    application.add_url_rule("/", view_func=HomeViewRouter.as_view("home_view_route"))
 
-    appplication.add_url_rule("/logs", view_func=LogsViewRouter.as_view("logs_view_route"))
+    application.add_url_rule("/logs/", view_func=LogsViewRouter.as_view("logs_view_route"))
+
+    application.add_url_rule("/users/", view_func=UsersViewRouter.as_view("users_view_route"))
+
+    application.add_url_rule("/profile", view_func=ProfileRoute.as_view("profile_view_route"))
+
+    application.add_url_rule("/login", view_func=LoginViewRouter.as_view("login_view_route"))
+
+    application.add_url_rule("/reset-pass/<string:token>", view_func=ResetViewRouter.as_view("reset_view_route"))

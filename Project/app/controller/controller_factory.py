@@ -73,7 +73,7 @@ def update_factory( Model, schema ):
 		serialized_data = schema.load( raw_data )
 
 		if not serialized_data:
-			raise AppServiceError( "No data to update", 401 )
+			raise AppServiceError( "No data to update", 400 )
 
 		# If valid - create a DB-Session and try to update the record
 		db_sess = Session()

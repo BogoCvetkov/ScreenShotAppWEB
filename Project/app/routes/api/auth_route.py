@@ -17,7 +17,7 @@ class ForgetPassRouter( MethodView ):
 
 class ResetPassRouter( MethodView ):
 
-	def post( self, token ):
+	def patch( self, token ):
 		return auth_controller.reset_pass( token )
 
 

@@ -67,12 +67,12 @@ def forget_pass():
 	db_sess.commit()
 
 	# Send email with the expiration link for resetting password
-	restore_url = request.url_root + "api" + "/reset-pass" + f"/{reset_token}"
+	restore_url = request.url_root + "reset-pass" + f"/{reset_token}"
 	body = f"Your restoration link (valid for 10 minutes): {restore_url}"
 	EmailSender().build_mail( email, body=body ).send_mail()
 
-	return jsonify( { "status": "success", "msg": "A restoration link has been sent to your email",
-	                  "token": reset_token } ), 201
+	return jsonify( { "status": "success", "msg": "A restoration link has been sent to your email"
+	                   } ), 201
 
 
 # /reset-pass
