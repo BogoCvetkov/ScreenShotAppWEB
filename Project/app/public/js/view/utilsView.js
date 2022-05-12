@@ -2,7 +2,12 @@ import { Utils } from "./components/utils.js";
 
 export class UtilsView {
   static showMessage(response) {
-    const msg = Utils.createNewMessage(response);
+    let message;
+    response.msg instanceof Array
+      ? (message = `${response.msg[0].field} - ${response.msg[0].info[0]}`)
+      : (message = response.msg);
+
+    const msg = Utils.createNewMessage(response.status, message);
     document.body.append(msg);
     return msg;
   }

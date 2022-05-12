@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animated.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <container class="login">
+        <img class="icon" src="{{ url_for('static', filename='img/xplora.png') }}">
+
+
+        <div class="login--form--wrapper ">
+            <div class="login__form" >
+                <h2> LOGIN</h2>
+                <div class="resource--field">
+                    <p>Email</p>
+                    <input type="email" name="email" >
+                </div>
+                <div class="resource--field">
+                    <p>Password</p>
+                    <input type="password"  name="password">
+                </div>
+                <p id="forget" class="icon"> Forget password ? </p>
+                <btn id="login"> Login </btn>
+            </div> 
+        </div>
+
+        <div class="forget--form--wrapper hidden">
+            <div class="forget__form" >
+                <h2> Forget Password</h2>
+                <div class="resource--field">
+                    <p>Email</p>
+                    <input type="email" name="email" >
+                    <btn id="sendReset"> Send </btn>
+                </div>
+            </div> 
+        </div>
+
+    </container>
+</body>
+</html>
+
+<script src="{{ url_for('static', filename='js/controller/controllers/loginController.js') }}" type="module"></script>

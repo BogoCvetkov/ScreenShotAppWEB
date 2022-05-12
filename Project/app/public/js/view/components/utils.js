@@ -1,14 +1,14 @@
 import { HTMlMarkup } from "./markup.js";
 
 export class Utils {
-  static createNewMessage(response) {
+  static createNewMessage(status, message) {
     const newMsg = document.createElement("div");
     newMsg.classList.add(
       "message--container",
-      response.status === "success" ? "msg--success" : "msg--fail"
+      status === "success" ? "msg--success" : "msg--fail"
     );
     const msg = document.createElement("p");
-    msg.textContent = response.msg;
+    msg.textContent = message;
     newMsg.append(msg);
     return newMsg;
   }

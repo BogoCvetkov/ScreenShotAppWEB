@@ -2,27 +2,48 @@
 <div class="header">
     <div class="header__wrapper">
         <div class="options_set-1">
-            <a href="#" >
+
+            <a href="/" >
+                <div class="header_option icon">
+                    <img src="{{ url_for('static', filename='img/xplora_purple.png') }}">
+                    <p>App</p>
+                </div>
+            </a>
+
+            <a href="/logs" >
                 <div class="header_option icon">
                     <img src="{{ url_for('static', filename='img/all_logs.png') }}">
                     <p>All Logs</p>
                 </div>
             </a>
-            <div class="header_option icon">
-                <img src="{{ url_for('static', filename='img/user.png') }}">
-                <p>Manage Users</p>
-            </div>
-            <div class="header_option icon">
-                <img src="{{ url_for('static', filename='img/profile.png') }}">
-                <p>Manage Profile</p>
-            </div>
+
+            {% if g.user.admin %}
+
+                <a href="/users" >
+                    <div class="header_option icon">
+                        <img src="{{ url_for('static', filename='img/user.png') }}">
+                        <p>Manage Users</p>
+                    </div>
+                </a>
+
+            {% endif %}
+
+            <a href="/profile">
+                <div class="header_option icon">
+                    <img src="{{ url_for('static', filename='img/profile.png') }}">
+                    <p>Manage Profile</p>
+                </div>
+            </a>
+
         </div>
 
         <div class="options_set-2 icon">
-            <div class="header_option">
+            <div class="header_option" id="logout">
                 <img src="{{ url_for('static', filename='img/logout.png') }}">
                 <p>Logout</p>
             </div>
         </div>
     </div> 
 </div>
+
+<script src="{{ url_for('static', filename='js/controller/controllers/logoutController.js') }}" type="module"></script>

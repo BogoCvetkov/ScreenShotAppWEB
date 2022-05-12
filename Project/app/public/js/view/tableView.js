@@ -43,7 +43,11 @@ class TableView {
           const td = row.querySelector(
             `td[data-field="${field[0]}"]`
           );
-          td.textContent = data[field[0]];
+          if (field[0] === "active") {
+            td.innerHTML = Table.generateStatusSlider(data[field[0]]);
+          } else {
+            td.textContent = data[field[0]];
+          }
         }
       }
   }

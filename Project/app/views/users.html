@@ -1,0 +1,35 @@
+{% extends "base/boilerplate.html" %}
+
+{% block content %}
+<div class="users__container">
+    <div class = "users__window--wrapper ">
+        <h3 class="container--h3">Manage Users</h3>
+        <img id="back" class="icon" src="{{ url_for('static', filename='img/back.png') }}">
+
+        <div class="user_menu-wrapper user--component ">
+            <div class="user_menu">
+                <div class="menu_option--wrapper icon" id="newUser">
+                    <img  src="{{ url_for('static', filename='img/add_user.png') }}">
+                    <h3>Create New User</h3>
+                </div>
+                <div class="menu_option--wrapper icon" id="updateUser">
+                    <img  src="{{ url_for('static', filename='img/update_user.png') }}">
+                    <h3>Update Users</h3>
+                </div>
+            </div>
+            
+        </div>
+        <div class="user_form--wrapper user--component hidden">
+        
+        </div>
+
+        <div class="user_grid--wrapper user--component hidden">
+            <div class="user--grid">
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/controller/controllers/usersController.js') }}" type="module"></script>
+{% endblock %}

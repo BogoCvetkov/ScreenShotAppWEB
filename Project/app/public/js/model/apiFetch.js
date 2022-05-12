@@ -36,8 +36,11 @@ export class APIResource {
   }
 
   // Updating a resource
-  async patch(id, body = undefined) {
-    let url = `${this.apiEndpoint}${id}`;
+  async patch(id = undefined, body = undefined) {
+    let url;
+    id !== undefined
+      ? (url = `${this.apiEndpoint}${id}`)
+      : (url = `${this.apiEndpoint}`);
     try {
       const response = await axios.patch(url, body);
       return response;

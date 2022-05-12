@@ -1,0 +1,27 @@
+{% extends "base/boilerplate.html" %}
+
+{% block content %}
+
+<div class="users__container">
+    <div class = "users__window--wrapper ">
+        <h3 class="container--h3">Manage Profile</h3>
+        <div class="user_form--wrapper">
+            <div class="user__form" data-id= "{{ g.user.id }}">
+                <h2> Update User</h2>
+                <div class="resource--field">
+                    <p>Username</p>
+                    <input type="text" name="username" value="{{ g.user.username}}">
+                </div>
+                <div class="resource--field">
+                    <p>Email</p>
+                    <input type="email"  name="email" value="{{ g.user.email}}">
+                </div>
+                <btn id="update"> UPDATE</btn>
+            </div>
+        </div> 
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/controller/controllers/profileController.js') }}" type="module"></script>
+
+{% endblock %}

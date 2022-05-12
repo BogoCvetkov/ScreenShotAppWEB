@@ -56,4 +56,16 @@ export class ResourceMenu {
       HTMlMarkup.createKeywordMenu()
     );
   }
+
+  static generateUsersGridElement(data) {
+    return HTMlMarkup.createUsersGridElement(data);
+  }
+
+  static generateCreateUserForm() {
+    return HTMlMarkup.createCreateUserForm();
+  }
+
+  static generateUpdateUserForm(data) {
+    return HTMlMarkup.createUpdateUserForm(data);
+  }
 }

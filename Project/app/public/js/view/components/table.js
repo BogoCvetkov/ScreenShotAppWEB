@@ -115,6 +115,10 @@ export class Table {
     return checkBox;
   }
 
+  static generateStatusSlider(status) {
+    return HTMlMarkup.statusSlider(status);
+  }
+
   static generateAllLogsRow(data) {
     return HTMlMarkup.createAllLogsRow(data);
   }

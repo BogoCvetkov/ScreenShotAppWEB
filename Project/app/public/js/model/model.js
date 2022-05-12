@@ -11,6 +11,7 @@ class Data {
 
   // Transform the date fields to Date objects
   get transformedData() {
+    if (!this.data.data) return this.data;
     for (let el of this.data.data) {
       if (el["last_scraped"])
         el["last_scraped"] = new Date(
@@ -35,6 +36,21 @@ export class Model {
     this.api = apiResource;
   }
 
+  async authenticate(body = undefined) {
+    const response = await this.api.post(body);
+    return response.data;
+  }
+
+  async resetPass(id, body = undefined) {
+    const response = await this.api.patch(id, body);
+    return response.data;
+  }
+
+  async logOut() {
+    const response = await this.api.get();
+    return response.data;
+  }
+
   async getResources(options = undefined) {
     const response = await this.api.get(options);
     let data = new Data(response.data);
@@ -47,7 +63,7 @@ export class Model {
     return data.transformedData;
   }
 
-  async updateResource(id, body = undefined) {
+  async updateResource(id = undefined, body = undefined) {
     const response = await this.api.patch(id, body);
     let data = new Data(response.data);
     return data.transformedData;

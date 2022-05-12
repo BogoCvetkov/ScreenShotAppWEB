@@ -279,4 +279,58 @@ export class HTMlMarkup {
 `;
     return markup;
   }
+
+  static createUsersGridElement(data) {
+    let markup = `
+    <div class="user--wrapper icon" data-id='${data.id}'>
+      <img class="btn--search" src="/public/img/users_icon.png">
+      <h4>${data.username}</h4>
+    </div>
+`;
+    return markup;
+  }
+
+  static createUpdateUserForm(data) {
+    let markup = `
+    <div class="user__form" data-id='${data.id}'>
+            <h2> Update User</h2>
+            <div class="resource--field">
+                <p>Username</p>
+                <input name="username" type="text" value='${data.username}'>
+            </div>
+            <div class="resource--field">
+                <p>Email</p>
+                <input name="email" type="email" value='${data.email}'>
+            </div>
+            <btn id="update"> UPDATE</btn>
+    </div>
+`;
+    return markup;
+  }
+
+  static createCreateUserForm() {
+    let markup = `
+    <div class="user__form">
+      <h2> Create User</h2>
+      <div class="resource--field">
+          <p>Username</p>
+          <input name= "username" type="text">
+      </div>
+      <div class="resource--field">
+          <p>Email</p>
+          <input name= "email" type="email">
+      </div>
+      <div class="resource--field">
+          <p>Password</p>
+          <input name= "password" type="password">
+      </div>
+      <div class="resource--field">
+          <p>Confirm Password</p>
+          <input name= "confirm_password" type="password">
+      </div>
+      <btn id="create"> CREATE</btn>
+    </div>
+`;
+    return markup;
+  }
 }

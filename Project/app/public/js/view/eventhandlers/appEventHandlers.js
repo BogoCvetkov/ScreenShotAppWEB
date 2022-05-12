@@ -18,6 +18,7 @@ export class EventHandlers {
   static bulkBtn = document.getElementById("bulkActions");
   static schedJobBtn = document.getElementById("schedJobs");
   static persJobBtn = document.getElementById("yourJobs");
+  static logoutBtn = document.getElementById("logout");
 
   // Show Job Queue
   static showQueueWindows(handler) {
@@ -68,7 +69,7 @@ export class EventHandlers {
 
       const idList = this._getCheckedAcc();
 
-      // Maximum of 5 accounts can be selected
+      // If an account is selected
       if (resource !== "accounts" && idList.length) {
         handlerS.getBulk(resource, idList);
       } else if (resource !== "accounts") {
@@ -83,6 +84,8 @@ export class EventHandlers {
         `.main-col-2__table_div table:not(.${resource}--table)`
       );
       otherTables.forEach((tb) => tb.classList.add("hidden"));
+      // Reset Filters
+      document.getElementById("clear-filters").click();
     });
   }
 
@@ -99,6 +102,8 @@ export class EventHandlers {
         : (query = `keyword=${searchField.value}`);
 
       const filterRows = document.querySelectorAll(".filter__row");
+      if (filterRows.length) query = ``;
+
       for (let row of filterRows) {
         const field = row.children[0].lastChild;
         const operator = row.children[1].lastChild;

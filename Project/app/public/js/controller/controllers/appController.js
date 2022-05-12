@@ -1,10 +1,10 @@
 import {
   AccountsTableView,
   PagesTableView,
-} from "../view/tableView.js";
-import { EventHandlers } from "../view/eventhandlers/eventHandlers.js";
-import * as cb from "./callbacks.js";
-import { addSSE } from "./sse.js";
+} from "../../view/tableView.js";
+import { EventHandlers } from "../../view/eventhandlers/appEventHandlers.js";
+import * as cb from "../callbacks.js";
+import { addSSE } from "../sse.js";
 
 async function test() {
   // const api = new APIResource("accounts");
@@ -34,6 +34,7 @@ async function addHandlers() {
   EventHandlers.createMenuHandler(cb.controllShowCreateMenu, {
     createResource: cb.controllCreateResource,
   });
+
   // Attaching the inner handlers inside the update menu
   EventHandlers.updateMenuHandler(
     // Main handlers

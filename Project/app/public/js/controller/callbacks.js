@@ -13,17 +13,21 @@ import {
 import { UtilsView } from "../view/utilsView.js";
 import { GeneralView } from "../view/generalView.js";
 import { LogsView } from "../view/logsView.js";
+import { UsersView } from "../view/usersView.js";
 
 /* This is where the Model connects to the View */
 
 // Get
-export async function controllGetResource(resource, id) {
+export const controllGetResource = errorWrapper(async function (
+  resource,
+  id
+) {
   const options = { url_param: id };
   const result = await fetchApi(resource, "get", [options]);
 
   const view = getView(resource);
   view.showUpdateMenu(result.data[0], resource);
-}
+});
 
 // Create
 export const controllCreateResource = errorWrapper(async function (
@@ -42,6 +46,8 @@ export const controllUpdateResource = errorWrapper(async function (
 ) {
   const result = await fetchApi(resource, "update", [id, body]);
   displayMsg(result);
+  const view = getTableView(resource);
+  view.updateRow(id, result.data[0]);
 });
 
 // Delete
@@ -68,13 +74,18 @@ export const controllService = errorWrapper(async function (
   displayMsg(result);
 
   // Update Bot Status
-  controllUpdateBotData();
+  setTimeout(() => {
+    controllUpdateBotData();
+  }, 1000);
 });
 
 //// More custom callbacks /////
 
 // Get data for multiple id's
-export async function controllGetResourceInBulk(resource, idList) {
+export const controllGetResourceInBulk = errorWrapper(async function (
+  resource,
+  idList
+) {
   let data = [];
   const api = new APIResource(resource);
   const model = new Model(api);
@@ -90,64 +101,73 @@ export async function controllGetResourceInBulk(resource, idList) {
 
   const view = getTableView(resource);
   view.updateTable(data);
-}
+});
 
 export async function controllAddFilter(resource) {
   const view = getTableView(resource);
   view.addFilter();
 }
 
-export async function controllSearch(resource, query) {
+export const controllSearch = errorWrapper(async function (
+  resource,
+  query
+) {
   let options = { query };
 
   const result = await fetchApi(resource, "get", [options]);
 
   const view = getTableView(resource);
   view.updateTable(result.data);
-}
+});
 
 // Load all resources to table
-export async function controllGetAllResources(resource) {
+export const controllGetAllResources = errorWrapper(async function (
+  resource
+) {
   const result = await fetchApi(resource, "get", [{}]);
 
   const view = getTableView(resource);
   view.updateTable(result.data);
-}
+});
 
 // Getting the asset and it's account data to display it in the update menu
-export async function controllGetAssetWithAccountData(resource, id) {
-  const options = { url_param: id };
-  const result = await fetchApi(resource, "get", [options]);
+export const controllGetAssetWithAccountData = errorWrapper(
+  async function (resource, id) {
+    const options = { url_param: id };
+    const result = await fetchApi(resource, "get", [options]);
 
-  const optionsAcc = {
-    url_param: result.data[0]["account_id"],
-  };
-  const resultAcc = await fetchApi("accounts", "get", [optionsAcc]);
+    const optionsAcc = {
+      url_param: result.data[0]["account_id"],
+    };
+    const resultAcc = await fetchApi("accounts", "get", [optionsAcc]);
 
-  // Solve double name attribute collision
-  resultAcc.data[0].acc_name = resultAcc.data[0].name;
-  delete resultAcc.data[0].name;
-  delete resultAcc.data[0].id;
-  delete resultAcc.data[0].active;
+    // Solve double name attribute collision
+    resultAcc.data[0].acc_name = resultAcc.data[0].name;
+    delete resultAcc.data[0].name;
+    delete resultAcc.data[0].id;
+    delete resultAcc.data[0].active;
 
-  result.data[0] = { ...result.data[0], ...resultAcc.data[0] };
-  const view = getView(resource);
-  view.showUpdateMenu(result.data[0], resource);
-}
+    result.data[0] = { ...result.data[0], ...resultAcc.data[0] };
+    const view = getView(resource);
+    view.showUpdateMenu(result.data[0], resource);
+  }
+);
 
 // Get account logs
-export async function controllGetAccLogs(id) {
+export const controllGetAccLogs = errorWrapper(async function (id) {
   const options = { query: `account_id==,${id}&sort=desc,date` };
   const result = await fetchApi("logs", "get", [options]);
   AccountView.showAccLogTable(result.data);
-}
+});
 
 // Showing the accounts schedules
-export async function controllGetAccSchedule(id) {
+export const controllGetAccSchedule = errorWrapper(async function (
+  id
+) {
   const options = { query: `account_id==,${id}&sort=asc,hour` };
   const result = await fetchApi("schedules", "get", [options]);
   AccountView.showAccSchedule(result.data);
-}
+});
 
 // Showing the menu for creating a new account
 export async function controllShowCreateMenu(resource) {
@@ -175,37 +195,91 @@ export async function controllShowConfirmWindow(msg) {
 }
 
 // Get today's Scheduled accounts
-export async function controllGetTodaySchedule() {
-  let day = new Date().getDay() - 1;
-  // Sunday is 0 in JS and 6 in the DB
-  if (day < 0) day = 6;
-  const options = { query: `day==,${day}&sort=asc,hour` };
-  const result = await fetchApi("schedules", "get", [options]);
-  GeneralView.updateTodaySchedWindow(result.data);
-}
+export const controllGetTodaySchedule = errorWrapper(
+  async function () {
+    let day = new Date().getDay() - 1;
+    // Sunday is 0 in JS and 6 in the DB
+    if (day < 0) day = 6;
+    const options = { query: `day==,${day}&sort=asc,hour` };
+    const result = await fetchApi("schedules", "get", [options]);
+    GeneralView.updateTodaySchedWindow(result.data);
+  }
+);
 
 // Update Job Queue Windows
-export async function controllUpdateBotData() {
+export const controllUpdateBotData = errorWrapper(async function () {
   const result = await fetchApi("services", "get");
   GeneralView.updateScheduleQueueWindow(result.data[0]);
   GeneralView.updatePersonalQueueWindow(result.data[0]);
   GeneralView.updateBots(result.data[0]);
-}
+});
 
 // Update table row
-export async function controllUpdateAccRow(id) {
+export const controllUpdateAccRow = errorWrapper(async function (id) {
   const options = { url_param: id };
   const result = await fetchApi("accounts", "get", [options]);
 
   AccountsTableView.updateRow(id, result.data);
+});
+
+// Logout
+export async function controllLogOut() {
+  await fetchApi("logOut", "logout");
+  setTimeout(() => {
+    location.assign(location.origin);
+  }, 500);
 }
+
+//// LOGIN PAGE ////
+export const controllAuth = errorWrapper(async function (
+  resource,
+  body
+) {
+  const result = await fetchApi(resource, "auth", [body]);
+  displayMsg(result);
+  setTimeout(() => {
+    location.assign(location.origin);
+  }, 1000);
+});
+
+export const controllResetPass = errorWrapper(async function (
+  token,
+  body
+) {
+  const result = await fetchApi("resetPass", "reset", [token, body]);
+  displayMsg(result);
+  setTimeout(() => {
+    location.assign(location.origin + "/login");
+  }, 2000);
+});
 
 //// ALL LOGS PAGE ////
 
-export async function controllGetAllLogs(query) {
+export const controllGetAllLogs = errorWrapper(async function (
+  query
+) {
   const options = { query };
   const result = await fetchApi("logs", "get", [options]);
   LogsView.generateAllLogsTable(result.data);
+});
+
+//// USERS PAGE ////
+
+export const controllGetAllUsers = errorWrapper(async function () {
+  const result = await fetchApi("users", "get");
+  UsersView.generateUsersGrid(result.data);
+});
+
+// Showing the create user form
+export async function controllShowCreateUserForm() {
+  UsersView.generateCreateUserForm();
+}
+
+// Showing the update user form
+export async function controllShowUpdateUserForm(id) {
+  const options = { url_param: id };
+  const result = await fetchApi("users", "get", [options]);
+  UsersView.generateUpdateUserForm(result.data[0]);
 }
 
 ////////////////////////
@@ -219,13 +293,19 @@ async function fetchApi(resource, operation, input = []) {
     update: "updateResource",
     delete: "deleteResource",
     rpc: "useService",
+    auth: "authenticate",
+    reset: "resetPass",
+    logout: "logOut",
   };
-
   const win = UtilsView.showProcessWindow();
-  const result = await model[opsMap[operation]](...input);
-  UtilsView.removeProcessWindow(win);
-
-  return result;
+  try {
+    const result = await model[opsMap[operation]](...input);
+    UtilsView.removeProcessWindow(win);
+    return result;
+  } catch (e) {
+    UtilsView.removeProcessWindow(win);
+    throw e;
+  }
 }
 
 // Display API responses
@@ -240,7 +320,10 @@ async function displayMsg(result) {
 function errorWrapper(func) {
   const newFunc = async (...args) => {
     func(...args).catch((e) => {
-      const msg = UtilsView.showMessage(e.response);
+      // Check if user token is expired and refresh the view
+      if (e.response.status === 401) location.assign(location.origin);
+
+      const msg = UtilsView.showMessage(e.response.data);
 
       // Remove the message Element
       setTimeout(() => UtilsView.removeMsg(msg), 5000);
