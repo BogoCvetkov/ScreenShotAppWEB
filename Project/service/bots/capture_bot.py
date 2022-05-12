@@ -39,10 +39,12 @@ class CaptureBot(BaseBot):
 
     def _capture(self, account):
         bot = AdCapture(self.driver, acc_folder=account.name)
-        pages = account.pages
+        pages = [p for p in account.pages if p.active]
+        keywords = [k for k in account.keywords if k.active]
         info = bot.capture_many(pages_list=pages)
+        info2 = bot.capture_by_keywords(keywords_list=keywords)
         self._create_pdf(folder=bot.file_dir, account=account)
-        return info
+        return f"{info} ; {info2}"
 
     def _create_pdf(self, folder, account):
         pdf_loc = PdfBuilder.convert_to_pdf(folder=folder, quality=80)

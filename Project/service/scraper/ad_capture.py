@@ -77,13 +77,13 @@ class AdCapture:
 			message = f"Failed to scrape for: {entity}."
 			raise AppServiceError( message=message )
 
-	def capture_page( self, page_id, page_name, scrolls=3, country="ALL" ):
+	def capture_page( self, page_id, page_name, scrolls=4, country="ALL" ):
 		self._construct_capture_flow( page_id=page_id,
 		                              page_name=page_name,
 		                              scrolls=scrolls,
 		                              country=country )
 
-	def capture_many( self, pages_list, scrolls=3, country="ALL" ):
+	def capture_many( self, pages_list, scrolls=4, country="ALL" ):
 		status = ""
 
 		for page in pages_list:
@@ -95,14 +95,18 @@ class AdCapture:
 
 		return status
 
-	def capture_by_keyword( self, keyword, country="BG", scrolls=3 ):
-		keyword = urllib.parse.quote( keyword )
-		res = self._construct_capture_flow( keyword=keyword,
-		                                    country=country,
-		                                    scrolls=scrolls )
+	def capture_by_keywords(self, keywords_list, country="BG", scrolls=4):
+		status = ""
 
-		return res
+		for keyword in keywords_list:
+			keyword = urllib.parse.quote( keyword.keyword )
+			res = self._construct_capture_flow( keyword=keyword,
+												country=country,
+												scrolls=scrolls )
 
+			status += res
+
+		return status
 
 if __name__ == "__main__":
 	# Used fot testing in Development
@@ -123,5 +127,5 @@ if __name__ == "__main__":
 	bot.capture_many( pages )
 	bot.capture_page( 312617136169551, "SanaMedic" )
 	bot.capture_page( 240783402632998, "GoSport" )
-	bot.capture_by_keyword( keyword="Чанта", scrolls=6 )
+	bot.capture_by_keywords(keyword="Чанта", scrolls=6)
 	bot.close()
