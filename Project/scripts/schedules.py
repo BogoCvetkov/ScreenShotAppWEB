@@ -21,16 +21,16 @@ def print_hour():
     week_day = datetime.now().weekday()
     hour = datetime.now().hour
 
-    print(datetime.now())
-    print(week_day, hour)
-
-    # Create a Session
-    db_sess = Session()
-
-    # Get all Scheduled jobs
-    scheduled_accounts = ScheduleModel.search_schedules(db_sess, hour=hour, weekday=week_day)
+    # print(datetime.now())
+    # print(week_day, hour)
 
     try:
+        # Create a Session
+        db_sess = Session()
+
+        # Get all Scheduled jobs
+        scheduled_accounts = ScheduleModel.search_schedules(db_sess, hour=hour, weekday=week_day)
+
         if len(scheduled_accounts) > 0:
             # Get the id's of the accounts for those jobs
             id_list = [sched.account_id for sched in scheduled_accounts]
