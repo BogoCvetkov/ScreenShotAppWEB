@@ -38,7 +38,7 @@ class PdfBuilder:
 			return destination
 
 		except Exception as e:
-			message = f"Failed to generate PDF. No screenshots found."
+			message = f"Failed to generate PDF. No screenshots found in - {folder}."
 			raise AppServiceError(message=message)
 
 
