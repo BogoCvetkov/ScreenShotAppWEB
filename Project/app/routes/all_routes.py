@@ -71,8 +71,10 @@ def register_view_routes(application):
 
     application.add_url_rule("/users/", view_func=UsersViewRouter.as_view("users_view_route"))
 
-    application.add_url_rule("/profile", view_func=ProfileRoute.as_view("profile_view_route"))
+    application.add_url_rule("/profile", view_func=ProfileViewRoute.as_view("profile_view_route"))
 
     application.add_url_rule("/login", view_func=LoginViewRouter.as_view("login_view_route"))
 
     application.add_url_rule("/reset-pass/<string:token>", view_func=ResetViewRouter.as_view("reset_view_route"))
+
+    application.add_url_rule("/pdf/<int:acc_id>", view_func=PDFViewRoute.as_view("pdf_view_route"))

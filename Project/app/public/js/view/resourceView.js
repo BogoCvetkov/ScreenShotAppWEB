@@ -51,7 +51,7 @@ class baseResourceView {
       // add the PDF location
       const element = document.getElementById("lastPDF");
       if (data.screenshot)
-        element.dataset.pdf = data.screenshot["file_dir"];
+        element.dataset.pdf = `${location.origin}/pdf/${data.id}`;
 
       // store the email of the account in the addSchedule div
       const element2 = document.getElementById("addSchedule");

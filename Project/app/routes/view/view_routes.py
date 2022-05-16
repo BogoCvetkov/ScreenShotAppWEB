@@ -1,6 +1,7 @@
 from flask.views import View
 from flask import render_template
-from Project.app.auth.jwt import verify_jwt_in_view, current_user,is_logged_in_view , check_admin_in_view
+from Project.app.auth.jwt import verify_jwt_in_view,is_logged_in_view , check_admin_in_view
+from Project.app.controller.view_controller import show_pdf
 
 
 class LoginViewRouter(View):
@@ -43,9 +44,16 @@ class UsersViewRouter(View):
         return render_template("users.html")
 
 
-class ProfileRoute(View):
+class ProfileViewRoute(View):
     methods = ["GET"]
     decorators = [verify_jwt_in_view]
 
     def dispatch_request(self):
         return render_template("profile.html")
+
+class PDFViewRoute(View):
+    methods = ["GET"]
+    decorators = [verify_jwt_in_view]
+
+    def dispatch_request(self,acc_id):
+        return show_pdf(acc_id)
