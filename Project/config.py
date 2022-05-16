@@ -29,4 +29,5 @@ class ProductConfig:
 	JWT_COOKIE_SECURE = True
 	JWT_COOKIE_SAMESITE = "Strict"
 	JWT_ACCESS_COOKIE_NAME = "jwt"
-	JWT_COOKIE_CSRF_PROTECT = True
+	JWT_COOKIE_CSRF_PROTECT = False
+	REDIS_URL = "redis://localhost"

@@ -17,4 +17,4 @@ app = create_app( conf_file )
 app.teardown_appcontext( return_to_db_pool )
 
 if __name__ == "__main__":
-	serve(app,port=5000)
+	app.run(port=5000)

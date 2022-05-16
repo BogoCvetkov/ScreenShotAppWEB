@@ -34,7 +34,7 @@ def create_app(config_filename):
     app.register_blueprint(sse, url_prefix='/api/stream/')
 
     # Monitor the workers
-    app.config.from_object(rq_dashboard.default_settings)
-    app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq/")
+    # app.config.from_object(rq_dashboard.default_settings)
+    # app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq/")
 
     return app

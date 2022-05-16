@@ -2,6 +2,7 @@ from sqlalchemy.exc import IntegrityError
 from marshmallow.exceptions import ValidationError, MarshmallowError
 from Project.errors.custom_errors import *
 from flask import jsonify
+import os
 
 
 def handle_IntegrityErr( e ):
@@ -37,4 +38,7 @@ def global_err_handler( e ):
 	if isinstance( e, AppServiceError ):
 		return handle_AppServiceError( e ), e.status_code
 
-	raise e
+	if os.environ["ENV"] == "development":
+		raise e
+	else:
+		return jsonify( { "status": "failed", "msg": "Unexpected server error occured !" } )

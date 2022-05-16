@@ -99,6 +99,9 @@ def delete_factory( Model ):
 		# Find Record
 		record = Model.get_by_id( db_sess, id )
 
+		if not record:
+			raise AppServiceError("Record doesn't exist",404)
+
 		# If exists -  delete it
 		record.delete( db_sess )
 
