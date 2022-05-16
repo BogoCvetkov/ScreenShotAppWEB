@@ -13,6 +13,6 @@ email_Q.empty()
 screenshot_Q.empty()
 schedule_Q.empty()
 clean_up_Q.empty()
-send_stop_job_command(redis,"33")
+# send_stop_job_command(redis,"33")
 for worker in workers:
     send_shutdown_command(redis, worker.name)  # Tells worker to shutdown

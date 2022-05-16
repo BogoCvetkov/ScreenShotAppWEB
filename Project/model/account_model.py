@@ -16,6 +16,7 @@ class AccountModel(Base, BaseMixin):
     last_email_fail = Column(Boolean, default=False)
     last_scraped = Column(DateTime)
     last_emailed = Column(DateTime)
+    country = Column(String, default="ALL")
     pages = relationship("PageModel",
                          cascade="all,delete-orphan",
                          backref="account",

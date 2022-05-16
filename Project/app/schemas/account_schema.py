@@ -1,4 +1,5 @@
 from marshmallow import Schema, EXCLUDE, fields, validate
+from Project.app.schemas.validators import validate_country
 
 
 # When fetching multiple accounts
@@ -17,6 +18,7 @@ class AccountsSchema(Schema):
     last_email_fail = fields.Boolean(dump_only=True)
     last_scraped = fields.DateTime(dump_only=True)
     last_emailed = fields.DateTime(dump_only=True)
+    country = fields.String(validate=validate_country)
 
 
 class ScreenshotSchema(Schema):

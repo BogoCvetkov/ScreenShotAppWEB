@@ -35,14 +35,14 @@ class CaptureBot(BaseBot):
     def capture_single(self, id):
         account = self._get_ad_account_by_id(id)
         if account and not self._was_scraped_soon(account):
-            self._run_for_one(account,self._capture)
+            self._run_for_one(account, self._capture)
 
     def _capture(self, account):
         bot = AdCapture(self.driver, acc_folder=account.name)
         pages = [p for p in account.pages if p.active]
         keywords = [k for k in account.keywords if k.active]
-        info = bot.capture_many(pages_list=pages)
-        info2 = bot.capture_by_keywords(keywords_list=keywords)
+        info = bot.capture_many(pages_list=pages, country=account.country)
+        info2 = bot.capture_by_keywords(keywords_list=keywords, country=account.country)
         self._create_pdf(folder=bot.file_dir, account=account)
         return f"{info} ; {info2}"
 
@@ -63,9 +63,10 @@ class CaptureBot(BaseBot):
         if account.last_scraped and (datetime.now() - account.last_scraped) > timedelta(minutes=3):
             return False
         time_passed = datetime.now() - account.last_scraped
-        message = f"Latest screenshot for {account.name} was {int(time_passed.seconds / 60)} minutes ago. " \
-                  f"It must not be less than 15 minutes old."
-        self.status["skipped"].append({ "account": account.name, "info": message })
+        details = f"Latest screenshot for {account.name} was {int(time_passed.seconds / 60)} minutes ago. " \
+                  f"New screenshots are made only if 15 minutes have passed from the latest one."
+        # self.status["skipped"].append({ "account": account.name, "info": details })
+        self._update_status_and_log(account, "Screenshot was skipped - latest was less than 15 min ago.", details)
         return True
 
     def close_driver(self):
