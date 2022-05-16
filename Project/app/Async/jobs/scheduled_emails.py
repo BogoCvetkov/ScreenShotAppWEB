@@ -9,6 +9,7 @@ from rq import Retry, Worker
 from rq.decorators import job
 from rq.command import send_command
 from Project.model.DB import Session
+from Project.model.account_model import AccountModel
 from Project.service.bots import CaptureBot, EmailBot
 from Project.service.scraper.web_driver import BuildWebDriver
 from Project.app.Async.callbacks import on_failed_job
@@ -22,6 +23,13 @@ from Project.app.Async.utils import send_event
 def send_scheduled_emails(acc_id, sess_name):
     # Create a Session
     db_sess = Session()
+
+    # Skip if account is inactive
+    account = AccountModel.get_by_id(db_sess, acc_id)
+    if not account or not account.active:
+        # Return session to pool
+        Session.remove()
+        return
 
     # If account is being processed by workers of the email queue - command them to cancel it
     if str(acc_id) in extract_active_jobs(email_Q):

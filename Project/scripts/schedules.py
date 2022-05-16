@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-load_dotenv("Project/.env")
+load_dotenv(".env")
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from datetime import datetime
@@ -36,8 +36,8 @@ def print_hour():
             id_list = [sched.account_id for sched in scheduled_accounts]
 
             # Instantiate two selenium browser instances
-            driver_1 = BuildWebDriver(headless=False).build_remote_driver()
-            driver_2 = BuildWebDriver(headless=False).build_remote_driver()
+            driver_1 = BuildWebDriver(headless=True).build_remote_driver()
+            driver_2 = BuildWebDriver(headless=True).build_remote_driver()
 
             # Save the session id's to be used later by the workers in Redis
             redis_conn_d.hset("selenium", "session_1", driver_1.session_id)
