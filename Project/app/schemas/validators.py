@@ -1,6 +1,6 @@
 from marshmallow import ValidationError
 
-countries = { 'AF': True, 'AL': True, 'DZ': True, 'AS': True, 'AD': True, 'AO': True, 'AI': True, 'AQ': True,
+countries = { 'ALL': True,'AF': True, 'AL': True, 'DZ': True, 'AS': True, 'AD': True, 'AO': True, 'AI': True, 'AQ': True,
               'AG': True, 'AR': True, 'AM': True, 'AW': True, 'AU': True, 'AT': True, 'AZ': True, 'BS': True,
               'BH': True, 'BD': True, 'BB': True, 'BY': True, 'BE': True, 'BZ': True, 'BJ': True, 'BM': True,
               'BT': True, 'BO': True, 'BQ': True, 'BA': True, 'BW': True, 'BV': True, 'BR': True, 'IO': True,
@@ -36,4 +36,4 @@ countries = { 'AF': True, 'AL': True, 'DZ': True, 'AS': True, 'AD': True, 'AO': 
 
 def validate_country(n):
     if not countries.get(n, None):
-        raise ValidationError("Country code is not valid. Note: Use 2-letter codes only.")
+        raise ValidationError("Country code is not valid. Note: Use 2-letter Capitalized codes only.")
