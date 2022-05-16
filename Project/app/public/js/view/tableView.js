@@ -68,6 +68,7 @@ export class AccountsTableView extends TableView {
     ["last_email_fail", "bool"],
     ["last_scraped", "date"],
     ["last_emailed", "date"],
+    ["country", "str"],
   ];
 
   static columns = [
@@ -79,6 +80,7 @@ export class AccountsTableView extends TableView {
     "Last email fail",
     "Last screenshot date",
     "Last email date",
+    "Account Country",
   ];
 }
 

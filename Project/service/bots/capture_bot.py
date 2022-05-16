@@ -66,7 +66,7 @@ class CaptureBot(BaseBot):
         details = f"Latest screenshot for {account.name} was {int(time_passed.seconds / 60)} minutes ago. " \
                   f"New screenshots are made only if 15 minutes have passed from the latest one."
         # self.status["skipped"].append({ "account": account.name, "info": details })
-        self._update_status_and_log(account, "Screenshot was skipped - latest was less than 15 min ago.", details)
+        self._log_operation_result(account, "Screenshot was skipped - latest was less than 15 min ago.", details)
         return True
 
     def close_driver(self):
