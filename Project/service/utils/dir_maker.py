@@ -11,7 +11,7 @@ This module contains basic functions for creating a dealing with folder creation
 def create_dir( account ):
 	main_folder = "Ad_library_screens"
 	subfolder_2 = account
-	final_folder = pathlib.Path.cwd().parent.joinpath( main_folder, subfolder_2 )
+	final_folder = pathlib.Path.cwd().joinpath( main_folder, subfolder_2 )
 
 	if os.path.exists( final_folder ):
 		shutil.rmtree( final_folder, ignore_errors=True )

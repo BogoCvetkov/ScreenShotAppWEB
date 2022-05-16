@@ -17,12 +17,4 @@ function createAPIDict(prefix) {
   return apiEndpointsDict;
 }
 
-//// Local Host Config
-// export const apiEndpointMap = createAPIDict(
-//   "http://localhost:5000/api"
-// );
-
-// Production Config
-export const apiEndpointMap = createAPIDict(
-  "http://46.41.136.0:5000/api"
-);
+export const apiEndpointMap = createAPIDict(`${location.origin}/api`);

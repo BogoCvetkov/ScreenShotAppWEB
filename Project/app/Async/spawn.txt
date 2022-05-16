@@ -1,1 +1,11 @@
-rq worker -w "Project.app.Async.workers.client_worker.WindowsSimpleWorker" --path "D:\Programming\Work_Projects\ScrenshotAppWEB" --with-scheduler schedules
+** For Windows
+rq worker -w "Project.app.Async.workers.win_worker.WindowsSimpleWorker" --path "D:\Programming\Work_Projects\ScrenshotAppWEB" --with-scheduler schedules
+
+** For Ubuntu
+rq worker --path "/var/www/xplora.site" --with-scheduler schedules clean_up
+
+rq worker --path "/var/www/xplora.site" --with-scheduler schedules
+
+rq worker --path "/var/www/xplora.site" screenshots
+
+rq worker --path "/var/www/xplora.site" emails
