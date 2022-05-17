@@ -1,9 +1,10 @@
 import os
+import time
 
 from selenium import webdriver
 from dotenv import load_dotenv
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from fake_useragent import UserAgent
 import requests
 
 load_dotenv()
@@ -26,9 +27,14 @@ class BuildWebDriver:
 
     def __init__(self, headless=True):
         self._options = webdriver.ChromeOptions()
+        self._options.add_argument("--disable-blink-features")
+        self._options.add_argument("--disable-blink-features=AutomationControlled")
+        self._options.add_argument("window-size=1920,1080")
+        self._set_random_user_agent()
         if headless:
             self._options.add_argument("headless")
             self._options.add_argument("disable-gpu")
+
 
     # adding additional options to the instance if needed
     def add_options(self, *args):
@@ -52,6 +58,18 @@ class BuildWebDriver:
         cur_driver.implicitly_wait(15)
 
         return cur_driver
+
+    def _set_random_user_agent(self):
+        ua = { "target": None }
+        for i in range(3):
+           if ua["target"]: break;
+           try:
+                ua["target"] = UserAgent()
+           except:
+                time.sleep(1)
+                continue
+        if ua["target"]:
+            self._options.add_argument(f"user-agent={ua['target'].chrome}")
 
     @classmethod
     def reuse_session(cls, session_id):
