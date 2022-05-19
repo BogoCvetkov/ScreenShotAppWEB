@@ -30,6 +30,7 @@ class BuildWebDriver:
         self._options.add_argument("--disable-blink-features")
         self._options.add_argument("--disable-blink-features=AutomationControlled")
         self._options.add_argument("window-size=1420,1080")
+        self._set_user_agent()
         # self._set_random_user_agent()
         if headless:
             self._options.add_argument("headless")
