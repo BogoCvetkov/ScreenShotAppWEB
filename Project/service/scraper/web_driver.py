@@ -59,6 +59,10 @@ class BuildWebDriver:
 
         return cur_driver
 
+    def _set_user_agent(self):
+        agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
+        self._options.add_argument(f"user-agent={agent}")
+
     def _set_random_user_agent(self):
         ua = { "target": None }
         for i in range(3):
