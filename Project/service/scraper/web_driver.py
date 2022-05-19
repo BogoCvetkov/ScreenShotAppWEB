@@ -4,8 +4,8 @@ import time
 from selenium import webdriver
 from dotenv import load_dotenv
 from webdriver_manager.chrome import ChromeDriverManager
-from fake_useragent import UserAgent
 import requests
+from selenium_stealth import stealth
 
 load_dotenv()
 
@@ -27,15 +27,10 @@ class BuildWebDriver:
 
     def __init__(self, headless=True):
         self._options = webdriver.ChromeOptions()
-        self._options.add_argument("--disable-blink-features")
-        self._options.add_argument("--disable-blink-features=AutomationControlled")
-        self._options.add_argument("window-size=1420,1080")
-        self._set_user_agent()
-        # self._set_random_user_agent()
+        self._set_options()
         if headless:
             self._options.add_argument("headless")
             self._options.add_argument("disable-gpu")
-
 
     # adding additional options to the instance if needed
     def add_options(self, *args):
@@ -48,6 +43,8 @@ class BuildWebDriver:
         cur_driver = webdriver.Chrome(executable_path=webdriver_dir,
                                       options=self._options)
         cur_driver.implicitly_wait(15)
+        self._make_stealth(cur_driver)
+        self._execute_js(cur_driver)
 
         return cur_driver
 
@@ -57,24 +54,39 @@ class BuildWebDriver:
         cur_driver = webdriver.Remote(command_executor=self.executor_url,
                                       options=self._options)
         cur_driver.implicitly_wait(15)
+        self._execute_js(cur_driver)
 
         return cur_driver
+
+    def _set_options(self):
+        self._options.add_argument("--disable-blink-features")
+        self._options.add_argument("--disable-blink-features=AutomationControlled")
+        self._options.add_argument("window-size=1420,1080")
+        self._set_user_agent()
 
     def _set_user_agent(self):
         agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
         self._options.add_argument(f"user-agent={agent}")
 
-    def _set_random_user_agent(self):
-        ua = { "target": None }
-        for i in range(3):
-           if ua["target"]: break;
-           try:
-                ua["target"] = UserAgent()
-           except:
-                time.sleep(1)
-                continue
-        if ua["target"]:
-            self._options.add_argument(f"user-agent={ua['target'].chrome}")
+    def _make_stealth(self, driver):
+        stealth(driver,
+                languages=["en-US", "en"],
+                vendor="Google Inc.",
+                platform="Win32",
+                webgl_vendor="Intel Inc.",
+                renderer="Intel Iris OpenGL Engine",
+                fix_hairline=True,
+                )
+
+    def _execute_js(self, driver):
+        driver.execute_script('''
+        Object.defineProperty(navigator, 'languages', {
+            get: function() {
+                return ['en-US', 'en'];
+             },
+        });
+        
+        ''')
 
     @classmethod
     def reuse_session(cls, session_id):
