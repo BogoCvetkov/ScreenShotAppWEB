@@ -4,7 +4,7 @@ import time
 from selenium import webdriver
 from dotenv import load_dotenv
 from webdriver_manager.chrome import ChromeDriverManager
-from fake_useragent import UserAgent
+# from fake_useragent import UserAgent
 import requests
 
 load_dotenv()
